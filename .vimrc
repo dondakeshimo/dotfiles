@@ -13,11 +13,27 @@ call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'Townk/vim-autoclose'
+NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'Shougo/vimproc', {
+    \'build' : {
+    \   'windows' : 'make -f make_ningw32.mak',
+    \   'cygwin'  : 'make -f make_cygwin.mak',
+    \   'mac'     : 'make -f make_mac.mak',
+    \   'unix'    : 'make -f make_unix.mak',
+    \ },
+\ }
 
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tomasr/molokai'
+NeoBundle 'ujihisa/unite-colorscheme'
 call neobundle#end()
 """"""""""""""""""""""
 "NeoBundle end
@@ -113,3 +129,13 @@ nnoremap <F10> :set paste!<CR>:set paste?<CR>
 if has('autocmd')
     autocmd BufReadPost * if line("'\"") > 0 && line ("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+""""""""""""""""""""""""""""""
+"lightline
+""""""""""""""""""""""""""""""
+set laststatus=2
+set t_Co=256
+let g:lightline = {
+    \ 'colorscheme': 'solarized'
+    \ }
+
