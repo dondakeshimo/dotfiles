@@ -166,13 +166,8 @@ eval "$(pyenv init -)"
 # nodebrew seting
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
-# awscli setting
-export AWS_ACCESS_KEY_ID=AKIAIIJH6Z3TCVLBEVMA
-export AWS_SECRET_ACCESS_KEY=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
-export AWS_DEFAULT_REGION=ap-northeast-1
-export AWS_DEFAULT_OUTPUT=json
-export AWS_DEFAULT_PROFILE=default
-export AWS_CONFIG_FILE=~/.aws/config
+# aws setting
+source ~/.zshrc.aws
 
 # tensorflow object detect
-export PYTHONPATH=$PYTHONPATH:"/Users/taku/FBPJ/tensorflow":"Users/taku/FBPJ/tensorflow/slim"
+export PYTHONPATH=$PYTHONPATH:"/Users/taku/FBPJ/tf_obj_det":"Users/taku/FBPJ/tf_obj_det/slim"
