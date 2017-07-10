@@ -132,6 +132,7 @@ if has('autocmd')
 endif
 
 """"""""""""""""""""""""""""""
+"NeoBundle
 "lightline
 """"""""""""""""""""""""""""""
 set laststatus=2
@@ -139,8 +140,10 @@ set t_Co=256
 let g:lightline = {
     \ 'colorscheme': 'solarized'
     \ }
+""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
+" NeoBundle
 " Unit.vimの設定
 """"""""""""""""""""""""""""""
 " 入力モードで開始する
@@ -153,3 +156,12 @@ noremap <C-N> :Unite -buffer-name=file file<CR>
 noremap <C-F> :Unite file_mru<CR>
 " sourcesを「今開いているファイルのディレクトリ」とする
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
+" NeoBundle
+" NERDTree
+""""""""""""""""""""""""""""""
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+
+
