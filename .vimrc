@@ -23,6 +23,7 @@ NeoBundle 'Townk/vim-autoclose'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/emmet-vim'
+NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'Shougo/vimproc', {
     \'build' : {
@@ -44,32 +45,47 @@ call neobundle#end()
 filetype plugin indent on
 
 """"""""""""""""""""""
-"plugin関係なし
+" plugin関係なし
 """"""""""""""""""""""
-set autoindent
-set expandtab
-set smartindent
-set shiftwidth=2
+" vimの見た目系
 set ruler
 set number
 set title
-set ambiwidth=double
+set showcmd
+syntax on
+" 空白系
+set autoindent
+set smartindent
+set shiftwidth=2
+set expandtab
 set tabstop=4
+set ambiwidth=double
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-set nrformats-=octal
-set hidden
-set history=50
-set virtualedit=block
+" カーソル系
 set whichwrap=b,s,[,],<,>
 set backspace=indent,eol,start
+set virtualedit=block
+" ファイル操作系
+set noswapfile
+set hidden
 set wildmenu
-syntax on
+set backupdir=$HOME/.vimbackup
+" 文字列系
+set nrformats-=octal
+" 検索系
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set wrapscan
+""""""""""""""""""""""
 
 """""""""""""""""""""
 "colorscheme
 """""""""""""""""""""
 colorscheme solarized
+"""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
 " 全角スペースの可視化
@@ -88,52 +104,6 @@ if has('syntax')
 endif
 """"""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" 挿入モード時にステータス行の色を変える
-""""""""""""""""""""""""""""""
-let g:hi_insert='highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
-if has('syntax')
-    augroup InsetHook
-        autocmd!
-        autocmd InsertEnter * call s:StatusLine('Enter')
-        autocmd InsertLeave * call s:StatusLine('Leave')
-    augroup END
-endif
-
-let s:slhlcmd=''
-function! s:StatusLine(mode)
-    if a:mode=='Enter'
-        silent! let s:slhlcmd='highlight ' . s:GetHighlight('StatusLine')
-        silent exec g:hi_insert
-    else
-        highlight clear StatusLine
-        silent exec s:slhlcmd
-    endif
-endfunction
-
-function! s:GetHighlight(hi)
-    redir => hl
-    exec 'highlight '.a:hi
-    let hl = substitute(hl,'[\r\n]','','g')
-    let hl = substitute(hl,'xxx','','')
-    return hl
-endfunction
-""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""
-" paste時のインデントの崩れを防ぐ
-""""""""""""""""""""""""""""""
-set pastetoggle=<F10>
-nnoremap <F10> :set paste!<CR>:set paste?<CR>
-""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""
-" カーソル位置の復元
-""""""""""""""""""""""""""""""
-if has('autocmd')
-    autocmd BufReadPost * if line("'\"") > 0 && line ("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
 "NeoBundle
@@ -166,6 +136,37 @@ noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 " NeoBundle
 " NERDTree
 """"""""""""""""""""""""""""""
+" Ctrl + eでNERDTreeを起動
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+""""""""""""""""""""""""""""""
 
 
+""""""""""""""""""""""""""""""
+" NeoBundle
+" neocomplecache
+""""""""""""""""""""""""""""""
+" vim起動時にneocomplecacheを有効化
+let g:neocomplcache_enable_at_startup=1
+" 大文字と小文字の区別を大文字が入力されるまで無視
+let g:neocomplcache_enable_smart_case=1
+" '_' を区切りとしたワイルドカード検索
+let g:neocomplcache_enable_underbar_completion=1
+" キャッシュの最小文字長を3にする
+let g:neocomplcache_min_syntax_length=3
+" dictionaryの設定
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : ''
+    \ }
+
+" Ctrl + gで前回行われた保管をキャンセル
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+" Ctrl + l で保管候補の中から共通する部分を保管(shell like)
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+" TABで補完候補の選択
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" pop upを消す系
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-v>  neocomplcache#cancel_popup()
+""""""""""""""""""""""""""""""
