@@ -23,6 +23,7 @@ NeoBundle 'Townk/vim-autoclose'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/emmet-vim'
+NeoBundle 'rking/ag.vim'
 NeoBundle 'Shougo/vimproc', {
     \'build' : {
     \   'windows' : 'make -f make_ningw32.mak',
@@ -125,11 +126,14 @@ endfunction
 set pastetoggle=<F10>
 nnoremap <F10> :set paste!<CR>:set paste?<CR>
 """"""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
 " カーソル位置の復元
 """"""""""""""""""""""""""""""
 if has('autocmd')
     autocmd BufReadPost * if line("'\"") > 0 && line ("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
 "NeoBundle
