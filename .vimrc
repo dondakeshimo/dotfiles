@@ -18,7 +18,6 @@ NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'Townk/vim-autoclose'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'itchyny/lightline.vim'
@@ -146,27 +145,27 @@ nnoremap <silent><C-e> :NERDTreeToggle<CR>
 " neocomplecache
 """"""""""""""""""""""""""""""
 " vim起動時にneocomplecacheを有効化
-let g:neocomplcache_enable_at_startup=1
+" let g:neocomplcache_enable_at_startup=1
 " 大文字と小文字の区別を大文字が入力されるまで無視
-let g:neocomplcache_enable_smart_case=1
+" let g:neocomplcache_enable_smart_case=1
 " '_' を区切りとしたワイルドカード検索
-let g:neocomplcache_enable_underbar_completion=1
+" let g:neocomplcache_enable_underbar_completion=1
 " キャッシュの最小文字長を3にする
-let g:neocomplcache_min_syntax_length=3
+" let g:neocomplcache_min_syntax_length=3
 " dictionaryの設定
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : ''
-    \ }
+" let g:neocomplcache_dictionary_filetype_lists = {
+"     \ 'default' : ''
+"     \ }
 
 " Ctrl + gで前回行われた保管をキャンセル
-inoremap <expr><C-g>     neocomplcache#undo_completion()
+" inoremap <expr><C-g>     neocomplcache#undo_completion()
 " Ctrl + l で保管候補の中から共通する部分を保管(shell like)
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
+" inoremap <expr><C-l>     neocomplcache#complete_common_string()
 " TABで補完候補の選択
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " pop upを消す系
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-v>  neocomplcache#cancel_popup()
+" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-y>  neocomplcache#close_popup()
+" inoremap <expr><C-v>  neocomplcache#cancel_popup()
 """"""""""""""""""""""""""""""

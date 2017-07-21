@@ -103,5 +103,16 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 # aws setting
 source ~/.zshrc.aws
 
+# es setting
+source ~/.zshrc.es
+
 # tensorflow object detect
 export PYTHONPATH=$PYTHONPATH:"/Users/taku/FBPJ/tf_obj_det":"Users/taku/FBPJ/tf_obj_det/slim"
+
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/taku/y/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/taku/y/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/taku/y/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/taku/y/google-cloud-sdk/completion.zsh.inc'; fi
