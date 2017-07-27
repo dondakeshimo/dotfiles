@@ -1,9 +1,74 @@
 "*":
+  Hydrogen:
+    kernelspec: '''
+      {
+        "kernelspecs": {
+          "python3": {
+            "spec": {
+              "argv": [
+                "python",
+                "-m",
+                "ipykernel_launcher",
+                "-f",
+                "{connection_file}"
+              ],
+              "display_name": "Python 3",
+              "env": {},
+              "language": "python"
+            },
+            "resource_dir": "/Users/taku/.pyenv/versions/3.5.3/envs/tensorflow/share/jupyter/kernels/python3"
+          }
+        }
+      }
+    '''
+  "atom-clock":
+    dateFormat: "MMMM Do, dddd, H:mm"
   core:
+    audioBeep: false
+    disabledPackages: [
+      "linter"
+      "linter-flake8"
+      "linter-js-standard"
+      "linter-jscs"
+      "linter-ui-default"
+      "vim-mode-plus-ex-mode"
+      "markdown-preview"
+      "markdown-scroll-sync"
+      "emmet"
+    ]
+    restorePreviousWindowsOnStart: "no"
     telemetryConsent: "limited"
+  editor:
+    fontSize: 12
+    showIndentGuide: true
+    showInvisibles: true
+    softWrap: true
+    softWrapAtPreferredLineLength: true
+    softWrapHangingIndent: 80
+    tabType: "soft"
   "exception-reporting":
     userId: "3728997e-8e3d-4ca2-bcb3-f1c2419cdc13"
   kite:
     showKiteTourOnStatup: false
+  latex:
+    engine: "platex"
+  "linter-ui-default":
+    panelHeight: 69
+  minimap:
+    plugins:
+      bookmarks: true
+      bookmarksDecorationsZIndex: 0
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+  "tree-view":
+    hideIgnoredNames: true
+  "vim-mode-plus-ex-mode":
+    notifiedUseExMode: true
   welcome:
     showOnStartup: false

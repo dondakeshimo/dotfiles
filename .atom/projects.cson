@@ -1,0 +1,37 @@
+[
+  {
+    title: "Stage Cbot Frontend Customer"
+    group: "React"
+    paths: [
+      "/Users/taku/Scripts/cbot-dev/stage-cbot-frontend-customer"
+    ]
+  }
+  {
+    title: "Cbot Api Customer"
+    group: "React"
+    paths: [
+      "/Users/taku/Scripts/cbot-dev/cbot-api-customer"
+    ]
+  }
+  {
+    title: "Tf Obj Det"
+    group: "footballpj"
+    paths: [
+      "/Users/taku/Scripts/FBPJ/tf_obj_det"
+    ]
+  }
+  {
+    title: "Dotfiles"
+    group: "Taku"
+    paths: [
+      "/Users/taku/dotfiles"
+    ]
+  }
+  {
+    title: "Hatena Blog"
+    group: "Taku"
+    paths: [
+      "/Users/taku/HatenaBlog"
+    ]
+  }
+]

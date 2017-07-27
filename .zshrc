@@ -100,11 +100,17 @@ eval "$(pyenv init -)"
 # nodebrew seting
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
+# Tex setting
+export PATH="/Library/TeX/texbin:$PATH"
+
 # aws setting
 source ~/.keys/.zshrc.aws
 
 # es setting
 source ~/.keys/.zshrc.es
+
+# gcs setting
+source ~/.keys/.zshrc.gcs
 
 # tensorflow object detect
 export PYTHONPATH=$PYTHONPATH:"/Users/taku/Scripts/FBPJ/tf_obj_det":"Users/taku/FBPJ/tf_obj_det/slim"
