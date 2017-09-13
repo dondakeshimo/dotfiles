@@ -1,33 +1,167 @@
-# Path to your oh-my-zsh installation.
-export ZSH=/Users/taku/.oh-my-zsh
+##############################
+# zplug
+##############################
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="blinks"
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-completions'
+zplug "themes/blinks", from:oh-my-zsh
+zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+zplug 'mollifier/anyframe'
 
-source $ZSH/oh-my-zsh.sh
+if ! zplug check --verbose; then
+  printf 'Install? [y/N]: '
+  if read -q; then
+    echo; zplug install
+  fi
+fi
 
-# User configuration
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-# export MANPATH="/usr/local/man:$MANPATH"
+zplug load --verbose
 
-# 日本語ファイル名を表示可能にする
-setopt print_eight_bit
+
+##############################
+# Autoloadings
+##############################
 
 #zsh-completionsの設定
 fpath=(/path/to/homebrew/share/zsh-completions $fpath)
 
-autoload -U compinit
-compinit -u
+# autoload -Uz add-zsh-hook
+autoload -Uz compinit && compinit -u
+# autoload -Uz url-quote-magic
+# autoload -Uz vcs_info
 
+
+##############################
+# ZLE settings
+##############################
+
+# zle -N self-insert url-quote-magic
+
+
+##############################
+# General settings
+##############################
+
+setopt auto_list
+setopt auto_menu
+setopt auto_pushd
+setopt extended_history
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt hist_save_no_dups
+setopt ignore_eof
+setopt inc_append_history
+setopt interactive_comments
+setopt no_beep
+setopt no_hist_beep
+setopt no_list_beep
+setopt magic_equal_subst
+setopt notify
+setopt print_eight_bit
+setopt print_exit_value
+setopt prompt_subst
+setopt pushd_ignore_dups
+setopt rm_star_wait
+setopt share_history
+setopt transient_rprompt
+
+
+##############################
+# Exports
+##############################
+
+export CLICOLOR=true
+export LSCOLORS='exfxcxdxbxGxDxabagacad'
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+export EDITOR=vim
+export HISTFILE=~/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=1000000
+export LANG=ja_JP.UTF-8
+
+
+##############################
+# Key bindings
+##############################
+
+bindkey -v
+bindkey -v '^?' backward-delete-char
+bindkey '^[[Z' reverse-menu-complete
+# bindkey '^@' anyframe-widget-cd-ghq-repository
+# bindkey '^r' anyframe-widget-put-history
+
+
+##############################
+# Aliases
+##############################
+
+alias vi='vim'
+
+
+##############################
+# Module settings
+##############################
+
+# Completion
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*:options' description 'yes'
+
+
+##############################
+# PATH and environment settings
+##############################
+
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
+# pyenv seting
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+eval "$(pyenv init -)"
+
+# nodebrew seting
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+# Tex setting
+export PATH="/Library/TeX/texbin:$PATH"
+
+# aws setting
+source ~/.keys/.zshrc.aws
+
+# es setting
+source ~/.keys/.zshrc.es
+
+# gcs setting
+source ~/.keys/.zshrc.gcs
+
+# tensorflow object detect
+export PYTHONPATH=$PYTHONPATH:"/Users/taku/Scripts/FBPJ/tf_obj_det":"/Users/taku/Scripts/FBPJ/tf_obj_det/slim"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc'; fi
+
+# homebrew
+export PATH="/usr/local/bin:$PATH"
+
+
+##############################
+# tmux
+##############################
 function is_exists() { type "$1" >/dev/null 2>&1; return $?; }
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
 function is_screen_running() { [ ! -z "$STY" ]; }
@@ -89,36 +223,3 @@ function tmux_automatically_attach_session()
     fi
 }
 tmux_automatically_attach_session
-
-
-# pyenv seting
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-eval "$(pyenv init -)"
-
-# nodebrew seting
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-# Tex setting
-export PATH="/Library/TeX/texbin:$PATH"
-
-# aws setting
-source ~/.keys/.zshrc.aws
-
-# es setting
-source ~/.keys/.zshrc.es
-
-# gcs setting
-source ~/.keys/.zshrc.gcs
-
-# tensorflow object detect
-export PYTHONPATH=$PYTHONPATH:"/Users/taku/Scripts/FBPJ/tf_obj_det":"Users/taku/FBPJ/tf_obj_det/slim"
-
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc'; fi

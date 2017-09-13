@@ -1,183 +1,308 @@
-# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
+# -*- coding: utf-8 -*-
 
-r"""Convert raw PASCAL dataset to TFRecord for object_detection.
-
-Example usage:
-    ./create_pascal_tf_record --data_dir=/home/user/VOCdevkit \
-        --year=VOC2012 \
-        --output_path=/home/user/pascal.record
-"""
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-import hashlib
-import io
-import logging
+import sys
 import os
-
-from lxml import etree
-import PIL.Image
-import tensorflow as tf
-
-from object_detection.utils import dataset_util
-from object_detection.utils import label_map_util
+from Tkinter import *
+from tkMessageBox import *
+from PIL import Image, ImageTk
+from xml.etree.ElementTree import Element, SubElement, Comment, tostring
+from xml.dom import minidom
 
 
-flags = tf.app.flags
-flags.DEFINE_string('data_dir', '', 'Root directory to raw PASCAL VOC dataset.')
-flags.DEFINE_string('set', 'train', 'Convert training set, validation set or '
-                    'merged set.')
-flags.DEFINE_string('annotations_dir', 'Annotations',
-                    '(Relative) path to annotations directory.')
-flags.DEFINE_string('year', 'VOC2007', 'Desired challenge year.')
-flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
-flags.DEFINE_string('label_map_path', 'data/pascal_label_map.pbtxt',
-                    'Path to label map proto')
-flags.DEFINE_boolean('ignore_difficult_instances', False, 'Whether to ignore '
-                     'difficult instances')
-FLAGS = flags.FLAGS
+# pathの設定と画像拡張子の設定
+my_dir = os.path.abspath(os.path.dirname(__file__))
+os.chdir(my_dir)
+img_extension = [".png", ".jpg"]
 
-SETS = ['train', 'val', 'trainval', 'test']
-YEARS = ['VOC2007', 'VOC2012', 'merged']
+MAXCHECK = 25
 
-
-def dict_to_tf_example(data,
-                       dataset_directory,
-                       label_map_dict,
-                       ignore_difficult_instances=False,
-                       image_subdirectory='JPEGImages'):
-  """Convert XML derived dict to tf.Example proto.
-
-  Notice that this function normalizes the bounding box coordinates provided
-  by the raw data.
-
-  Args:
-    data: dict holding PASCAL XML fields for a single image (obtained by
-      running dataset_util.recursive_parse_xml_to_dict)
-    dataset_directory: Path to root directory holding PASCAL dataset
-    label_map_dict: A map from string label names to integers ids.
-    ignore_difficult_instances: Whether to skip difficult instances in the
-      dataset  (default: False).
-    image_subdirectory: String specifying subdirectory within the
-      PASCAL dataset directory holding the actual image data.
-
-  Returns:
-    example: The converted tf.Example.
-
-  Raises:
-    ValueError: if the image pointed to by data['filename'] is not a valid JPEG
-  """
-  img_path = os.path.join(data['folder'], image_subdirectory, data['filename'])
-  full_path = os.path.join(dataset_directory, img_path)
-  with tf.gfile.GFile(full_path, 'rb') as fid:
-    encoded_jpg = fid.read()
-  encoded_jpg_io = io.BytesIO(encoded_jpg)
-  image = PIL.Image.open(encoded_jpg_io)
-  if image.format != 'JPEG':
-    raise ValueError('Image format not JPEG')
-  key = hashlib.sha256(encoded_jpg).hexdigest()
-
-  width = int(data['size']['width'])
-  height = int(data['size']['height'])
-
-  xmin = []
-  ymin = []
-  xmax = []
-  ymax = []
-  classes = []
-  classes_text = []
-  truncated = []
-  poses = []
-  difficult_obj = []
-  for obj in data['object']:
-    difficult = bool(int(obj['difficult']))
-    if ignore_difficult_instances and difficult:
-      continue
-
-    difficult_obj.append(int(difficult))
-
-    xmin.append(float(obj['bndbox']['xmin']) / width)
-    ymin.append(float(obj['bndbox']['ymin']) / height)
-    xmax.append(float(obj['bndbox']['xmax']) / width)
-    ymax.append(float(obj['bndbox']['ymax']) / height)
-    classes_text.append(obj['name'].encode('utf8'))
-    classes.append(label_map_dict[obj['name']])
-    truncated.append(int(obj['truncated']))
-    poses.append(obj['pose'].encode('utf8'))
-
-  example = tf.train.Example(features=tf.train.Features(feature={
-      'image/height': dataset_util.int64_feature(height),
-      'image/width': dataset_util.int64_feature(width),
-      'image/filename': dataset_util.bytes_feature(
-          data['filename'].encode('utf8')),
-      'image/source_id': dataset_util.bytes_feature(
-          data['filename'].encode('utf8')),
-      'image/key/sha256': dataset_util.bytes_feature(key.encode('utf8')),
-      'image/encoded': dataset_util.bytes_feature(encoded_jpg),
-      'image/format': dataset_util.bytes_feature('jpeg'.encode('utf8')),
-      'image/object/bbox/xmin': dataset_util.float_list_feature(xmin),
-      'image/object/bbox/xmax': dataset_util.float_list_feature(xmax),
-      'image/object/bbox/ymin': dataset_util.float_list_feature(ymin),
-      'image/object/bbox/ymax': dataset_util.float_list_feature(ymax),
-      'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
-      'image/object/class/label': dataset_util.int64_list_feature(classes),
-      'image/object/difficult': dataset_util.int64_list_feature(difficult_obj),
-      'image/object/truncated': dataset_util.int64_list_feature(truncated),
-      'image/object/view': dataset_util.bytes_list_feature(poses),
-  }))
-  return example
+# 写真のサイズ調整
+def getSize(tup):
+    x, y = tup
+    ratio_x = float(x / cvs_w)
+    ratio_y = float(y / cvs_h)
+    if (ratio_x <= 1 and ratio_y<= 1):
+        return (1, x, y)
+    elif ratio_x > ratio_y:
+        return (ratio_x, int(cvs_w), int(y/ratio_x))
+    else:
+        return (ratio_y, int(x/ratio_y), int(cvs_h))
 
 
-def main(_):
-  if FLAGS.set not in SETS:
-    raise ValueError('set must be in : {}'.format(SETS))
-  if FLAGS.year not in YEARS:
-    raise ValueError('year must be in : {}'.format(YEARS))
+class MainWindow():
+    def __init__(self,main):
+        main.geometry("%dx%d+0+0" % (scr_w, scr_h))
 
-  data_dir = FLAGS.data_dir
-  years = ['VOC2007', 'VOC2012']
-  if FLAGS.year != 'merged':
-    years = [FLAGS.year]
+        self.canvas = Canvas(main, width=cvs_w, height=cvs_h)
+        self.canvas.grid(row=0, column=0, columnspan=6, rowspan=22)
 
-  writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+        # 画像ファイルの情報を一気にself.my_imagesに格納,list内dictの入れ子構造
+        self.my_images=[]
+        self.file_num = 0
+        for img in os.listdir("./images"):
+            for ext in img_extension:
+                if img.endswith(ext):
+                    original = Image.open("./images/"+img)
+                    img_org_w, img_org_h = original.size
+                    ratio, img_w, img_h = getSize(original.size)
+                    resized = original.resize((img_w, img_h), Image.ANTIALIAS)
+                    self.my_images.append({
+                        "image":    ImageTk.PhotoImage(resized),
+                        "name":     img,
+                        "size":     (img_w, img_h),
+                        "org_size": (img_org_w, img_org_h),
+                        "ratio":    ratio
+                    })
 
-  label_map_dict = label_map_util.get_label_map_dict(FLAGS.label_map_path)
+        # 初期化群
+        self.my_image_number = 0
+        self.person_counter = 0
+        self.person_name = "Person"
+        self.person_coords = []
 
-  for year in years:
-    logging.info('Reading from PASCAL %s dataset.', year)
-    examples_path = os.path.join(data_dir, year, 'ImageSets', 'Main',
-                                 'aeroplane_' + FLAGS.set + '.txt')
-    annotations_dir = os.path.join(data_dir, year, FLAGS.annotations_dir)
-    examples_list = dataset_util.read_examples_list(examples_path)
-    for idx, example in enumerate(examples_list):
-      if idx % 100 == 0:
-        logging.info('On image %d of %d', idx, len(examples_list))
-      path = os.path.join(annotations_dir, example + '.xml')
-      with tf.gfile.GFile(path, 'r') as fid:
-        xml_str = fid.read()
-      xml = etree.fromstring(xml_str)
-      data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+        # canvasにイベントのバインドと画像埋め込み
+        self.canvas.bind("<Button-1>", self.pressButton)
+        self.canvas.bind("<Button1-Motion>", self.draggingButton)
+        self.canvas.bind("<ButtonRelease-1>", self.releaseButton)
 
-      tf_example = dict_to_tf_example(data, FLAGS.data_dir, label_map_dict,
-                                      FLAGS.ignore_difficult_instances)
-      writer.write(tf_example.SerializeToString())
+        self.image_on_canvas = self.canvas.create_image(
+            0, 0, anchor=NW, image=self.my_images[self.my_image_number]["image"])
 
-  writer.close()
+        # 右側の各ボタンの作成
+        self.button_next = Button(
+            main, text="Next >>", command=self.onNextButton, width=5, height=1)
+        self.button_next.grid(row=20, column=8)
+        self.button_back = Button(
+            main, text="<< Back", command=self.onBackButton, width=5, height=1)
+        self.button_back.grid(row=20, column=6)
+        self.button_save = Button(
+            main, text="Save", command=self.onSaveButton, width=5, height=1)
+        self.button_save.grid(row=20, column=7)
+        self.button_clear = Button(
+            main, text="Clear", command=self.onClearButton, width=5, height=1)
+        self.button_clear.grid(row=19, column=7)
+
+        self.message_num = Entry(width=40)
+        self.message_num.insert(
+            END, ("This image is " + self.my_images[self.my_image_number]["name"]))
+        self.message_num.grid(row=1, column=6, columnspan=3)
+
+        self.frame = Frame(main, width=scr_w-cvs_w-10, height=scr_h-20)
+        self.frame.grid(row=4, column=6, rowspan=13, columnspan=3)
+
+        self.checkbuttons = {"bool": [0, ], "chbutton": [0, ]}
+        for num in range(1,20):
+            b = BooleanVar()
+            b.set(False)
+            self.checkbuttons["bool"].append(b)
+            c = Checkbutton(
+                text="Person"+str(num), variable=self.checkbuttons["bool"][num])
+            c.pack(in_=self.frame)
+            c.lower()
+            self.checkbuttons["chbutton"].append(c)
 
 
-if __name__ == '__main__':
-  tf.app.run()
+# 以降、callback関数
+
+    # canvas内でクリックした時
+    def pressButton(self, event):
+        self.press_x = event.x
+        self.press_y = event.y
+
+        # 矩形描画
+        self.temp_rectangle = self.canvas.create_rectangle(
+            self.press_x, self.press_y, self.press_x+1,
+            self.press_y+1,tags="temp")
+
+
+    # canvas内でドラッグした時
+    def draggingButton(self, event):
+        self.now_x = event.x
+        self.now_y = event.y
+
+        if self.press_x < self.now_x:
+            self.xmin = self.press_x
+            self.xmax = self.now_x
+        else:
+            self.xmin = self.now_x
+            self.xmax = self.press_x
+        if self.press_y < self.now_y:
+            self.ymin = self.press_y
+            self.ymax = self.now_y
+        else:
+            self.ymin = self.now_y
+            self.ymax = self.press_y
+
+        self.canvas.coords(self.temp_rectangle,
+            self.xmin, self.ymin, self.xmax, self.ymax)
+
+
+    # canvas内でクリックを離した時
+    def releaseButton(self, event):
+        # temp_rectangleの消去
+        self.canvas.delete(self.temp_rectangle)
+
+        self.release_x = event.x
+        self.release_y = event.y
+
+        if self.press_x < self.release_x:
+            self.xmin = self.press_x
+            self.xmax = self.release_x
+        else:
+            self.xmin = self.release_x
+            self.xmax = self.press_x
+        if self.press_y < self.release_y:
+            self.ymin = self.press_y
+            self.ymax = self.release_y
+        else:
+            self.ymin = self.release_y
+            self.ymax = self.press_y
+
+        self.person_counter += 1
+
+        # 矩形描画
+        self.canvas.create_rectangle(
+            self.xmin, self.ymin, self.xmax, self.ymax, tags="Person")
+        self.canvas.create_text(
+            self.xmin+5, self.ymin+5,
+            text=str(self.person_counter), tags="Person")
+
+        # 矩形の頂点座標の格納とチェックボタンの呼び出し
+        r = self.my_images[self.my_image_number]["ratio"]
+        self.person_coords.append(
+            (int(self.xmin*r), int(self.ymin*r), int(self.xmax*r), int(self.ymax*r)))
+        self.checkbuttons["chbutton"][self.person_counter].lift()
+
+
+    # [<<Back]を押した時
+    def onBackButton(self):
+        if self.my_image_number == 0:
+            showinfo(message="This is the first image")
+            return
+        else:
+            self.my_image_number -= 1
+
+        # canvas内情報の更新
+        self.canvas.delete("Person")
+        self.person_counter = 0
+        self.person_coords = []
+        self.canvas.itemconfig(
+            self.image_on_canvas, image=self.my_images[self.my_image_number]["image"])
+
+        # チェックボタンを隠す
+        for num in range(1,MAXCHECK):
+            self.checkbuttons["chbutton"][num].lower()
+
+        # 画像の名前更新
+        self.message_num.delete(0, END)
+        self.message_num.insert(
+            END, ("This image is " + self.my_images[self.my_image_number]["name"]))
+
+
+    # [Next>>]を押した時
+    def onNextButton(self):
+        self.my_image_number += 1
+
+        if self.my_image_number == len(self.my_images):
+            showinfo(message="This is the last image")
+            return
+
+        # canvas内情報の更新
+        self.canvas.delete("Person")
+        self.person_counter = 0
+        self.person_coords = []
+        self.canvas.itemconfig(
+            self.image_on_canvas, image=self.my_images[self.my_image_number]["image"])
+
+        # チェックボタンを隠す
+        for num in range(1, MAXCHECK):
+            self.checkbuttons["chbutton"][num].lower()
+
+        # 画像の名前更新
+        self.message_num.delete(0, END)
+        self.message_num.insert(
+            END, ("This image is " + self.my_images[self.my_image_number]["name"]))
+
+
+    # [Save]を押した時
+    def onSaveButton(self):
+    # 画像と同名のxmlファイルを作成
+        self.fout = open(
+            "./annotations/"+self.my_images[self.my_image_number]["name"][0:-4]+".xml", "wt")
+        # xmlのテンプレを代入
+        self.xml = xmlMaker(
+                self.my_images[self.my_image_number]["name"],
+                self.my_images[self.my_image_number]["org_size"])
+
+        # チェックボタンで選択したPersonをxmlファイルに記入
+        for (i, size) in enumerate(self.person_coords):
+            if self.checkbuttons["bool"][i+1].get()==True:
+                self.xml.object_name = SubElement(self.xml.object, "name")
+                self.xml.object_name.text = "Person"
+                self.xml.object_bndbox = SubElement(self.xml.object, "bndbox")
+                self.xml.bndbox_xmin = SubElement(self.xml.object_bndbox, "xmin")
+                self.xml.bndbox_xmin.text = str(size[0])
+                self.xml.bndbox_ymin = SubElement(self.xml.object_bndbox, "ymin")
+                self.xml.bndbox_ymin.text = str(size[1])
+                self.xml.bndbox_xmax = SubElement(self.xml.object_bndbox, "xmax")
+                self.xml.bndbox_xmax.text = str(size[2])
+                self.xml.bndbox_ymax = SubElement(self.xml.object_bndbox, "ymax")
+                self.xml.bndbox_ymax.text = str(size[3])
+
+        self.fout.write(self.xml.prettify(self.xml.top))
+        self.fout.close()
+
+        # 保存されたことを伝える
+        showinfo(message="Xml file is saved")
+
+
+    # [Clear]を押した時
+    def onClearButton(self):
+        # canvas内情報の更新
+        self.canvas.delete("Person")
+        self.person_counter = 0
+        self.person_coords = []
+        self.canvas.itemconfig(
+            self.image_on_canvas, image=self.my_images[self.my_image_number]["image"])
+
+        # チェックボタンを隠す
+        for num in range(1, MAXCHECK):
+            self.checkbuttons["chbutton"][num].lower()
+
+
+# xmlファイルのテンプレと記入用class
+class xmlMaker():
+    def __init__(self, image_name, size):
+        self.top = Element("annotation")
+        self.folder = SubElement(self.top, "folder")
+        self.folder.text = my_dir
+        self.filename = SubElement(self.top, "filename")
+        self.filename.text = image_name
+        self.source = SubElement(self.top, "source")
+        self.source_annotation = SubElement(self.source, "annotation")
+        self.source_annotation.text = "Annotated Person Datebase"
+        self.size = SubElement(self.top, "size")
+        self.width = SubElement(self.size, "width")
+        self.width.text = str(size[0])
+        self.height = SubElement(self.size, "height")
+        self.height.text = str(size[1])
+        self.depth = SubElement(self.size, "depth")
+        self.depth.text = "3"
+        self.object = SubElement(self.top, "object")
+
+
+    def prettify(self, elem):
+        """Return a pretty-printed XML string for the Element.
+        """
+        rough_string = tostring(elem, 'utf-8')
+        reparsed = minidom.parseString(rough_string)
+        return reparsed.toprettyxml(indent="  ")
+
+
+if __name__=="__main__":
+    root = Tk()
+    root.title(u"機械がお勉強をするための教材を人間様が作ってやりましょう")
+    scr_w, scr_h = root.winfo_screenwidth(), root.winfo_screenheight()
+    cvs_w, cvs_h = scr_w*2/3, scr_h-10
+    MainWindow(root)
+    root.mainloop()

@@ -34,4 +34,25 @@
       "/Users/taku/HatenaBlog"
     ]
   }
+  {
+    title: "TeX"
+    group: "Taku"
+    paths: [
+      "/Users/taku/Documents/TeX"
+    ]
+  }
+  {
+    title: "Cbot Queue Worker"
+    group: "Biary"
+    paths: [
+      "/Users/taku/Scripts/cbot-dev/cbot-queue-worker"
+    ]
+  }
+  {
+    title: "Shimo Study DL"
+    group: "Taku"
+    paths: [
+      "/Users/taku/Scripts/Pythontraining/DeepLearning_Training/shimo_study"
+    ]
+  }
 ]

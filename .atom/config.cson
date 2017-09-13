@@ -21,10 +21,15 @@
         }
       }
     '''
+  "atom-beautify":
+    general:
+      _analyticsUserId: "992ac54e-c81f-470d-a003-e47b307f055e"
   "atom-clock":
     dateFormat: "MMMM Do, dddd, H:mm"
   core:
+    allowPendingPaneItems: false
     audioBeep: false
+    automaticallyUpdate: false
     disabledPackages: [
       "linter"
       "linter-flake8"
@@ -33,7 +38,6 @@
       "linter-ui-default"
       "vim-mode-plus-ex-mode"
       "markdown-preview"
-      "markdown-scroll-sync"
       "emmet"
     ]
     restorePreviousWindowsOnStart: "no"
@@ -51,7 +55,8 @@
   kite:
     showKiteTourOnStatup: false
   latex:
-    engine: "platex"
+    engine: "uplatex"
+    opener: "pdf-view"
   "linter-ui-default":
     panelHeight: 69
   minimap:
@@ -66,6 +71,9 @@
       "git-diffDecorationsZIndex": 0
       "highlight-selected": true
       "highlight-selectedDecorationsZIndex": 0
+  "pdf-view":
+    fitToWidthOnOpen: true
+    paneToUseInSynctex: "right"
   "tree-view":
     hideIgnoredNames: true
   "vim-mode-plus-ex-mode":
