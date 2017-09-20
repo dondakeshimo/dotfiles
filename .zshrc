@@ -111,8 +111,8 @@ hash -d content=~/Scripts/cbot-dev/cbot-api-contents
 hash -d custumer=~/Scripts/cbot-dev/cbot-api-customer
 hash -d stage=~/Scripts/cbot-dev/stage-cbot-frontend-customer
 hash -d pytr=~/Scripts/Pythontraining
-hash -d hatena=~/Document/HatenaBlog
-hash -d note=~/Document/Notes
+hash -d hatena=~/Documents/HatenaBlog
+hash -d note=~/Documents/Notes
 
 
 ##############################
