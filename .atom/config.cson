@@ -26,6 +26,8 @@
       _analyticsUserId: "992ac54e-c81f-470d-a003-e47b307f055e"
   "atom-clock":
     dateFormat: "MMMM Do, dddd, H:mm"
+  "clip-history":
+    max: 4
   core:
     allowPendingPaneItems: false
     audioBeep: false
