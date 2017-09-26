@@ -1,0 +1,23 @@
+[user]
+  name = Shimomura Taku
+  email = went.went.takkun135@gmail.com
+[core]
+  excludesfile = /Users/taku/.gitignore_global
+[difftool "sourcetree"]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
+[mergetool "sourcetree"]
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
+[commit]
+  template = /Users/taku/.stCommitMsg
+[color]
+  ui = auto
+  status = auto
+  diff = auto
+  branch = auto
+  interactive = auto
+  grep = auto
+[alias]
+  ci = commit -m
+  co = checkout

@@ -6,4 +6,4 @@ ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/.tmux ~/.tmux
 ln -sf ~/dotfiles/.jupyter ~/.jupyter
 ln -sf ~/dotfiles/.atom ~/.atom
-
+ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
