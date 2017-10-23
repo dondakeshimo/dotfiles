@@ -6,11 +6,11 @@ _script_exporter = None
 
 def script_post_save(model, os_path, contents_manager, **kwargs):
     """convert notebooks to Python script after save with nbconvert
-    
+
     replaces `ipython notebook --script`
     """
     from nbconvert.exporters.script import ScriptExporter
-    
+
     if model['type'] != 'notebook':
         return
 

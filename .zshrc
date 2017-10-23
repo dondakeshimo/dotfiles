@@ -100,6 +100,8 @@ bindkey '^[[Z' reverse-menu-complete
 ##############################
 
 alias vi='vim'
+alias ll='ls -l'
+alias la='ls -a'
 
 
 ##############################
@@ -110,9 +112,12 @@ hash -d dot=~/dotfiles
 hash -d content=~/Scripts/cbot-dev/cbot-api-contents
 hash -d custumer=~/Scripts/cbot-dev/cbot-api-customer
 hash -d stage=~/Scripts/cbot-dev/stage-cbot-frontend-customer
-hash -d pytr=~/Scripts/Pythontraining
+hash -d pytr=~/Scripts/Python
+hash -d 3dgan=~/Scripts/Python/DeepLearning/DLHacks/tf-3dgan
 hash -d hatena=~/Documents/HatenaBlog
 hash -d note=~/Documents/Notes
+hash -d fbmstage=~/Scripts/Node/fb-meister/fbm-stage-frontend-customer
+hash -d fbmapi=~/Scripts/Node/fb-meister/fbm-api-customer
 
 
 ##############################
@@ -150,8 +155,11 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
 
-# aws setting
-source ~/.keys/.zshrc.aws
+# react aws setting
+source ~/.keys/.zshrc.aws.react
+
+# fbm aws setting
+source ~/.keys/.zshrc.aws.fbm
 
 # es setting
 source ~/.keys/.zshrc.es

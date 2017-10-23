@@ -1,0 +1,13 @@
+{
+  "load_extensions": {
+    "nbextensions_configurator/config_menu/main": true,
+    "contrib_nbextensions_help_item/main": true,
+    "vim_binding/vim_binding": true,
+    "codefolding/main": true,
+    "comment-uncomment/main": true,
+    "ruler/main": true
+  },
+  "ruler_column": [
+    "80"
+  ]
+}

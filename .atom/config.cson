@@ -1,26 +1,5 @@
 "*":
-  Hydrogen:
-    kernelspec: '''
-      {
-        "kernelspecs": {
-          "python3": {
-            "spec": {
-              "argv": [
-                "python",
-                "-m",
-                "ipykernel_launcher",
-                "-f",
-                "{connection_file}"
-              ],
-              "display_name": "Python 3",
-              "env": {},
-              "language": "python"
-            },
-            "resource_dir": "/Users/taku/.pyenv/versions/3.5.3/envs/tensorflow/share/jupyter/kernels/python3"
-          }
-        }
-      }
-    '''
+  Hydrogen: {}
   "atom-beautify":
     general:
       _analyticsUserId: "992ac54e-c81f-470d-a003-e47b307f055e"
@@ -33,14 +12,12 @@
     audioBeep: false
     automaticallyUpdate: false
     disabledPackages: [
-      "linter"
-      "linter-flake8"
-      "linter-js-standard"
-      "linter-jscs"
-      "linter-ui-default"
       "vim-mode-plus-ex-mode"
       "markdown-preview"
       "emmet"
+      "linter-js-standard"
+      "linter-jscs"
+      "jslint"
     ]
     restorePreviousWindowsOnStart: "no"
     telemetryConsent: "limited"
@@ -55,12 +32,15 @@
   "exception-reporting":
     userId: "3728997e-8e3d-4ca2-bcb3-f1c2419cdc13"
   kite:
-    showKiteTourOnStatup: false
+    showKiteTourOnStartup: false
   latex:
     engine: "uplatex"
     opener: "pdf-view"
+  "linter-flake8":
+    executablePath: "/Users/taku/.pyenv/versions/anaconda3-4.4.0/bin/flake8"
   "linter-ui-default":
     panelHeight: 69
+    showPanel: true
   minimap:
     plugins:
       bookmarks: true
@@ -78,6 +58,8 @@
     paneToUseInSynctex: "right"
   "tree-view":
     hideIgnoredNames: true
+  "vim-mode-plus":
+    notifiedCoffeeScriptNoLongerSupportedToExtendVMP: true
   "vim-mode-plus-ex-mode":
     notifiedUseExMode: true
   welcome:

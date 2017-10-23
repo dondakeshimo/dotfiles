@@ -35,3 +35,6 @@
   'ctrl-y': 'clip-history:paste'
   'cmd-y': 'clip-history:paste-newer'
   'ctrl-Y': 'clip-history:paste-last'
+
+'.platform-darwin atom-text-editor:not([mini])':
+  'cmd-enter': 'hydrogen:run'
