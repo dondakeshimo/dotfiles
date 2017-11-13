@@ -5,19 +5,21 @@
       _analyticsUserId: "992ac54e-c81f-470d-a003-e47b307f055e"
   "atom-clock":
     dateFormat: "MMMM Do, dddd, H:mm"
+  "autocomplete-paths":
+    maxFileCount: 4000
   "clip-history":
     max: 4
   core:
     allowPendingPaneItems: false
     audioBeep: false
-    automaticallyUpdate: false
     disabledPackages: [
       "vim-mode-plus-ex-mode"
       "markdown-preview"
       "emmet"
-      "linter-js-standard"
       "linter-jscs"
       "jslint"
+      "autocomplete-paths"
+      "language-vue-component"
     ]
     restorePreviousWindowsOnStart: "no"
     telemetryConsent: "limited"
@@ -36,11 +38,19 @@
   latex:
     engine: "uplatex"
     opener: "pdf-view"
+  "linter-eslint":
+    scopes: [
+      "source.js"
+      "source.jsx"
+      "source.js.jsx"
+      "source.babel"
+      "source.js-semantic"
+      "text.html.vue"
+    ]
   "linter-flake8":
     executablePath: "/Users/taku/.pyenv/versions/anaconda3-4.4.0/bin/flake8"
   "linter-ui-default":
     panelHeight: 69
-    showPanel: true
   minimap:
     plugins:
       bookmarks: true
