@@ -1,5 +1,6 @@
 "*":
-  Hydrogen: {}
+  Hydrogen:
+    startDir: "dirOfFile"
   "atom-beautify":
     general:
       _analyticsUserId: "992ac54e-c81f-470d-a003-e47b307f055e"
@@ -13,7 +14,6 @@
     allowPendingPaneItems: false
     audioBeep: false
     disabledPackages: [
-      "vim-mode-plus-ex-mode"
       "markdown-preview"
       "emmet"
       "linter-jscs"
@@ -49,8 +49,7 @@
     ]
   "linter-flake8":
     executablePath: "/Users/taku/.pyenv/versions/anaconda3-4.4.0/bin/flake8"
-  "linter-ui-default":
-    panelHeight: 69
+  "linter-ui-default": {}
   minimap:
     plugins:
       bookmarks: true
@@ -68,8 +67,7 @@
     paneToUseInSynctex: "right"
   "tree-view":
     hideIgnoredNames: true
-  "vim-mode-plus":
-    notifiedCoffeeScriptNoLongerSupportedToExtendVMP: true
+  "vim-mode-plus": {}
   "vim-mode-plus-ex-mode":
     notifiedUseExMode: true
   welcome:
