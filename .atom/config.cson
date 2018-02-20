@@ -18,22 +18,29 @@
       "emmet"
       "linter-jscs"
       "jslint"
-      "autocomplete-paths"
       "language-vue-component"
+      "linter-flake8"
+      "linter"
+      "linter-eslint"
+      "linter-ui-default"
+      "kite"
     ]
     restorePreviousWindowsOnStart: "no"
     telemetryConsent: "limited"
   editor:
-    fontSize: 12
+    fontSize: 11
     showIndentGuide: true
     showInvisibles: true
     softWrap: true
     softWrapAtPreferredLineLength: true
     softWrapHangingIndent: 80
+    tabLength: 4
     tabType: "soft"
   "exception-reporting":
     userId: "3728997e-8e3d-4ca2-bcb3-f1c2419cdc13"
   kite:
+    editorMetricsEnabled: "no"
+    showDocsNotificationOnStartup: false
     showKiteTourOnStartup: false
   latex:
     engine: "uplatex"
@@ -48,8 +55,9 @@
       "text.html.vue"
     ]
   "linter-flake8":
-    executablePath: "/Users/taku/.pyenv/versions/anaconda3-4.4.0/bin/flake8"
-  "linter-ui-default": {}
+    executablePath: "/Users/taku/.pyenv/versions/anaconda3-4.4.0/bin/flake8;"
+  "linter-ui-default":
+    panelHeight: 69
   minimap:
     plugins:
       bookmarks: true
@@ -65,6 +73,8 @@
   "pdf-view":
     fitToWidthOnOpen: true
     paneToUseInSynctex: "right"
+  "split-diff":
+    ignoreWhitespace: true
   "tree-view":
     hideIgnoredNames: true
   "vim-mode-plus": {}

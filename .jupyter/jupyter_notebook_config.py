@@ -28,3 +28,5 @@ def script_post_save(model, os_path, contents_manager, **kwargs):
         f.write(script)
 
 c.FileContentsManager.post_save_hook = script_post_save
+
+c.NotebookApp.iopub_data_rate_limit = 10000000

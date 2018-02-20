@@ -109,18 +109,15 @@ alias la='ls -a'
 ##############################
 
 hash -d dot=~/dotfiles
-hash -d cbotbackend=~/Scripts/Node/cbot-dev/cbot-api-customer
-hash -d cbotfront=~/Scripts/Node/cbot-dev/stage-cbot-frontend-customer
-hash -d cbotqueue=~/Scripts/Node/cbot-dev/cbot-queue-worker
-hash -d python=~/Scripts/Python
-hash -d 3dgan=~/Scripts/Python/DeepLearning/DLHacks/tf-3dgan
+hash -d cbotbackend=~/Scripts/Projects/cbot-dev/cbot-api-customer
+hash -d cbotfront=~/Scripts/Projects/cbot-dev/stage-cbot-frontend-customer
+hash -d cbotqueue=~/Scripts/Projects/cbot-dev/cbot-queue-worker
+hash -d cbotroot=~/Scripts/Projects/cbot-dev
+hash -d 3dgan=~/Scripts/DeepLearning/DLHacks/3DGAN
 hash -d hatena=~/Documents/HatenaBlog
 hash -d note=~/Documents/Notes
-hash -d fbmfront=~/Scripts/Node/fb-meister/fbm-stage-frontend-customer
-hash -d fbmbackend=~/Scripts/Node/fb-meister/fbm-api-customer
-hash -d atelierfront=~/Scripts/Node/entrepreneuaz/atelier-frontend-customer
-hash -d atelierbackend=~/Scripts/Node/entrepreneuaz/atelier-api-customer
-hash -d precision=~/Scripts/Python/DataAnalysis/Precision
+hash -d precision=~/Scripts/Projects/Precision
+hash -d kaggle=~/Scripts/Python/DataAnalysis/kaggle
 
 
 ##############################
