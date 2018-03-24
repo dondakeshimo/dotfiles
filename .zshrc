@@ -102,6 +102,7 @@ bindkey '^[[Z' reverse-menu-complete
 alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
+alias rm='rmtrash'
 alias brew="env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew"
 
 

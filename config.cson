@@ -1,0 +1,41 @@
+"*":
+  "atom-clock":
+    dateFormat: "MMMM Do, dddd, HH:mm"
+    showClockIcon: true
+  "autocomplete-python":
+    useKite: false
+  core:
+    telemetryConsent: "limited"
+  editor:
+    fontSize: 12
+    showIndentGuide: true
+    showInvisibles: true
+    softWrap: true
+    softWrapAtPreferredLineLength: true
+    tabType: "soft"
+  "exception-reporting":
+    userId: "bfa81b3a-e42a-44e9-9a5d-7438cc76f2ef"
+  "linter-ui-default":
+    panelHeight: 69
+  "markdown-writer":
+    fileExtension: ".markdown, .md"
+  minimap:
+    plugins:
+      bookmarks: true
+      bookmarksDecorationsZIndex: 0
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+  "platformio-ide-terminal":
+    toggles:
+      autoClose: true
+      cursorBlink: false
+  "tree-view":
+    hideIgnoredNames: true
+  welcome:
+    showOnStartup: false
