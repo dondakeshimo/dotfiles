@@ -102,10 +102,11 @@ bindkey '^[[Z' reverse-menu-complete
 alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
+alias brew="env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew"
 
 
 ##############################
-# Aliases
+# hash
 ##############################
 
 hash -d dot=~/dotfiles
@@ -142,7 +143,6 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 # pyenv seting
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-
 eval "$(pyenv init -)"
 
 # nodebrew seting
@@ -171,9 +171,6 @@ if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc' ]; then sourc
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc'; fi
-
-# homebrew
-export PATH="/usr/local/bin:$PATH"
 
 
 ##############################
