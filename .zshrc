@@ -103,6 +103,7 @@ alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
 alias rm='rmtrash'
+alias jn='jupyter notebook'
 alias brew="env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew"
 
 
@@ -173,6 +174,8 @@ if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc' ]; then sourc
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc'; fi
 
+# exclude waiting time
+KEYTIMEOUT=1
 
 ##############################
 # tmux

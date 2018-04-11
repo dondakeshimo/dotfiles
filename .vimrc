@@ -50,7 +50,6 @@ filetype plugin indent on
 set ruler
 set number
 set title
-set showcmd
 syntax on
 " 空白系
 set autoindent
@@ -65,6 +64,7 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set whichwrap=b,s,[,],<,>
 set backspace=indent,eol,start
 set virtualedit=block
+set ttimeoutlen=10
 " ファイル操作系
 set noswapfile
 set hidden
