@@ -163,7 +163,11 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # nodebrew seting
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
+
+# go seting
+export GOPATH="$HOME"
+export PATH="$GOPATH/bin:$PATH"
 
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
