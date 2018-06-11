@@ -1,13 +1,21 @@
 "*":
+  "atom-beautify":
+    general:
+      _analyticsUserId: "2e3e5f1c-313e-49a8-b869-08cc3da1a3c9"
   "atom-clock":
     dateFormat: "MMMM Do, dddd, HH:mm"
   "autocomplete-python":
     useKite: false
   core:
+    disabledPackages: [
+      "markdown-preview"
+      "language-gfm"
+      "spell-check"
+    ]
     telemetryConsent: "limited"
     themes: [
-      "atom-material-ui"
-      "ariake-dark-syntax"
+      "one-dark-ui"
+      "an-old-hope-syntax"
     ]
   editor:
     fontSize: 12
@@ -29,6 +37,10 @@
     ]
   "linter-ui-default":
     panelHeight: 69
+  "markdown-preview-plus":
+    mathConfig:
+      enableLatexRenderingByDefault: true
+      numberEquations: true
   minimap:
     plugins:
       bookmarks: true

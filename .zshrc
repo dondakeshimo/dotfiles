@@ -7,9 +7,11 @@ source $ZPLUG_HOME/init.zsh
 
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
-zplug "themes/blinks", from:oh-my-zsh
+zplug "themes/ys", from:oh-my-zsh
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 5.4"
 zplug 'mollifier/anyframe'
+zplug "b4b4r07/enhancd", use:init.sh
 
 if ! zplug check --verbose; then
   printf 'Install? [y/N]: '
@@ -18,27 +20,25 @@ if ! zplug check --verbose; then
   fi
 fi
 
-zplug load --verbose
+zplug load
 
 
 ##############################
 # Autoloadings
 ##############################
 
-#zsh-completionsの設定
-fpath=(/path/to/homebrew/share/zsh-completions $fpath)
+# zsh-completionsの設定
+fpath=(/usr/local/share/zsh/site-functions(N-/) $fpath)
+autoload -Uz compinit && compinit -u
 
 # autoload -Uz add-zsh-hook
-autoload -Uz compinit && compinit -u
-# autoload -Uz url-quote-magic
-# autoload -Uz vcs_info
+autoload -Uz vcs_info
 
 
 ##############################
 # ZLE settings
 ##############################
 
-# zle -N self-insert url-quote-magic
 
 
 ##############################
@@ -89,10 +89,18 @@ export LANG=ja_JP.UTF-8
 ##############################
 
 bindkey -v
-bindkey -v '^?' backward-delete-char
-bindkey '^[[Z' reverse-menu-complete
-# bindkey '^@' anyframe-widget-cd-ghq-repository
-# bindkey '^r' anyframe-widget-put-history
+bindkey -M viins '^?'  backward-delete-char
+bindkey -M viins '^A'  beginning-of-line
+bindkey -M viins '^B'  backward-char
+bindkey -M viins '^D'  delete-char-or-list
+bindkey -M viins '^E'  end-of-line
+bindkey -M viins '^F'  forward-char
+bindkey -M viins '^G'  send-break
+bindkey -M viins '^H'  backward-delete-char
+bindkey -M viins '^N'  history-substring-search-down
+bindkey -M viins '^P'  history-substring-search-up
+bindkey -M viins '^W'  backward-kill-word
+bindkey -M viins '^@'  anyframe-widget-cd-ghq-repository
 
 
 ##############################
@@ -103,8 +111,13 @@ alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
 alias rm='rmtrash'
-alias jn='jupyter notebook'
-alias brew="env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew"
+alias brew='env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew'
+
+# anyframe
+alias aw='anyframe-widget-select-widget'
+alias aweh='anyframe-widget-execute-history'
+alias awcgb='anyframe-widget-checkout-git-branch'
+alias awcgr='anyframe-widget-cd-ghq-repository'
 
 
 ##############################
@@ -117,10 +130,11 @@ hash -d note=~/Documents/Notes
 hash -d precision=~/Scripts/Projects/Precision
 hash -d kaggle=~/Scripts/DataAnalysis/kaggle
 hash -d fbpj=~/Scripts/Projects/FBPJ
+hash -d gci=~/Scripts/DataAnalysis/GCI
 
 
 ##############################
-# Module settings
+# zstyle
 ##############################
 
 # Completion
@@ -141,6 +155,7 @@ zstyle ':completion:*:options' description 'yes'
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/local/Cellar/gcc/8.1.0/bin:$PATH"
 
 # pyenv seting
 export PYENV_ROOT="$HOME/.pyenv"

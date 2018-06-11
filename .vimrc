@@ -78,11 +78,14 @@ set smartcase
 set hlsearch
 set incsearch
 set wrapscan
+" クリップボードにコピー
+set clipboard=unnamed,autoselect
 """"""""""""""""""""""
 
 """""""""""""""""""""
 "colorscheme
 """""""""""""""""""""
+set background=dark
 colorscheme solarized
 """""""""""""""""""""
 
