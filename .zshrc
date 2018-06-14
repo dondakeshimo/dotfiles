@@ -187,12 +187,6 @@ source ~/.keys/.zshrc.gcs
 # tensorflow object detect
 export PYTHONPATH=$PYTHONPATH:"/Users/taku/Scripts/FBPJ/tf_obj_det":"/Users/taku/Scripts/FBPJ/tf_obj_det/slim"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/taku/GoogleCloudSDK/google-cloud-sdk/completion.zsh.inc'; fi
-
 # exclude waiting time
 KEYTIMEOUT=1
 
