@@ -22,4 +22,4 @@
   ci = commit -m
   co = checkout
 [ghq]
-  root = ~/src
+  root = ~/Scripts/src
