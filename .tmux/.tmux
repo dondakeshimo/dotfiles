@@ -1,1 +1,1 @@
-/Users/taku/dotfiles/.tmux
+/Users/taku/Scripts/src/github.com/dondakeshimo/dotfiles/.tmux
