@@ -7,7 +7,7 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
 
-    ln -sf $PWD/$f ~/$f
+    ln -sf $PWD/$f $HOME
     echo "$f"
 done
 
@@ -16,7 +16,7 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
 
-    ln -sf $PWD/$f ~/.$f
+    ln -sf $PWD/$f $HOME/atom
     echo "$f"
 done
 
@@ -25,6 +25,6 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
 
-    ln -sf $PWD/$f ~/Scripts/bin
+    ln -sf $PWD/$f $HOME/Scripts/bin
     echo "$f"
 done
