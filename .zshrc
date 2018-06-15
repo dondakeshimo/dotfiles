@@ -172,21 +172,6 @@ export PATH="$GOPATH/Scripts/bin:$PATH"
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
 
-# react aws setting
-source ~/.keys/.zshrc.aws.react
-
-# fbm aws setting
-source ~/.keys/.zshrc.aws.fbm
-
-# es setting
-source ~/.keys/.zshrc.es
-
-# gcs setting
-source ~/.keys/.zshrc.gcs
-
-# tensorflow object detect
-export PYTHONPATH=$PYTHONPATH:"/Users/taku/Scripts/FBPJ/tf_obj_det":"/Users/taku/Scripts/FBPJ/tf_obj_det/slim"
-
 # exclude waiting time
 KEYTIMEOUT=1
 
