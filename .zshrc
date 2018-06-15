@@ -36,12 +36,6 @@ autoload -Uz vcs_info
 
 
 ##############################
-# ZLE settings
-##############################
-
-
-
-##############################
 # General settings
 ##############################
 
@@ -71,20 +65,6 @@ setopt transient_rprompt
 
 
 ##############################
-# Exports
-##############################
-
-export CLICOLOR=true
-export LSCOLORS='exfxcxdxbxGxDxabagacad'
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
-export EDITOR=vim
-export HISTFILE=~/.zsh_history
-export HISTSIZE=1000000
-export SAVEHIST=1000000
-export LANG=ja_JP.UTF-8
-
-
-##############################
 # Key bindings
 ##############################
 
@@ -100,7 +80,7 @@ bindkey -M viins '^H'  backward-delete-char
 bindkey -M viins '^N'  history-substring-search-down
 bindkey -M viins '^P'  history-substring-search-up
 bindkey -M viins '^W'  backward-kill-word
-bindkey -M viins '^@'  anyframe-widget-cd-ghq-repository
+bindkey -M viins '^@'  anyframe-widget-put-history
 
 
 ##############################
@@ -112,25 +92,6 @@ alias ll='ls -l'
 alias la='ls -a'
 alias rm='rmtrash'
 alias brew='env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew'
-
-# anyframe
-alias aw='anyframe-widget-select-widget'
-alias aweh='anyframe-widget-execute-history'
-alias awcgb='anyframe-widget-checkout-git-branch'
-alias awcgr='anyframe-widget-cd-ghq-repository'
-
-
-##############################
-# hash
-##############################
-
-hash -d dot=~/dotfiles
-hash -d hatena=~/Documents/HatenaBlog
-hash -d note=~/Documents/Notes
-hash -d precision=~/Scripts/Projects/Precision
-hash -d kaggle=~/Scripts/DataAnalysis/kaggle
-hash -d fbpj=~/Scripts/Projects/FBPJ
-hash -d gci=~/Scripts/DataAnalysis/GCI
 
 
 ##############################
@@ -150,22 +111,41 @@ zstyle ':completion:*:options' description 'yes'
 
 
 ##############################
+# zsh env
+##############################
+
+export CLICOLOR=true
+export LSCOLORS='exfxcxdxbxGxDxabagacad'
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+export EDITOR=vim
+export HISTFILE=~/.zsh_history
+export HISTSIZE=1000000
+export SAVEHIST=1000000
+export LANG=ja_JP.UTF-8
+
+
+##############################
 # PATH and environment settings
 ##############################
 
+# PATH setting
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+
+# brew PATH setting
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
+# gcc PATH setting for lightGBM
 export PATH="/usr/local/Cellar/gcc/8.1.0/bin:$PATH"
 
-# pyenv seting
+# pyenv setting
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-# nodebrew seting
+# nodebrew setting
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
-# go seting
+# go setting
 export GOPATH="$HOME/Scripts"
 export PATH="$GOPATH/bin:$PATH"
 
@@ -175,7 +155,20 @@ export PATH="/Library/TeX/texbin:$PATH"
 # exclude waiting time
 KEYTIMEOUT=1
 
+
 ##############################
 # tmux
 ##############################
+
 tmux-builder
+
+
+##############################
+# ZLE settings
+##############################
+
+
+
+##############################
+# hash
+##############################
