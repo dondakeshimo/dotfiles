@@ -16,7 +16,7 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
 
-    ln -sf $PWD/$f $HOME/atom
+    ln -sf $PWD/$f $HOME/.atom
     echo "$f"
 done
 
