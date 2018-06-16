@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# create github repository
+REPO=$1
+GHUSER=$(git config --get user.name)
+PAYLOAD='{"name":"'$REPO'"}'
+
+RES=$(curl -u $GHUSER https://api.github.com/user/repos -d $PAYLOAD --fail)
+
+# ghq get repository
+if [[ -n $RES ]];then
+    ghq get git@github.com:$GHUSER/$REPO.git
+else
+   echo "response is null" 1>&2
+   exit 1
+fi
