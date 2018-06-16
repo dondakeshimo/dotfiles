@@ -35,7 +35,8 @@
     ignoreErrorCodes: [
       "H238"
     ]
-  "linter-ui-default": {}
+  "linter-ui-default":
+    panelHeight: 69
   "markdown-preview-plus":
     mathConfig:
       enableLatexRenderingByDefault: true
