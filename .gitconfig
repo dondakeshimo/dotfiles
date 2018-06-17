@@ -19,6 +19,7 @@
 [alias]
     ci = commit -m
     co = checkout
+    aci = "!git add -A && git commit -m"
 
 [ghq]
     root = ~/Scripts/src
