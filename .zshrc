@@ -90,8 +90,9 @@ bindkey -M viins '^@'  anyframe-widget-put-history
 alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
-alias rm='rmtrash'
-alias brew='env PATH=${PATH/\/Users\/${USER}\/\.pyenv\/shims:/} brew'
+(( $+commands[rmtrash] )) && alias rm='rmtrash'
+(( $+commands[gcc-8] )) && alias gcc='gcc-8'
+(( $+commands[g++-8] )) && alias g++='g++-8'
 
 
 ##############################
