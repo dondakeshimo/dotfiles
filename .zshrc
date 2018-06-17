@@ -9,7 +9,7 @@ zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug "themes/ys", from:oh-my-zsh
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 5.4"
+zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 5.5"
 zplug 'mollifier/anyframe'
 zplug "b4b4r07/enhancd", use:init.sh
 
