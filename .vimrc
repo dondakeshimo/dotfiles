@@ -56,7 +56,7 @@ set autoindent
 set smartindent
 set shiftwidth=2
 set expandtab
-set tabstop=2
+set tabstop=4
 set ambiwidth=double
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
