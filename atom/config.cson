@@ -15,7 +15,7 @@
     telemetryConsent: "limited"
     themes: [
       "one-dark-ui"
-      "an-old-hope-syntax"
+      "slime"
     ]
   editor:
     fontSize: 12
