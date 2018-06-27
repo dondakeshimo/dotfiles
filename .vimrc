@@ -54,7 +54,7 @@ syntax on
 " 空白系
 set autoindent
 set smartindent
-set shiftwidth=2
+set shiftwidth=4
 set expandtab
 set tabstop=4
 set ambiwidth=double
