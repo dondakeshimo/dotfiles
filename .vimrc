@@ -76,11 +76,22 @@ set clipboard=unnamed,autoselect
 """"""""""""""""""""""
 
 """""""""""""""""""""
-"colorscheme
+" colorscheme
 """""""""""""""""""""
 set background=dark
 colorscheme solarized
 syntax enable
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+" insertモードでのキーマップ
+"""""""""""""""""""""
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-a> <C-o>^
+inoremap <C-e> <C-o>$
 """""""""""""""""""""
 
 """"""""""""""""""""""""""""""
@@ -100,9 +111,8 @@ if has('syntax')
 endif
 """"""""""""""""""""""""""""""
 
-
 """"""""""""""""""""""""""""""
-"lightline
+" lightline
 """"""""""""""""""""""""""""""
 set laststatus=2
 set t_Co=256
