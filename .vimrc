@@ -92,16 +92,16 @@ syntax enable
 " 全角スペースの可視化
 """"""""""""""""""""""""""""""
 function! ZenkakuSpace()
-    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+  highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 endfunction
 
 if has('syntax')
-    augroup ZenkakuSpace
-        autocmd!
-        autocmd ColorScheme * call ZenkakuSpace()
-        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace','　')
-    augroup END
-    call ZenkakuSpace()
+  augroup ZenkakuSpace
+    autocmd!
+    autocmd ColorScheme * call ZenkakuSpace()
+    autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace','　')
+  augroup END
+  call ZenkakuSpace()
 endif
 """"""""""""""""""""""""""""""
 
@@ -113,8 +113,8 @@ endif
 set laststatus=2
 set t_Co=256
 let g:lightline = {
-    \ 'colorscheme': 'solarized'
-    \ }
+  \ 'colorscheme': 'solarized'
+  \ }
 """"""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
