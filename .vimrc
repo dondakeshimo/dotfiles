@@ -1,47 +1,46 @@
-set nocompatible
-filetype plugin indent off
-
-if has('vim_starting')
-    set runtimepath+=~/.vim/bundle/neobundle.vim
+"""""""""""""""""""""""
+" dein.vim
+"""""""""""""""""""""""
+if &compatible
+  set nocompatible
 endif
 
-"""""""""""""""""""""""
-" NeoBundle begin
-"""""""""""""""""""""""
-let g:neobundle_default_git_protocol='https'
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+let s:dein_dir = expand('~/.vim/bundles')
+let s:dein_repo_dir = expand('~/Scripts/src/github.com/Shougo/dein.vim')
 
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Townk/vim-autoclose'
-NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'Shougo/vimproc', {
-    \'build' : {
-    \   'windows' : 'make -f make_ningw32.mak',
-    \   'cygwin'  : 'make -f make_cygwin.mak',
-    \   'mac'     : 'make -f make_mac.mak',
-    \   'unix'    : 'make -f make_unix.mak',
-    \ },
-\ }
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!ghq get https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
 
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'tomasr/molokai'
-NeoBundle 'ujihisa/unite-colorscheme'
-call neobundle#end()
-""""""""""""""""""""""
-"NeoBundle end
-""""""""""""""""""""""
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  call dein#add('Shougo/dein.vim')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('Shougo/unite.vim')
+  call dein#add('Shougo/neomru.vim')
+  call dein#add('tpope/vim-surround')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('Townk/vim-autoclose')
+  call dein#add('junegunn/vim-easy-align')
+  call dein#add('itchyny/lightline.vim')
+  call dein#add('Yggdroot/indentLine')
+  call dein#add('rking/ag.vim')
+  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+
+  call dein#add('altercation/vim-colors-solarized')
+  call dein#add('tomasr/molokai')
+  call dein#add('ujihisa/unite-colorscheme')
+
+  call dein#end()
+  call dein#save_state()
+endif
 
 filetype plugin indent on
+""""""""""""""""""""""
 
 """"""""""""""""""""""
 " plugin関係なし
@@ -50,7 +49,6 @@ filetype plugin indent on
 set ruler
 set number
 set title
-syntax on
 " 空白系
 set autoindent
 set smartindent
@@ -87,6 +85,7 @@ set clipboard=unnamed,autoselect
 """""""""""""""""""""
 set background=dark
 colorscheme solarized
+syntax enable
 """""""""""""""""""""
 
 """"""""""""""""""""""""""""""
@@ -132,43 +131,4 @@ noremap <C-N> :Unite -buffer-name=file file<CR>
 noremap <C-F> :Unite file_mru<CR>
 " sourcesを「今開いているファイルのディレクトリ」とする
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""
-" NeoBundle
-" NERDTree
-""""""""""""""""""""""""""""""
-" Ctrl + eでNERDTreeを起動
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-""""""""""""""""""""""""""""""
-
-
-""""""""""""""""""""""""""""""
-" NeoBundle
-" neocomplecache
-""""""""""""""""""""""""""""""
-" vim起動時にneocomplecacheを有効化
-" let g:neocomplcache_enable_at_startup=1
-" 大文字と小文字の区別を大文字が入力されるまで無視
-" let g:neocomplcache_enable_smart_case=1
-" '_' を区切りとしたワイルドカード検索
-" let g:neocomplcache_enable_underbar_completion=1
-" キャッシュの最小文字長を3にする
-" let g:neocomplcache_min_syntax_length=3
-" dictionaryの設定
-" let g:neocomplcache_dictionary_filetype_lists = {
-"     \ 'default' : ''
-"     \ }
-
-" Ctrl + gで前回行われた保管をキャンセル
-" inoremap <expr><C-g>     neocomplcache#undo_completion()
-" Ctrl + l で保管候補の中から共通する部分を保管(shell like)
-" inoremap <expr><C-l>     neocomplcache#complete_common_string()
-" TABで補完候補の選択
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" pop upを消す系
-" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y>  neocomplcache#close_popup()
-" inoremap <expr><C-v>  neocomplcache#cancel_popup()
 """"""""""""""""""""""""""""""
