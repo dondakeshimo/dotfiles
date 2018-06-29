@@ -22,17 +22,12 @@ if dein#load_state(s:dein_dir)
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/neomru.vim')
-  call dein#add('tpope/vim-surround')
-  call dein#add('tpope/vim-fugitive')
   call dein#add('Townk/vim-autoclose')
-  call dein#add('junegunn/vim-easy-align')
   call dein#add('itchyny/lightline.vim')
   call dein#add('Yggdroot/indentLine')
-  call dein#add('rking/ag.vim')
   call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 
   call dein#add('altercation/vim-colors-solarized')
-  call dein#add('tomasr/molokai')
   call dein#add('ujihisa/unite-colorscheme')
 
   call dein#end()
@@ -107,7 +102,6 @@ endif
 
 
 """"""""""""""""""""""""""""""
-"NeoBundle
 "lightline
 """"""""""""""""""""""""""""""
 set laststatus=2
@@ -118,17 +112,12 @@ let g:lightline = {
 """"""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
-" NeoBundle
-" Unit.vimの設定
+" Unit.vim
 """"""""""""""""""""""""""""""
 " 入力モードで開始する
 let g:unite_enable_start_insert=1
-" バッファ一覧
-noremap <C-P> :Unite buffer<CR>
-" ファイル一覧
-noremap <C-N> :Unite -buffer-name=file file<CR>
-" 最近使ったファイルの一覧
-noremap <C-F> :Unite file_mru<CR>
-" sourcesを「今開いているファイルのディレクトリ」とする
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+let g:unite_source_file_mru_limit = 200
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
 """"""""""""""""""""""""""""""
