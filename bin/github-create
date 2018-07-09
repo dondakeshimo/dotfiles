@@ -4,7 +4,7 @@
 REPO=$1
 DISC=$2
 GHUSER=$(git config --get github.user)
-PAYLOAD='{"name":"'$REPO'","description":"'$DISC'"}'
+PAYLOAD="{\"name\":\"$REPO\",\"description\":\"$DISC\"}"
 
 RES=$(curl -u $GHUSER https://api.github.com/user/repos -d $PAYLOAD --fail)
 

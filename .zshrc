@@ -91,8 +91,8 @@ alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
 (( $+commands[rmtrash] )) && alias rm='rmtrash'
-(( $+commands[gcc-8] )) && alias gcc='gcc-8'
-(( $+commands[g++-8] )) && alias g++='g++-8'
+(( $+commands[gcc-8] )) && alias gcc='gcc-7'
+(( $+commands[g++-8] )) && alias g++='g++-7'
 
 
 ##############################
