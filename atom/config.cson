@@ -1,4 +1,6 @@
 "*":
+  Hydrogen:
+    startDir: "dirOfFile"
   "atom-beautify":
     general:
       _analyticsUserId: "2e3e5f1c-313e-49a8-b869-08cc3da1a3c9"
