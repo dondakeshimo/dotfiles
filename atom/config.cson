@@ -37,7 +37,7 @@
       "H238"
     ]
   "linter-ui-default":
-    panelHeight: 69
+    panelHeight: 300
   "markdown-preview-plus":
     mathConfig:
       enableLatexRenderingByDefault: true

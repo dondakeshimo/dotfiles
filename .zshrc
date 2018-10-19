@@ -154,6 +154,12 @@ export PATH="$GOPATH/bin:$PATH"
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
 
+# rbenv setting
+export RBENV_ROOT="$HOME/.rbenv"
+export PATH="$RBENV_ROOT/bin:$PATH"
+export PATH="$RBENV_ROOT/shims:$PATH"
+eval "$(rbenv init -)"
+
 # exclude waiting time
 KEYTIMEOUT=1
 
