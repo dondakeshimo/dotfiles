@@ -26,3 +26,6 @@
 
 [github]
     user = dondakeshimo
+
+[ghq "CODECOMMIT-URL"]
+    vsc = git

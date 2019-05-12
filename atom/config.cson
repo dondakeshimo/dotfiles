@@ -13,6 +13,7 @@
       "markdown-preview"
       "language-gfm"
       "spell-check"
+      "markdown-scroll-sync"
     ]
     telemetryConsent: "limited"
     themes: [

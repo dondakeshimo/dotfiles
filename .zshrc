@@ -28,7 +28,13 @@ zplug load
 ##############################
 
 # zsh-completionsの設定
-fpath=(/usr/local/share/zsh/site-functions(N-/) $fpath)
+fpath=( \
+    /usr/local/share/zsh-completions(N-/) \
+    /usr/local/share/zsh/site-functions(N-/) \
+    /usr/local/share/zsh/functions(N-/) \
+    ~/.zsh/plugins/zsh-completions(N-/) \
+    $fpath \
+    )
 autoload -Uz compinit && compinit -u
 
 # autoload -Uz add-zsh-hook
@@ -91,8 +97,10 @@ alias vi='vim'
 alias ll='ls -l'
 alias la='ls -a'
 (( $+commands[rmtrash] )) && alias rm='rmtrash'
-(( $+commands[gcc-8] )) && alias gcc='gcc-7'
-(( $+commands[g++-8] )) && alias g++='g++-7'
+(( $+commands[gcc-7] )) && alias gcc='gcc-7'
+(( $+commands[g++-7] )) && alias g++='g++-7'
+(( $+commands[bundle] )) && alias be='bundle exec'
+alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 
 
 ##############################
@@ -159,6 +167,12 @@ export RBENV_ROOT="$HOME/.rbenv"
 export PATH="$RBENV_ROOT/bin:$PATH"
 export PATH="$RBENV_ROOT/shims:$PATH"
 eval "$(rbenv init -)"
+
+# direnv setting
+eval "$(direnv hook zsh)"
+
+# use mysql 5.6 first
+export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 
 # exclude waiting time
 KEYTIMEOUT=1
