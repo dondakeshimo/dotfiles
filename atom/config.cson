@@ -27,6 +27,7 @@
     showInvisibles: true
     softWrap: true
     softWrapAtPreferredLineLength: true
+    tabLength: 4
     tabType: "soft"
   "exception-reporting":
     userId: "38c0317c-6308-421d-98c0-3ed9cac1a40a"
@@ -43,6 +44,9 @@
     mathConfig:
       enableLatexRenderingByDefault: true
       numberEquations: true
+    syncConfig:
+      syncPreviewOnChange: true
+      syncPreviewOnEditorScroll: true
   minimap:
     plugins:
       bookmarks: true

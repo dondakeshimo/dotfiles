@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ $# -gt 1 ]; then
+    echo "too much arguments" >&2
+elif [ $# -eq 0 ]; then
+    echo "file dose not exist" >&2
+elif [[ ! -f $1 ]]; then
+    echo "file dose not exist" >&2
+fi
+
+filename="$(basename $1)"
+dirpath="$(dirname $1)"
+hatenafilename="$(echo $filename | sed 's/\.[^\.]*$//')_hatena.md"
+
+cp $1 "$dirpath/$hatenafilename"
+
+sed -i '' -E 's/^\$\$(.*)\$\$$/[tex:\1]/g' $hatenafilename
+sed -i '' -E 's/^\$\$(.*)/[tex:\1/g' $hatenafilename
+sed -i '' -E 's/(.*)\$\$$/\1]/g' $hatenafilename
+sed -i '' -E 's/\$(.*)\$/[tex: \1 ]/g' $hatenafilename
