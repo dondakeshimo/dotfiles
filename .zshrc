@@ -3,16 +3,13 @@
 ##############################
 
 export ZPLUG_HOME=$HOME/.zplug
-export ZPLUG_REPOS=$ZPLUG_HOME/repos
-export ZPLUG_CACHE_DIR=$ZPLUG_HOME/.cache
-export ZPLUG_BIN=$ZPLUG_HOME/bin
 source $ZPLUG_HOME/init.zsh
 
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug "themes/ys", from:oh-my-zsh
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 5.5"
+zplug "zsh-users/zsh-history-substring-search"
 zplug 'mollifier/anyframe'
 zplug "b4b4r07/enhancd", use:init.sh
 
