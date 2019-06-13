@@ -2,7 +2,10 @@
 # zplug
 ##############################
 
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=$HOME/.zplug
+export ZPLUG_REPOS=$ZPLUG_HOME/repos
+export ZPLUG_CACHE_DIR=$ZPLUG_HOME/.cache
+export ZPLUG_BIN=$ZPLUG_HOME/bin
 source $ZPLUG_HOME/init.zsh
 
 zplug 'zsh-users/zsh-autosuggestions'
@@ -126,7 +129,7 @@ zstyle ':completion:*:options' description 'yes'
 export CLICOLOR=true
 export LSCOLORS='exfxcxdxbxGxDxabagacad'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=grey'
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='bg=black'
 export EDITOR=vim
 export HISTFILE=~/.zsh_history
 export HISTSIZE=1000000
