@@ -1,0 +1,11 @@
+#!/usr/local/bin/zsh
+
+
+if [[ $1 = "ssh" ]] then;
+    echo " 🍣 ssh 🍣 "
+elif [[ $1 = "docker" ]] then;
+    echo " 🐶 docker 🐶 "
+else
+    echo " 🍺 "
+fi
+
