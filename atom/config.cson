@@ -1,5 +1,6 @@
 "*":
   Hydrogen:
+    outputAreaDefault: true
     startDir: "dirOfFile"
   "atom-beautify":
     general:
@@ -38,7 +39,7 @@
       "H238"
     ]
   "linter-ui-default":
-    panelHeight: 300
+    panelHeight: 69
   "markdown-preview-plus":
     mathConfig:
       enableLatexRenderingByDefault: true

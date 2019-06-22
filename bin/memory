@@ -3,9 +3,40 @@
 # check the command whether there is
 has() { type "$1" &>/dev/null; }
 
+check_level_lt() {
+    if [ $1 -lt $2 ]; then
+        color="#[fg=red]"
+    elif [ $1 -lt $3 ]; then
+        color="#[fg=green]"
+    else
+        color="#[fg=blue]"
+    fi
+    echo $color
+}
+
+check_level_gt() {
+    if [ $1 -gt $2 ]; then
+        color="#[fg=red]"
+    elif [ $1 -gt $3 ]; then
+        color="#[fg=green]"
+    else
+        color="#[fg=blue]"
+    fi
+    echo $color
+}
+
 if ! has "vm_stat"; then
     exit 1
 fi
+
+LF=20
+MF=40
+HU=70
+MU=50
+HC=30
+MC=20
+
+color=""
 
 free="$(vm_stat | awk '/^Pages free/{print$3}' | tr -d '.')"
 wired="$(vm_stat | awk '/^Pages wired/{print$4}' | tr -d '.')"
@@ -29,5 +60,13 @@ free="$(printf '%.0f' $free)"
 used="$(printf '%.0f' $used)"
 cached="$(printf '%.0f' $cached)"
 
-echo -e "Mem[F:${free}|U:${used}|C:${cached}](%)"
+title="#[fg=default]MEM#[fg=white]"
+free_color="$(check_level_lt $free $LF $MF)"
+used_color="$(check_level_gt $used $HU $MU)"
+cached_color="$(check_level_gt $cached $HC $MC)"
+free_c="$free_color$free#[fg=white]"
+used_c="$used_color$used#[fg=white]"
+cached_c="$cached_color$cached#[fg=white]"
+
+echo -e "$title[F:${free_c}|U:${used_c}|C:${cached_c}](%)"
 

@@ -1,0 +1,38 @@
+#!//bin/bash
+
+# check the command whether there is
+has() { type "$1" &>/dev/null; }
+
+check_level() {
+    if [ $1 -gt $2 ]; then
+        color="#[fg=red]"
+    elif [ $1 -gt $3 ]; then
+        color="#[fg=green]"
+    else
+        color="#[fg=blue]"
+    fi
+    echo $color
+}
+
+if ! has "top"; then
+    exit 1
+fi
+
+HP=75
+MP=40
+
+color=""
+
+cpu_usage="$(top -l 1 -n 0 -s 0| grep "CPU usage")"
+cpu_usage_rate="$(echo $cpu_usage | awk '{print$3}' | cut -f 1 -d '.')"
+cpu_user_rate="$(echo $cpu_usage | awk '{print$5}' | cut -f 1 -d '.')"
+cpu_sys_rate="$(echo $cpu_usage | awk '{print$7}' | cut -f 1 -d '.')"
+
+title="#[fg=default]CPU#[fg=white]"
+usage_color="$(check_level $cpu_usage_rate $HP $MP)"
+user_color="$(check_level $cpu_user_rate $HP $MP)"
+sys_color="$(check_level $cpu_sys_rate $HP $MP)"
+usage="$usage_color$cpu_usage_rate#[fg=white]"
+user="$user_color$cpu_user_rate#[fg=white]"
+sys="$sys_color$cpu_sys_rate#[fg=white]"
+echo -e "$title[T:$usage|(U:$user|S:$sys)](%)"
