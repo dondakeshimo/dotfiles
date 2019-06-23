@@ -1,4 +1,11 @@
-#!/usr/local/bin/zsh
+#!/bin/bash
+
+# check the command whether there is
+has() { type "$1" &>/dev/null; }
+
+if ! has "ghq"; then
+    exit 1
+fi
 
 # create github repository
 REPO=$1
@@ -9,7 +16,7 @@ PAYLOAD="{\"name\":\"$REPO\",\"description\":\"$DISC\"}"
 RES=$(curl -u $GHUSER https://api.github.com/user/repos -d $PAYLOAD --fail)
 
 # ghq get repository
-if [[ -n $RES ]];then
+if [ -n $RES ]; then
     ghq get git@github.com:$GHUSER/$REPO.git
 else
    echo "response is null" 1>&2

@@ -30,4 +30,3 @@ disk_color="$(check_level_gt $disk $HD $MD)"
 disk_c="$disk_color$disk#[fg=white]"
 
 echo -e "$title:$disk_c%"
-

@@ -69,4 +69,3 @@ used_c="$used_color$used#[fg=white]"
 cached_c="$cached_color$cached#[fg=white]"
 
 echo -e "$title[F:${free_c}|U:${used_c}|C:${cached_c}](%)"
-

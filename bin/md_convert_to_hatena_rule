@@ -1,11 +1,15 @@
 #!/bin/bash
 
+is_osx() { [[ $OSTYPE == darwin* ]]; }
+
 if [ $# -gt 1 ]; then
     echo "too much arguments" >&2
 elif [ $# -eq 0 ]; then
     echo "file dose not exist" >&2
-elif [[ ! -f $1 ]]; then
+elif [ ! -f $1 ]; then
     echo "file dose not exist" >&2
+elif is_osx; then
+    echo "this command is only supported by osx"
 fi
 
 filename="$(basename $1)"
@@ -17,4 +21,6 @@ cp $1 "$dirpath/$hatenafilename"
 sed -i '' -E 's/^\$\$(.*)\$\$$/[tex:\1]/g' $hatenafilename
 sed -i '' -E 's/^\$\$(.*)/[tex:\1/g' $hatenafilename
 sed -i '' -E 's/(.*)\$\$$/\1]/g' $hatenafilename
+sed -i '' -E 's/\$([^\$]*)\$/[tex: \1 ]/g' $hatenafilename
 sed -i '' -E 's/\$(.*)\$/[tex: \1 ]/g' $hatenafilename
+sed -i '' -E 's/_/\\_/g' $hatenafilename
