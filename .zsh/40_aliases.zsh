@@ -13,8 +13,8 @@ alias la='ls -a'
 (( $+commands[rmtrash] )) && alias rm='rmtrash'
 
 # to use gcc version 7
-(( $+commands[gcc-7] )) && alias gcc='gcc-7'
-(( $+commands[g++-7] )) && alias g++='g++-7'
+#(( $+commands[gcc-7] )) && alias gcc='gcc-7'
+#(( $+commands[g++-7] )) && alias g++='g++-7'
 
 # short cut bundle exec for rails
 (( $+commands[bundle] )) && alias be='bundle exec'

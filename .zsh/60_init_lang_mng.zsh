@@ -11,7 +11,7 @@ eval "$(pyenv init -)"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
 # gcc PATH setting for lightGBM
-export PATH="/usr/local/Cellar/gcc/8.1.0/bin:$PATH"
+# export PATH="/usr/local/Cellar/gcc/8.1.0/bin:$PATH"
 
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
