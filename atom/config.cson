@@ -19,23 +19,26 @@
     telemetryConsent: "limited"
     themes: [
       "one-dark-ui"
-      "slime"
+      "an-old-hope-syntax"
     ]
   editor:
-    fontSize: 12
+    fontFamily: "Ricty Diminished, Menlo, Consolas, DejaVu Sans Mono, monospace"
     scrollPastEnd: true
     showIndentGuide: true
     showInvisibles: true
     softWrap: true
     softWrapAtPreferredLineLength: true
-    tabLength: 4
     tabType: "soft"
   "exception-reporting":
     userId: "38c0317c-6308-421d-98c0-3ed9cac1a40a"
+  "fuzzy-finder":
+    scoringSystem: "fast"
+    useRipGrep: true
   latex:
     engine: "uplatex"
     opener: "pdf-view"
   "linter-flake8":
+    executablePath: "/Users/taku/.pyenv/versions/3.7.3/bin/flake8"
     ignoreErrorCodes: [
       "H238"
     ]
