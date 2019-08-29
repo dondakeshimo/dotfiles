@@ -29,7 +29,7 @@ if ! has "brew"; then
     echo "Homebrew is something wrong"
     exit 1
 fi
-brew install git vim zsh tmux reattach-to-user-namespace go
+brew install git vim zsh tmux reattach-to-user-namespace go fzy
 
 
 # ghq setup
