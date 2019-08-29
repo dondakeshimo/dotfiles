@@ -52,7 +52,7 @@ set expandtab
 set tabstop=4
 set ambiwidth=double
 set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 " カーソル系
 set whichwrap=b,s,[,],<,>
 set backspace=indent,eol,start
