@@ -14,7 +14,6 @@ else
 
     zplug 'zsh-users/zsh-autosuggestions'
     zplug 'zsh-users/zsh-completions'
-    zplug "themes/ys", from:oh-my-zsh
     zplug 'zsh-users/zsh-syntax-highlighting', defer:2
     zplug "zsh-users/zsh-history-substring-search"
     zplug 'mollifier/anyframe'
@@ -46,6 +45,7 @@ else
     # ------------------------ #
     autoload -Uz add-zsh-hook
     autoload -Uz vcs_info
+    autoload -Uz colors
 
 
     # ----------------------- #
