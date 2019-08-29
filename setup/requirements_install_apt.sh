@@ -47,8 +47,13 @@ fi
 ghq get https://github.com/dondakeshimo/dotfiles.git
 
 
+# change shell zsh
+chsh -s $(which zsh)
+
+
 # success message
 echo
 echo "Requirements installing is success!!"
-
+echo "Please restating shell"
+echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
 
