@@ -53,14 +53,6 @@ export ZPLUG_HOME="$HOME/.zplug"
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 
-# download my dotfiles
-if ! has "ghq"; then
-    echo "ghq is something wrong"
-    exit 1
-fi
-ghq get https://github.com/dondakeshimo/dotfiles.git
-
-
 # success message
 echo
 echo "Requirements installing is success!!"
