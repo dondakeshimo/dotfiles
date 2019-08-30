@@ -82,6 +82,7 @@ zstyle ':vcs_info:git+set-message:*' hooks \
     fi
 
     git_status="$(git status 2> /dev/null)"
+    hook_com[misc]=""
 
     git-push-status ${git_status}
     git-diverge-status ${git_status}
