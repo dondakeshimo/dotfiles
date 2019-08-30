@@ -16,7 +16,7 @@ sudo apt update
 sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libffi-dev liblzma-dev python-openssl git \
-    vim zsh tmux reattach-to-user-namespace golang
+    vim zsh tmux reattach-to-user-namespace golang fzy
 
 
 # ghq setup
@@ -39,8 +39,13 @@ fi
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 
+# change shell zsh
+chsh -s $(which zsh)
+
+
 # success message
 echo
 echo "Requirements installing is success!!"
-
+echo "Please restating shell"
+echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
 

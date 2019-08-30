@@ -29,7 +29,7 @@ if ! has "brew"; then
     echo "Homebrew is something wrong"
     exit 1
 fi
-brew install git vim zsh tmux reattach-to-user-namespace go
+brew install git vim zsh tmux reattach-to-user-namespace go fzy
 
 
 # ghq setup
@@ -53,7 +53,13 @@ export ZPLUG_HOME="$HOME/.zplug"
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 
+# change shell zsh
+chsh -s $(which zsh)
+
+
 # success message
 echo
 echo "Requirements installing is success!!"
+echo "Please restating shell"
+echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
 
