@@ -5,12 +5,12 @@
 
 ### 1. (Mac) Install requirements and setting zsh
 
+##### If you use Mac
 ```
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/requirements_install_mac.sh)"
 ```
 
-### 1. (apt) Install requirements and setting zsh
-
+##### If you use Linux(apt)
 ```
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/requirements_install_apt.sh)"
 ```
