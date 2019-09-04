@@ -3,7 +3,7 @@
 
 # Install
 
-### 1. (Mac) Install requirements and setting zsh
+### 1. Install requirements and setting zsh
 
 ##### If you use Mac
 ```
