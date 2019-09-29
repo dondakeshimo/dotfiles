@@ -31,16 +31,16 @@ go get github.com/motemen/ghq
 echo '[ghq]\n\troot = $HOME/Scripts/src' >> $HOME/.gitconfig
 
 
+# change shell zsh
+chsh -s $(which zsh)
+
+
 # install zplug
 if ! has "zsh"; then
     echo "zsh is something wrong"
     exit 1
 fi
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-
-
-# change shell zsh
-chsh -s $(which zsh)
 
 
 # success message

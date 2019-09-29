@@ -68,6 +68,7 @@ do
             ;;
         'git' )
             FLAG_GIT=true
+            ;;
         'atom' )
             FLAG_ATOM=true
             ;;
