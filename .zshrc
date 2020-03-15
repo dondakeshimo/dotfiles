@@ -55,4 +55,11 @@ else
     do
         source "$f"
     done
+
+
+    # ------------------------------------------- #
+    # os_detect set OS type to $PLATFORM variable #
+    # defined in 10_utils.zsh                     #
+    # ------------------------------------------- #
+    os_detect
 fi
