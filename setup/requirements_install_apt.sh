@@ -11,7 +11,7 @@ if ! has "apt"; then
 fi
 
 
-# install requirements via homebrew
+# install requirements via apt
 sudo apt update
 sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
@@ -19,6 +19,7 @@ sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
     vim zsh tmux golang fzy
 
 
+# TODO: fix go version to work ghq
 # ghq setup
 if ! has "go"; then
     echo "golang is something wrong"

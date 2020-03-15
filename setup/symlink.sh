@@ -184,6 +184,61 @@ if "$FLAG_BIN"; then
     do
         [[ "$f" == ".git" ]] && continue
         [[ "$f" == ".DS_Store" ]] && continue
+        [ -d "$f" ] && continue
+
+        if [ -e $GOPATH/$f ]; then
+            if confirm_execution; then
+                ln -sf $PWD/$f $GOPATH/bin
+                echo "$f is overwrittened."
+            else
+                echo "$f is skipped."
+                continue
+            fi
+        else
+            if [ ! -d $GOPATH/bin ]; then
+                mkdir $GOPATH/bin
+            fi
+
+            ln -sf $PWD/$f $GOPATH/bin
+            echo "$f is linked."
+        fi
+    done
+fi
+
+
+# TODO: fix to work confirm_execution
+if "$FLAG_BIN" && [ $(uname) = 'Darwin' ]; then
+    for f in bin/osx/*
+    do
+        [[ "$f" == ".git" ]] && continue
+        [[ "$f" == ".DS_Store" ]] && continue
+
+        if [ -e $GOPATH/$f ]; then
+            if confirm_execution; then
+                ln -sf $PWD/$f $GOPATH/bin
+                echo "$f is overwrittened."
+            else
+                echo "$f is skipped."
+                continue
+            fi
+        else
+            if [ ! -d $GOPATH/bin ]; then
+                mkdir $GOPATH/bin
+            fi
+
+            ln -sf $PWD/$f $GOPATH/bin
+            echo "$f is linked."
+        fi
+    done
+fi
+
+
+# TODO: fix to work confirm_execution
+if "$FLAG_BIN" && [ $(uname) = 'Linux' ]; then
+    for f in bin/linux/*
+    do
+        [[ "$f" == ".git" ]] && continue
+        [[ "$f" == ".DS_Store" ]] && continue
 
         if [ -e $GOPATH/$f ]; then
             if confirm_execution; then
