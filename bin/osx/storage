@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# check the command whether there is
+has() { type "$1" &>/dev/null; }
+
+check_level_gt() {
+    if [ $1 -gt $2 ]; then
+        color="#[fg=red]"
+    elif [ $1 -gt $3 ]; then
+        color="#[fg=green]"
+    else
+        color="#[fg=blue]"
+    fi
+    echo $color
+}
+
+if ! has "df"; then
+    exit 1
+fi
+
+HD=75
+MD=50
+
+color=""
+
+disk="$(df | grep '^/dev/disk1s1' | awk '{print$5}' | tr -d '%')"
+
+title="#[fg=default]SSD#[fg=white]"
+disk_color="$(check_level_gt $disk $HD $MD)"
+disk_c="$disk_color$disk#[fg=white]"
+
+echo -e "$title:$disk_c%"
