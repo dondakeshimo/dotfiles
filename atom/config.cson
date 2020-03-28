@@ -67,5 +67,6 @@
     fitToWidthOnOpen: true
   "tree-view":
     hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
   welcome:
     showOnStartup: false

@@ -29,3 +29,5 @@
 
 [ghq "CODECOMMIT-URL"]
     vsc = git
+[merge]
+	tool = vimdiff
