@@ -28,7 +28,6 @@ function confirm_execution() {
 FLAG_ZSH=false
 FLAG_VIM=false
 FLAG_TMUX=false
-FLAG_SSH=false
 FLAG_GIT=false
 FLAG_ATOM=false
 FLAG_BIN=false
@@ -42,7 +41,6 @@ do
             FLAG_ZSH=true
             FLAG_VIM=true
             FLAG_TMUX=true
-            FLAG_SSH=true
             FLAG_GIT=true
             FLAG_ATOM=true
             FLAG_BIN=true
@@ -51,7 +49,6 @@ do
             FLAG_ZSH=true
             FLAG_VIM=true
             FLAG_TMUX=true
-            FLAG_SSH=true
             FLAG_GIT=true
             ;;
         'zsh' )
@@ -62,9 +59,6 @@ do
             ;;
         'tmux' )
             FLAG_TMUX=true
-            ;;
-        'ssh' )
-            FLAG_SSH=true
             ;;
         'git' )
             FLAG_GIT=true
@@ -88,7 +82,6 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
     [[ "$f" == ".zsh" ]] && continue
-    [[ "$f" == ".ssh" ]] && continue
 
     [[ "$f" == ".zshrc" ]] && if ! "$FLAG_ZSH"; then continue; fi
     [[ "$f" == ".vimrc" ]] && if ! "$FLAG_VIM"; then continue; fi
@@ -108,22 +101,6 @@ do
         ln -sf $PWD/$f $HOME
     fi
 done
-
-
-if "$FLAG_SSH"; then
-    f=".ssh/config"
-    if [ -e $HOME/$f ]; then
-        if confirm_execution; then
-            ln -sf $PWD/$f $HOME/.ssh
-            echo "$f is overwrittened."
-        else
-            echo "$f is skipped."
-        fi
-    else
-        ln -sf $PWD/$f $HOME/.ssh
-        echo "$f is linked."
-    fi
-fi
 
 
 if "$FLAG_ATOM"; then

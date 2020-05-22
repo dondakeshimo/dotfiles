@@ -37,3 +37,9 @@ fi
 
 # use mysql 5.6 first
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
+
+# gcloud setting
+if has "gcloud"; then
+    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi

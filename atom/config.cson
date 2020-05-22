@@ -15,7 +15,9 @@
       "language-gfm"
       "spell-check"
       "markdown-scroll-sync"
+      "linter-eslint"
     ]
+    excludeVcsIgnoredPaths: false
     telemetryConsent: "limited"
     themes: [
       "one-dark-ui"
@@ -23,6 +25,8 @@
     ]
   editor:
     fontFamily: "Ricty Diminished, Menlo, Consolas, DejaVu Sans Mono, monospace"
+    fontSize: 16
+    preferredLineLength: 110
     scrollPastEnd: true
     showIndentGuide: true
     showInvisibles: true
@@ -67,5 +71,6 @@
     fitToWidthOnOpen: true
   "tree-view":
     hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
   welcome:
     showOnStartup: false

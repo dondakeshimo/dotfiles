@@ -18,5 +18,8 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export GOPATH="$HOME/Scripts"
 export PATH="$GOPATH/bin:$PATH"
 
+# poetry setting
+export PATH="$HOME/.poetry/bin:$PATH"
+
 # exclude waiting time
 KEYTIMEOUT=1
