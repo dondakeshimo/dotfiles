@@ -166,8 +166,6 @@ let g:lightline = {
   \   'filename': 'MyFilename',
   \   'gitgutter': 'MyGitGutter',
   \ },
-  \ 'separator': {'left': '⮀', 'right': '⮂'},
-  \ 'subseparator': {'left': '⮁', 'right': '⮃'}
   \ }
 
 function! MyModified()
@@ -189,18 +187,18 @@ function! MyFugitive()
   try
     if exists('*fugitive#head')
       let _ = fugitive#head()
-      return strlen(_) ? '⭠ '._ : ''
+      return strlen(_) ? "\u2d84  " ._ : ''
     endif
   catch
   endtry
   return ''
 endfunction
 
-let g:lightline#ale#indicator_checking = "\uf110"
-let g:lightline#ale#indicator_infos = "\uf129"
-let g:lightline#ale#indicator_warnings = "\uf071"
-let g:lightline#ale#indicator_errors = "\uf05e"
-let g:lightline#ale#indicator_ok = "\uf00c"
+let g:lightline#ale#indicator_checking = "\u21ba"
+let g:lightline#ale#indicator_infos = "\u2139"
+let g:lightline#ale#indicator_warnings = "\u26a0"
+let g:lightline#ale#indicator_errors = "\u2620"
+let g:lightline#ale#indicator_ok = "\u2714"
 
 let g:lightline.component_expand = {
  \ 'linter_checking': 'lightline#ale#checking',
@@ -248,8 +246,8 @@ highlight clear SignColumn
 """"""""""""""""""""""""""""""
 " ale
 """"""""""""""""""""""""""""""
-let g:ale_sign_error = "\uf05e"
-let g:ale_sign_warning = "\uf071"
+let g:ale_sign_error = "\u2620"
+let g:ale_sign_warning = "\u26a0"
 """"""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
