@@ -17,7 +17,7 @@ if has "brew"; then
 else
     if has "/usr/bin/ruby"; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    else; then
+    else
         echo "Ruby is requred. OSX consists Ruby. Is this OSX allright?"
         exit 1
     fi
@@ -44,6 +44,10 @@ echo '[ghq]\n\troot = $HOME/Scripts/src' >> $HOME/.gitconfig
 go get github.com/motemen/ghq
 
 
+# change shell zsh
+chsh -s $(which zsh)
+
+
 # install zplug
 if ! has "zsh"; then
     echo "zsh is something wrong"
@@ -53,8 +57,7 @@ export ZPLUG_HOME="$HOME/.zplug"
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 
-# change shell zsh
-chsh -s $(which zsh)
+# TODO brew install nerd-tree-font
 
 
 # success message

@@ -5,9 +5,6 @@
 [core]
     excludesfile = /Users/taku/.gitignore_global
 
-[commit]
-    template = /Users/taku/.stCommitMsg
-
 [color]
     ui = auto
     status = auto

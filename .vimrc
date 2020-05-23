@@ -96,6 +96,8 @@ set incsearch
 set wrapscan
 " クリップボードにコピー
 set clipboard=unnamed,autoselect
+" updatetime
+set updatetime=100
 """"""""""""""""""""""
 
 """""""""""""""""""""

@@ -44,6 +44,10 @@ fi
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 
+# TODO: nerd-fontのinstall
+# TODO: nerd font comaptible font のインストール
+
+
 # success message
 echo
 echo "Requirements installing is success!!"
