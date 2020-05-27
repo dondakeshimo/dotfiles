@@ -23,7 +23,7 @@ MD=50
 
 color=""
 
-disk="$(df | grep '^/dev/disk1s1' | awk '{print$5}' | tr -d '%')"
+disk="$(df | grep '^/dev/nvme0n1p1' | awk '{print$5}' | tr -d '%')"
 
 title="#[fg=default]SSD#[fg=white]"
 disk_color="$(check_level_gt $disk $HD $MD)"
