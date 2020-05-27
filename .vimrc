@@ -32,7 +32,6 @@ if dein#load_state(s:dein_dir)
   call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/neomru.vim')
   call dein#add('preservim/nerdtree')
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('dense-analysis/ale')
   call dein#add('tpope/vim-fugitive')
@@ -46,6 +45,9 @@ if dein#load_state(s:dein_dir)
   call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#add('altercation/vim-colors-solarized')
   call dein#add('ujihisa/unite-colorscheme')
+
+  " nerd-fontのインストール必須
+  call dein#add('Xuyuanp/nerdtree-git-plugin')
 
   call dein#end()
   call dein#save_state()
