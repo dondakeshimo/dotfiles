@@ -77,6 +77,6 @@ has() {
     echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
     echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
     echo
-    echo "If you want to use NerdTree in vim, you have to install nerd-font"
+    echo "If you want to use decorated NerdTree in vim, you have to install nerd-font"
     echo "https://github.com/ryanoasis/nerd-fonts"
 }
