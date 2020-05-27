@@ -196,11 +196,11 @@ function! MyFugitive()
   return ''
 endfunction
 
-let g:lightline#ale#indicator_checking = "\u21ba"
-let g:lightline#ale#indicator_infos = "\u2139"
-let g:lightline#ale#indicator_warnings = "\u26a0"
-let g:lightline#ale#indicator_errors = "\u2620"
-let g:lightline#ale#indicator_ok = "\u2714"
+let g:lightline#ale#indicator_checking = "\u21ba "
+let g:lightline#ale#indicator_infos = "\u2139 "
+let g:lightline#ale#indicator_warnings = "\u26a0 "
+let g:lightline#ale#indicator_errors = "\u2620 "
+let g:lightline#ale#indicator_ok = "\u2714 "
 
 let g:lightline.component_expand = {
  \ 'linter_checking': 'lightline#ale#checking',
