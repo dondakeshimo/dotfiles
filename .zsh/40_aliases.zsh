@@ -24,4 +24,4 @@ alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/C
 
 # fzy util
 alias treecd='tree --charset=o -f | fzy | tr -d '"'"'\||`|-'"'"' | xargs echo | cd'
-alias ghqcd='ghq list --full-path | fzy | xargs echo | cd'
+alias gcd='ghq list --full-path | fzy | xargs echo | cd'
