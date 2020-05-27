@@ -25,10 +25,6 @@ check_level_gt() {
     echo $color
 }
 
-if ! has "vm_stat"; then
-    exit 1
-fi
-
 LF=20
 MF=40
 HU=70
@@ -38,23 +34,14 @@ MC=20
 
 color=""
 
-free="$(vm_stat | awk '/^Pages free/{print$3}' | tr -d '.')"
-wired="$(vm_stat | awk '/^Pages wired/{print$4}' | tr -d '.')"
-active="$(vm_stat | awk '/^Pages active/{print$3}' | tr -d '.')"
-inactive="$(vm_stat | awk '/^Pages inactive/{print$3}' | tr -d '.')"
-speculative="$(vm_stat | awk '/^Pages speculative/{print$3}' | tr -d '.')"
-compressor="$(vm_stat | awk '/^Pages occupied/{print$5}' | tr -d '.')"
-purgeable="$(vm_stat | awk '/^Pages purgeable/{print$3}' | tr -d '.')"
-file_backed="$(vm_stat | awk '/^File-backed/{print$3}' | tr -d '.')"
-
-cached="$(($purgeable + $file_backed))"
-used="$(($wired + $active + $inactive + $speculative + $compressor - $cached))"
-total="$(($free + $used + $cached))"
+total="$(free | awk '/Mem/{print$2}')"
+used="$(free | awk '/Mem/{print$3}')"
+free="$(free | awk '/Mem/{print$4}')"
+cached="$(free | awk '/Mem/{print$6}')"
 
 free="$(echo "${free}.0 / ${total}.0 * 100" | bc -l)"
 used="$(echo "${used}.0 / ${total}.0 * 100" | bc -l)"
 cached="$(echo "${cached}.0 / ${total}.0 * 100" | bc -l)"
-total="$(echo "${free} + ${used} + ${cached}" | bc -l)"
 
 free="$(printf '%.0f' $free)"
 used="$(printf '%.0f' $used)"
