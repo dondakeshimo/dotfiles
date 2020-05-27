@@ -27,6 +27,7 @@ has() {
 
 
 : "Install ghq" && {
+    # check go exist
     if ! has "go"; then
         echo "golang is something wrong"
         exit 1
@@ -66,8 +67,9 @@ has() {
 }
 
 
-# success message
-echo
-echo "Requirements installing is success!!"
-echo "Please restating shell"
-echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
+: "Echo success messages" && {
+    echo
+    echo "Requirements installing is success!!"
+    echo "Please restating shell"
+    echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
+}
