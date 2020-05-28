@@ -15,16 +15,13 @@ $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setu
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/requirements_install_apt.sh)"
 ```
 
-### 2. Restart your shell
+### 2. Restart or Logout
 
-```
-$ exec $SHELL -l
-```
 
 ### 3. Download this repository
 
 ```
-$ ghq get https://github.com/dondakeshimo/dotfiles.git
+$ $HOME/Scripts/bin/ghq get https://github.com/dondakeshimo/dotfiles.git
 ```
 
 ### 4. Deploy dotfiles

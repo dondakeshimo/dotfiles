@@ -40,7 +40,7 @@ has() {
 
     # install ghq
     go get -v github.com/motemen/ghq
-    echo -e '[ghq]\n\troot = $HOME/Scripts/src' >> $HOME/.gitconfig
+    echo -e "[ghq]\n\troot = $HOME/Scripts/src" >> $HOME/.gitconfig
 }
 
 
@@ -61,7 +61,7 @@ has() {
 : "Echo success messages" && {
     echo
     echo "Requirements installing is success!!"
-    echo "Please restating shell"
+    echo "Please restart or logout to change shell to zsh"
     echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
     echo
     echo "If you want to use decorated NerdTree in vim, you have to install nerd-font"
