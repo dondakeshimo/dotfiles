@@ -20,7 +20,7 @@ has() {
         vim zsh tmux fzy
 
     # install golang from ppa:longsleep because of version
-    sudo add-apt-repository ppa:longsleep/golang-backports
+    sudo add-apt-repository -y ppa:longsleep/golang-backports
     sudo apt update
     sudo apt install golang-go
 }
@@ -36,11 +36,11 @@ has() {
     # go setting
     mkdir "$HOME/Scripts"
     export GOPATH="$HOME/Scripts"
-    export PATH="$GOHOME/Scripts/bin:$PATH"
+    export PATH="$GOPATH/bin:$PATH"
 
     # install ghq
-    go get github.com/motemen/ghq
-    echo '[ghq]\n\troot = $HOME/Scripts/src' >> $HOME/.gitconfig
+    go get -v github.com/motemen/ghq
+    echo -e '[ghq]\n\troot = $HOME/Scripts/src' >> $HOME/.gitconfig
 }
 
 
