@@ -18,16 +18,22 @@ $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setu
 ### 2. Restart or Logout
 
 
-### 3. Download this repository
+### 3. Export GOPATH
+```
+$ export GOPATH="$HOME/Scripts"
+```
+
+
+### 4. Download this repository
 
 ```
-$ $HOME/Scripts/bin/ghq get https://github.com/dondakeshimo/dotfiles.git
+$ ghq get https://github.com/dondakeshimo/dotfiles.git
 ```
 
-### 4. Deploy dotfiles
+### 5. Deploy dotfiles
 
 ```
 $ cd $HOME/Scripts/src/github.com/dondakeshimo/dotfiles/setup
-$ ./symlink.sh
+$ ./symlink.sh all
 ```
 
