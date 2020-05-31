@@ -226,6 +226,12 @@ done
     if ! "$FLAG_BIN"; then exit 0;fi
     if "$FLAG_BIN" && [ $(uname) = 'Linux' ]; then ostype="linux"; fi
     if "$FLAG_BIN" && [ $(uname) = 'Darwin' ]; then ostype="osx"; fi
+    if [ ! "{$GOPATH:+isdefined}" ]; then
+        echo 'You must define $GOPATH'
+        echo 'example:'
+        echo '$ export GOPATH="$HOME/Scripts"'
+        exit 1
+    fi
 
     for f in bin/"$ostype"/*
     do

@@ -20,7 +20,7 @@ has() {
         git vim zsh tmux fzy
 
     # install golang from ppa:longsleep because of version
-    sudo add-apt-repository ppa:longsleep/golang-backports
+    sudo add-apt-repository -y ppa:longsleep/golang-backports
     sudo apt update
     sudo apt install golang-go
 }
@@ -36,11 +36,11 @@ has() {
     # go setting
     mkdir "$HOME/Scripts"
     export GOPATH="$HOME/Scripts"
-    export PATH="$GOHOME/Scripts/bin:$PATH"
+    export PATH="$GOPATH/bin:$PATH"
 
     # install ghq
-    go get github.com/motemen/ghq
-    echo '[ghq]\n\troot = $HOME/Scripts/src' >> $HOME/.gitconfig
+    go get -v github.com/motemen/ghq
+    echo -e "[ghq]\n\troot = $HOME/Scripts/src" >> $HOME/.gitconfig
 }
 
 
@@ -61,7 +61,7 @@ has() {
 : "Echo success messages" && {
     echo
     echo "Requirements installing is success!!"
-    echo "Please restating shell"
+    echo "Please restart or logout to change shell to zsh"
     echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
     echo
     echo "If you want to use decorated NerdTree in vim, you have to install nerd-font"
