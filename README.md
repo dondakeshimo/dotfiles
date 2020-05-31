@@ -37,3 +37,12 @@ $ cd $HOME/Scripts/src/github.com/dondakeshimo/dotfiles/setup
 $ ./symlink.sh all
 ```
 
+### (6. More)
+
+- Install teminal color scheme
+    - `setup/installer/solarized/`
+- Install Docker
+    - https://docs.docker.com/engine/install/
+- Install nvidia-docker
+    - https://qiita.com/ksasaki/items/b20a785e1a0f610efa08
+- Install pyenv
