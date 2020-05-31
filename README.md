@@ -15,32 +15,24 @@ $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setu
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/requirements_install_apt.sh)"
 ```
 
-### 2. Restart or Logout
-
-
-### 3. Export GOPATH
+### 2. Deploy dotfiles
 ```
 $ export GOPATH="$HOME/Scripts"
-```
-
-
-### 4. Download this repository
-
-```
-$ ghq get https://github.com/dondakeshimo/dotfiles.git
-```
-
-### 5. Deploy dotfiles
-
-```
-$ cd $HOME/Scripts/src/github.com/dondakeshimo/dotfiles/setup
+$ cd $GOPATH/src/github.com/dondakeshimo/dotfiles/setup
 $ ./symlink.sh all
 ```
 
-### (6. More)
+
+### 3. Restart or Logout
+
+
+### (4. More)
 
 - Install teminal color scheme
     - `setup/installer/solarized/`
+- Install nerd-font
+    - `setup/installer/install_nerdfont.sh`
+    - `brew tap homebrew/cask-fonts; brew cask install <SOME NERD FONT>`
 - Install Docker
     - https://docs.docker.com/engine/install/
 - Install nvidia-docker

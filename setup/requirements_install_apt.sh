@@ -58,11 +58,15 @@ has() {
 }
 
 
+: "Clone dotfiles repository" && {
+    ghq get https://github.com/dondakeshimo/dotfiles.git
+}
+
+
 : "Echo success messages" && {
     echo
     echo "Requirements installing is success!!"
-    echo "Please restart or logout to change shell to zsh"
-    echo "And make symlink dotfiles by executing dotfiles/setup/symlink.sh"
+    echo "Please make symlink dotfiles by executing dotfiles/setup/symlink.sh"
     echo
     echo "If you want to use decorated NerdTree in vim, you have to install nerd-font"
     echo "https://github.com/ryanoasis/nerd-fonts"
