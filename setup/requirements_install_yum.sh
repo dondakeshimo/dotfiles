@@ -4,25 +4,22 @@ has() {
     type "${1:?too few arguments}" &>/dev/null
 }
 
-: "Check apt" && {
-    if ! has "apt"; then
-        echo "apt is required" 1>&2
+: "Check yum" && {
+    if ! has "yum"; then
+        echo "yum is required" 1>&2
         exit 1
     fi
 }
 
 
 : "Install requirementes" && {
-    sudo apt update
-    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
-        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-        xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python-openssl \
-        git vim zsh tmux fzy
+    sudo yum update
+    yum install -y gcc zlib-devel bzip2 bzip2-devel readline-devel\
+                   sqlite sqlite-devel openssl-devel tk-devel libffi-devel\
+                   git vim zsh fzy
 
-    # install golang from ppa:longsleep because of version
-    sudo add-apt-repository ppa:longsleep/golang-backports
-    sudo apt update
-    sudo apt install golang-go
+    sudo yum install -y epel-release
+    sudo yum install -y golang
 }
 
 
