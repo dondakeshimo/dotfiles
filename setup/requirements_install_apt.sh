@@ -49,15 +49,6 @@ has() {
 }
 
 
-: "Install zplug" && {
-    if ! has "zsh"; then
-        echo "zsh is something wrong"
-        exit 1
-    fi
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-}
-
-
 : "Clone dotfiles repository" && {
     ghq get https://github.com/dondakeshimo/dotfiles.git
 }
