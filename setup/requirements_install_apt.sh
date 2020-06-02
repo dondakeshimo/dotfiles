@@ -39,7 +39,7 @@ has() {
     export PATH="$GOPATH/bin:$PATH"
 
     # install ghq
-    go get -v github.com/motemen/ghq
+    go get -v github.com/x-motemen/ghq
     echo -e "[ghq]\n\troot = $HOME/Scripts/src" >> $HOME/.gitconfig
 }
 
