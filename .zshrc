@@ -10,6 +10,12 @@ else
     # setting zplug #
     # ------------- #
     export ZPLUG_HOME=$HOME/.zplug
+
+    if [[ ! -f "$ZPLUG_HOME/init.zsh" ]]; then
+        # install zplug
+        curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
+
     source $ZPLUG_HOME/init.zsh
 
     zplug 'zsh-users/zsh-autosuggestions'
