@@ -47,18 +47,8 @@ has() {
     export PATH="$GOPATH/bin:$PATH"
 
     # install ghq
-    go get -v github.com/motemen/ghq
+    go get -v github.com/x-motemen/ghq
     echo -e "[ghq]\n\troot = $HOME/Scripts/src" >> $HOME/.gitconfig
-}
-
-
-: "Install zplug" && {
-    if ! has "zsh"; then
-        echo "zsh is something wrong"
-        exit 1
-    fi
-    export ZPLUG_HOME="$HOME/.zplug"
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 }
 
 
