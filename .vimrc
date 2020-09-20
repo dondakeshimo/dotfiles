@@ -68,16 +68,15 @@ filetype plugin indent on
 set ruler
 set number
 set title
-set colorcolumn=80
+set ambiwidth=double
+set list
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 " 空白系
 set autoindent
 set smartindent
 set shiftwidth=4
 set expandtab
 set tabstop=4
-set ambiwidth=double
-set list
-set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 " カーソル系
 set whichwrap=b,s,[,],<,>
 set backspace=indent,eol,start
@@ -238,8 +237,8 @@ nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
 nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
 
-" grep検索
-nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+" git grep検索
+nnoremap <silent> ,g  :<C-u>Unite grep/git:. -buffer-name=search-buffer<CR>
 " ディレクトリを指定してgrep検索
 nnoremap <silent> ,dg  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 " grep検索結果の再呼出
@@ -273,6 +272,8 @@ highlight clear SignColumn
 """"""""""""""""""""""""""""""
 let g:ale_sign_error = "\u2620"
 let g:ale_sign_warning = "\u26a0"
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 """"""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
