@@ -59,30 +59,6 @@ cd `dirname $0`/../
 }
 
 
-confirm() {
-    if "$FLAG_YES"; then
-        return 0
-    fi
-
-    text=${1}
-
-    echo -n "$text"
-    read input
-
-    if [ -z $input ] ; then
-        echo "Please input yes or no."
-        confirm_execution
-    elif [ $input = 'yes' ] || [ $input = 'YES' ] || [ $input = 'y' ] ; then
-        return 0
-    elif [ $input = 'no' ] || [ $input = 'NO' ] || [ $input = 'n' ] ; then
-        return 1
-    else
-        echo "Please input yes or no."
-        confirm_execution
-    fi
-}
-
-
 link_file() {
     local entry=$1
     local parent=${2:-$HOME}
@@ -90,26 +66,15 @@ link_file() {
     local target=$parent/$filename
     local text="$target is already exist. Are you sure to overwrite? ( yes | no ): "
 
-    echo "1 $entry $filename $parent"
     if [ -d $entry ]; then
         if [ ! -d $target ]; then mkdir $target; fi
-        echo "2 $entry $filename $parent"
         for f in $entry/*; do
             link_file $f $target
         done
     elif [ -f $target ]; then
-        if confirm "$text" ; then
-            echo "3 $entry $filename $parent"
-            ln -sf $PWD/$entry $parent
-            echo "$entry is overwrittened."
-        else
-            echo "4 $entry $filename $parent"
-            echo "$entry is skipped."
-        fi
+        ln -svi $PWD/$entry $parent
     else
-        echo "5 $entry $filename $parent"
-        ln -sf $PWD/$entry $parent
-        echo "$entry is linked."
+        ln -svi $PWD/$entry $parent
     fi
 }
 
