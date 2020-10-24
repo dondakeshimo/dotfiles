@@ -50,9 +50,6 @@ cd `dirname $0`/../
             'bin' )
                 FLAG_BIN=true
                 ;;
-            '-y' )
-                FLAG_YES=true
-                ;;
         esac
         shift
     done
@@ -85,6 +82,16 @@ link_file() {
     do
         link_file $f $HOME
     done
+}
+
+
+: "Link vimrc for nvim" && {
+    if $(echo ${FLAG_EXEC[@]} | grep -q "vim"); then
+        target="$HOME/.config/nvim"
+        if [ ! -d $target ]; then mkdir -p $target; fi
+        ln -svi $PWD/.vimrc $target/init.vim
+        ln -svi $PWD/.vim/ftplugins $target
+    fi
 }
 
 
