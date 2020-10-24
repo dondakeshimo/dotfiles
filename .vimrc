@@ -19,38 +19,23 @@ let s:dein_repo_dir = expand('~/Scripts/src/github.com/Shougo/dein.vim')
 " dein.vimがなければinstall
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
-    execute '!ghq get https://github.com/Shougo/dein.vim' s:dein_repo_dir
+    execute '!git clone https://github.com/Shougo/dein.vim ' . fnamemodify(s:dein_repo_dir, ':p')
   endif
   execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
 " dein.vimのセットアップ
 if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-  call dein#add(s:dein_dir)
+    call dein#begin(s:dein_dir)
 
-  call dein#add('Shougo/unite.vim')
-  call dein#add('Shougo/neomru.vim')
-  call dein#add('preservim/nerdtree')
-  call dein#add('ryanoasis/vim-devicons')
-  call dein#add('dense-analysis/ale')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-surround')
-  call dein#add('airblade/vim-gitgutter')
-  call dein#add('majutsushi/tagbar')
-  call dein#add('davidhalter/jedi-vim', {'on_ft' : ['python']})
-  call dein#add('itchyny/lightline.vim')
-  call dein#add('maximbaz/lightline-ale')
-  call dein#add('Yggdroot/indentLine')
-  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#add('altercation/vim-colors-solarized')
-  call dein#add('ujihisa/unite-colorscheme')
+    let s:toml = '~/.vim/dein/dein.toml'
+    let s:lazy_toml = '~/.vim/dein/dein_lazy.toml'
 
-  " nerd-fontのインストール必須
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
+    call dein#load_toml(s:toml, {'lazy': 0})
+    call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-  call dein#end()
-  call dein#save_state()
+    call dein#end()
+    call dein#save_state()
 endif
 
 " 自動インストール
