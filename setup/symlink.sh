@@ -90,7 +90,9 @@ link_file() {
         target="$HOME/.config/nvim"
         if [ ! -d $target ]; then mkdir -p $target; fi
         ln -svi $PWD/.vimrc $target/init.vim
+        ln -svi $PWD/.vim/coc-settings.json $target
         ln -svi $PWD/.vim/ftplugins $target
+        ln -svi $PWD/.vim/dein $target
     fi
 }
 
