@@ -1,0 +1,78 @@
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
+on_i = 1
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'neoclide/coc-json'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'json'
+
+[[plugins]]
+repo = 'neoclide/coc-eslint'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'josa42/coc-go'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'neoclide/coc-html'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'html'
+
+[[plugins]]
+repo = 'neoclide/coc-java'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'java'
+
+[[plugins]]
+repo = 'neoclide/coc-python'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'josa42/coc-sh'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = ['sh', 'bash', 'zsh']
+
+[[plugins]]
+repo = 'iamcco/coc-vimlsp'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'neoclide/coc-yaml'
+build = 'yarn install --frozen-lockfile'
+depends = 'coc.nvim'
+on_ft = 'yaml'
