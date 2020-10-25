@@ -6,6 +6,9 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
+repo = 'itchyny/lightline.vim'
+
+[[plugins]]
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
@@ -15,13 +18,18 @@ repo = 'airblade/vim-gitgutter'
 repo = 'altercation/vim-colors-solarized'
 
 [[plugins]]
+repo = 'preservim/nerdtree'
+
+[[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 
 [[plugins]]
-repo = 'itchyny/lightline.vim'
+repo = 'Yggdroot/indentLine'
 
 [[plugins]]
-repo = 'Yggdroot/indentLine'
+repo = 'neoclide/coc.nvim'
+rev = 'release'
+merged = 0
