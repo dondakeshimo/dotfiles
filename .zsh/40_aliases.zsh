@@ -3,11 +3,14 @@
 ##############################
 
 # no use vi
-alias vi='vim'
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
 
 # ls aliases frequentry use
 alias ll='ls -l'
 alias la='ls -a'
+alias lla='ls -la'
 
 # overwrite rm with rmtrash which move to trash of os
 (( $+commands[rmtrash] )) && alias rm='rmtrash'
