@@ -203,7 +203,7 @@ let g:unite_enable_smart_case = 1
 
 " キーマップ設定
 nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithProjectDir -buffer-name=files file<CR>
 nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
 
 " git grep検索
