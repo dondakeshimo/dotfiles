@@ -5,7 +5,6 @@
 # no use vi
 alias v='nvim'
 alias vi='nvim'
-alias vim='nvim'
 
 # ls aliases frequentry use
 alias ll='ls -l'
