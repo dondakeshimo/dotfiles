@@ -34,18 +34,6 @@ else
 
     zplug load
 
-
-    # ----------------------- #
-    # setting zsh-completions #
-    # ----------------------- #
-    fpath=( \
-        /usr/local/share/zsh-completions(N-/) \
-        /usr/local/share/zsh/site-functions(N-/) \
-        /usr/local/share/zsh/functions(N-/) \
-        $fpath \
-        )
-    autoload -Uz compinit && compinit -u
-
     # ------------------------ #
     # load zsh utility modules #
     # ------------------------ #
@@ -61,6 +49,18 @@ else
     do
         source "$f"
     done
+
+
+    # ----------------------- #
+    # setting zsh-completions #
+    # ----------------------- #
+    fpath=( \
+        /usr/local/share/zsh-completions \
+        /usr/local/share/zsh/site-functions \
+        /usr/local/share/zsh/functions \
+        $fpath \
+        )
+    autoload -Uz compinit && compinit -u
 
 
     # ------------------------------------------- #
