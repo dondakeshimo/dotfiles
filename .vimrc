@@ -14,7 +14,7 @@ set encoding=UTF-8
 """""""""""""""""""""""
 " dein.vimのrepositoryを設定
 let s:dein_dir = expand('~/.vim/bundles')
-let s:dein_repo_dir = expand('~/Scripts/src/github.com/Shougo/dein.vim')
+let s:dein_repo_dir = expand('~/.vim/dein.vim')
 
 " dein.vimがなければinstall
 if &runtimepath !~# '/dein.vim'
