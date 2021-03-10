@@ -7,46 +7,38 @@
 
 ##### If you use Mac
 ```
-$ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/requirements_install_mac.sh)"
+$ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/mac_full.sh)"
 ```
 
 ##### If you use Linux(apt)
 ```
-$ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/requirements_install_apt.sh)"
+$ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/apt_full.sh)"
 ```
 
 ### 2. Deploy dotfiles
 ```
-$ export GOPATH="$HOME/Scripts"
-$ cd $GOPATH/src/github.com/dondakeshimo/dotfiles/setup
+$ cd ~/src/github.com/dondakeshimo/dotfiles/setup
 $ ./symlink.sh all
 ```
-
-
-### 3. Restart or Logout
 
 
 ### (4. More)
 
 - Install teminal color scheme
     - `setup/installer/solarized/`
-- Install nerd-font
-    - `setup/installer/install_nerdfont.sh`
-    - `brew tap homebrew/cask-fonts; brew cask install <SOME NERD FONT>`
 - Install Docker
-    - https://docs.docker.com/engine/install/
+    - [how to install](https://docs.docker.com/engine/install/)
 - Install nvidia-docker
-    - https://qiita.com/ksasaki/items/b20a785e1a0f610efa08
-- Install pyenv
+    - [how to install](https://medium.com/nvidiajapan/nvidia-docker-%E3%81%A3%E3%81%A6%E4%BB%8A%E3%81%A9%E3%81%86%E3%81%AA%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%AE-20-09-%E7%89%88-558fae883f44)
 
 
 # Agreement
 This repository's dotfiles are assume that bellow definitions.
 
 ```
-BINARY PATH = ~/Scripts/bin
-REPOSITORY PATH = ~/Scripts/src
-REPOSITORY DIR RULE: equal to Golang
+BINARY PATH = ~/bin
+REPOSITORY PATH = ~/src
+REPOSITORY PLACEMENT RULE: equal to Golang pkg
 ```
 
 When you want to change these paths, BE CAREFUL with all of dotfiles.
