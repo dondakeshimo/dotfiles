@@ -4,14 +4,16 @@
 : "Define global variables" && {
     FLAG_EXEC=()
     FLAG_BIN=false
-    BIN_DIR=~/Scripts/bin
+    BIN_DIR=~/bin
     ZSH_TGT=(".zshrc" ".zsh")
+    BASH_TGT=(".bash_profile" ".bashprompt")
     VIM_TGT=(".vimrc" ".vim")
     TMUX_TGT=(".tmux.conf")
     GIT_TGT=(".gitconfig" ".gitignore_global")
     SSH_TGT=(".ssh")
     ATOM_TGT=(".atom")
-    DOTFILES_TARGET=(${ZSH_TGT[@]} ${VIM_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]})
+    ASDF_TGT=(".asdfrc")
+    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${ASDF_TGT[@]})
 }
 
 
@@ -28,14 +30,17 @@
     do
         case $OPT in
             'all' )
-                FLAG_EXEC=(${DOTFILES_TARGET[@]})
+                FLAG_EXEC=(${DOTFILES_TGT[@]})
                 FLAG_BIN=true
                 ;;
             'dotfiles' )
-                FLAG_EXEC=(${DOTFILES_TARGET[@]})
+                FLAG_EXEC=(${DOTFILES_TGT[@]})
                 ;;
             'zsh' )
                 FLAG_EXEC=(${ZSH_TGT[@]})
+                ;;
+            'bash' )
+                FLAG_EXEC=(${BASH_TGT[@]})
                 ;;
             'vim' )
                 FLAG_EXEC=(${VIM_TGT[@]})
