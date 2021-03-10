@@ -13,13 +13,8 @@
 	interactive = auto
 	grep = auto
 
-[alias]
-	ci = commit -m
-	co = checkout
-	aci = "!git add -A && git commit -m"
-
 [ghq]
-	root = ~/Scripts/src
+	root = ~/src
 
 [github]
 	user = dondakeshimo
