@@ -6,33 +6,7 @@ source $HOME/.zsh/00_zshenv.zsh
 if [ -z "$TMUX" ]; then
     $HOME/Scripts/bin/tmux-builder
 else
-    # ------------- #
-    # setting zplug #
-    # ------------- #
-    export ZPLUG_HOME=$HOME/.zplug
-
-    if [[ ! -f "$ZPLUG_HOME/init.zsh" ]]; then
-        # install zplug
-        curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-    fi
-
-    source $ZPLUG_HOME/init.zsh
-
-    zplug 'zsh-users/zsh-autosuggestions'
-    zplug 'zsh-users/zsh-completions'
-    zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-    zplug "zsh-users/zsh-history-substring-search"
-    zplug 'mollifier/anyframe'
-    zplug "b4b4r07/enhancd", use:init.sh
-
-    if ! zplug check --verbose; then
-      printf 'Install? [y/N]: '
-      if read -q; then
-        echo; zplug install
-      fi
-    fi
-
-    zplug load
+    source $HOME/.zsh/zplug.zsh
 
     # ------------------------ #
     # load zsh utility modules #
