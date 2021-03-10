@@ -38,3 +38,15 @@ $ ./symlink.sh all
 - Install nvidia-docker
     - https://qiita.com/ksasaki/items/b20a785e1a0f610efa08
 - Install pyenv
+
+
+# Agreement
+This repository's dotfiles are assume that bellow definitions.
+
+```
+BINARY PATH = ~/Scripts/bin
+REPOSITORY PATH = ~/Scripts/src
+REPOSITORY DIR RULE: equal to Golang
+```
+
+When you want to change these paths, BE CAREFUL with all of dotfiles.
