@@ -1,12 +1,17 @@
 #!/bin/bash
 
-cd `dirname $0`/../../
-
 
 : "Define global variables" && {
     FLAG_EXEC=()
     FLAG_BIN=false
-    FLAG_YES=false
+    BIN_DIR=~/Scripts/bin
+    ZSH_TGT=(".zshrc" ".zsh")
+    VIM_TGT=(".vimrc" ".vim")
+    TMUX_TGT=(".tmux.conf")
+    GIT_TGT=(".gitconfig" ".gitignore_global")
+    SSH_TGT=(".ssh")
+    ATOM_TGT=(".atom")
+    DOTFILES_TARGET=(${ZSH_TGT[@]} ${VIM_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]})
 }
 
 
@@ -23,29 +28,29 @@ cd `dirname $0`/../../
     do
         case $OPT in
             'all' )
-                FLAG_EXEC=(".zshrc" ".zsh" ".vimrc" ".vim" ".tmux.conf" ".gitconfig" ".atom" ".ssh")
+                FLAG_EXEC=(${DOTFILES_TARGET[@]})
                 FLAG_BIN=true
                 ;;
             'dotfiles' )
-                FLAG_EXEC=(".zshrc" ".zsh" ".vimrc" ".vim" ".tmux.conf" ".gitconfig" ".atom" ".ssh")
+                FLAG_EXEC=(${DOTFILES_TARGET[@]})
                 ;;
             'zsh' )
-                FLAG_EXEC=(".zshrc" ".zsh")
+                FLAG_EXEC=(${ZSH_TGT[@]})
                 ;;
             'vim' )
-                FLAG_EXEC=(".vimrc" ".vim")
+                FLAG_EXEC=(${VIM_TGT[@]})
                 ;;
             'tmux' )
-                FLAG_EXEC=(".tmux.conf")
+                FLAG_EXEC=(${TMUX_TGT[@]})
                 ;;
             'git' )
-                FLAG_EXEC=(".gitconfig")
+                FLAG_EXEC=(${GIT_TGT[@]})
                 ;;
             'ssh' )
-                FLAG_EXEC=(".ssh")
+                FLAG_EXEC=(${SSH_TGT[@]})
                 ;;
             'atom' )
-                FLAG_EXEC=(".atom")
+                FLAG_EXEC=(${ATOM_TGT[@]})
                 ;;
             'bin' )
                 FLAG_BIN=true
@@ -56,12 +61,13 @@ cd `dirname $0`/../../
 }
 
 
+# link_file is a domain rule.
 link_file() {
     local entry=$1
     local parent=${2:-$HOME}
     local filename=${entry##*/}
     local target=$parent/$filename
-    local text="$target is already exist. Are you sure to overwrite? ( yes | no ): "
+    local text="$target is already exist.\nAre you sure to overwrite? ( yes | no ): "
 
     if [ -d $entry ]; then
         if [ ! -d $target ]; then mkdir $target; fi
@@ -77,7 +83,7 @@ link_file() {
 
 
 : "Link dotfiles" && {
-    echo "${FLAG_EXEC[@]}"
+    echo "Target dotfiles: [ ${FLAG_EXEC[@]} ]"
     for f in "${FLAG_EXEC[@]}"
     do
         link_file $f $HOME
@@ -103,20 +109,13 @@ link_file() {
     if "$FLAG_BIN" && [ $(uname) = 'Linux' ]; then ostype="linux"; fi
     if "$FLAG_BIN" && [ $(uname) = 'Darwin' ]; then ostype="osx"; fi
 
-    if [ ! "{$GOPATH:+isdefined}" ]; then
-        echo 'You must define $GOPATH'
-        echo 'example:'
-        echo '$ export GOPATH="$HOME/Scripts"'
-        exit 1
-    fi
-
     for f in bin/*
     do
         [[ "$f" == ".git" ]] && continue
         [[ "$f" == ".DS_Store" ]] && continue
         [ -d "$f" ] && continue
 
-        link_file $f $GOPATH/bin
+        link_file $f $BIN_DIR
     done
 
     for f in bin/"$ostype"/*
@@ -124,6 +123,6 @@ link_file() {
         [[ "$f" == ".git" ]] && continue
         [[ "$f" == ".DS_Store" ]] && continue
 
-        link_file $f $GOPATH/bin
+        link_file $f $BIN_DIR
     done
 }
