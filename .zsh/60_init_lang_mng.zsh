@@ -18,6 +18,7 @@ fi
 
 # poetry setting
 export PATH="$HOME/.poetry/bin:$PATH"
+export POETRY_VIRTUALENVS_IN_PROJECT=true
 
 # gcloud setting
 # TODO: linux対応
