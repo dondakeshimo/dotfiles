@@ -14,51 +14,17 @@ has() {
 
 : "Install requirementes" && {
     sudo apt update
-    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
-        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-        xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python-openssl \
-        git vim zsh tmux fzy
-
-    # install golang from ppa:longsleep because of version
-    sudo add-apt-repository -y ppa:longsleep/golang-backports
-    sudo apt update
-    sudo apt install golang-go
-}
-
-
-: "Install ghq" && {
-    # check go exist
-    if ! has "go"; then
-        echo "golang is something wrong"
-        exit 1
-    fi
-
-    # go setting
-    mkdir "$HOME/Scripts"
-    export GOPATH="$HOME/Scripts"
-    export PATH="$GOPATH/bin:$PATH"
-
-    # install ghq
-    go get -v github.com/x-motemen/ghq
-    echo -e "[ghq]\n\troot = $HOME/Scripts/src" >> $HOME/.gitconfig
-}
-
-
-: "Use zsh" && {
-    chsh -s $(which zsh)
+    sudo apt install -y git vim zsh tmux fzy make build-essential wget curl
 }
 
 
 : "Clone dotfiles repository" && {
-    ghq get https://github.com/dondakeshimo/dotfiles.git
+    git clone https://github.com/dondakeshimo/dotfiles.git ~/src/github.com/dondakeshimo/dotfiles
 }
 
 
 : "Echo success messages" && {
     echo
     echo "Requirements installing is success!!"
-    echo "Please make symlink dotfiles by executing dotfiles/setup/symlink.sh"
-    echo
-    echo "If you want to use decorated NerdTree in vim, you have to install nerd-font"
-    echo "https://github.com/ryanoasis/nerd-fonts"
+    echo "Please make symlink dotfiles by executing dotfiles/setup/deployer/symlink.sh"
 }
