@@ -17,7 +17,8 @@ has() {
 }
 
 : "Install gnome-terminal-colors-solarized" && {
-    ghq get https://github.com/aruhier/gnome-terminal-colors-solarized.git
-    cd $GOPATH/src/github.com/aruhier/gnome-terminal-colors-solarized
+    git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git ~/src/github.com/aruhier/gnome-terminal-colors-solarized
+
+    cd ~/src/github.com/aruhier/gnome-terminal-colors-solarized
     ./install.sh
 }
