@@ -9,13 +9,14 @@ cd `dirname $0`/../../
     BIN_DIR=~/bin
     ZSH_TGT=(".zshrc" ".zsh")
     BASH_TGT=(".bash_profile" ".bashprompt")
-    VIM_TGT=(".vimrc" ".vim")
+    VIM_TGT=(".vimrc")
+    NVIM_TGT=(".config")  # when the other app use .config, separate in config and fix logic only to deploy $HOME
     TMUX_TGT=(".tmux.conf")
     GIT_TGT=(".gitconfig" ".gitignore_global")
     SSH_TGT=(".ssh")
     ATOM_TGT=(".atom")
     ASDF_TGT=(".asdfrc")
-    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${ASDF_TGT[@]})
+    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${NVIM_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${ASDF_TGT[@]})
 }
 
 
@@ -47,6 +48,9 @@ cd `dirname $0`/../../
             'vim' )
                 FLAG_EXEC=(${VIM_TGT[@]})
                 ;;
+            'nvim' )
+                FLAG_EXEC=(${NVIM_TGT[@]})
+                ;;
             'tmux' )
                 FLAG_EXEC=(${TMUX_TGT[@]})
                 ;;
@@ -74,8 +78,8 @@ link_file() {
     local parent=${2:-$HOME}
     local filename=${entry##*/}
     local target=$parent/$filename
-    local text="$target is already exist.\nAre you sure to overwrite? ( yes | no ): "
 
+    echo "entry: $entry, parent: $parent, filename: $filename, target: $target"
     if [ -d $entry ]; then
         if [ ! -d $target ]; then mkdir $target; fi
         for f in $entry/*; do
@@ -98,14 +102,9 @@ link_file() {
 }
 
 
-: "Link vimrc for nvim" && {
+: "Make directory .vimbackup" && {
     if $(echo ${FLAG_EXEC[@]} | grep -q "vim"); then
-        target="$HOME/.config/nvim"
-        if [ ! -d $target ]; then mkdir -p $target; fi
-        ln -svi $PWD/.vimrc $target/init.vim
-        ln -svi $PWD/.vim/coc-settings.json $target
-        ln -svi $PWD/.vim/ftplugin $target
-        ln -svi $PWD/.vim/dein $target
+        if [ ! -d $HOME/.vimbackup ]; then mkdir $HOME/.vimbackup; fi
     fi
 }
 
