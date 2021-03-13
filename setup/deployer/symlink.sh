@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd `dirname $0`/../../
+
 
 : "Define global variables" && {
     FLAG_EXEC=()
@@ -113,6 +115,8 @@ link_file() {
 
     if "$FLAG_BIN" && [ $(uname) = 'Linux' ]; then ostype="linux"; fi
     if "$FLAG_BIN" && [ $(uname) = 'Darwin' ]; then ostype="osx"; fi
+
+    if [ ! -d $BIN_DIR ]; then mkdir -p $BIN_DIR; fi
 
     for f in bin/*
     do

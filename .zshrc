@@ -4,7 +4,7 @@ source $HOME/.zsh/00_zshenv.zsh
 # zsh setting only on TMUX #
 # ------------------------ #
 if [ -z "$TMUX" ]; then
-    $HOME/Scripts/bin/tmux-builder
+    $HOME/bin/tmux-builder
 else
     source $HOME/.zsh/zplug.zsh
 

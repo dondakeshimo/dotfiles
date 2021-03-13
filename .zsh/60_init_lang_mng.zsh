@@ -4,7 +4,7 @@
 
 # asdf setting
 if [ -f $HOME/.asdf/asdf.sh ]; then
-    . $HOME/.asdf/asdf.sh
+    source $ZPLUG_REPOS/asdf-vm/asdf/asdf.sh
     fpath=(${ASDF_DIR}/completions $fpath)
 fi
 

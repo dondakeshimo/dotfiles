@@ -21,9 +21,10 @@ $ cd ~/src/github.com/dondakeshimo/dotfiles/setup
 $ ./symlink.sh all
 ```
 
+### (3. More)
 
-### (4. More)
-
+- Use zsh
+    - `chsh -s $(which zsh)`
 - Install teminal color scheme
     - `setup/installer/solarized/`
 - Install Docker
