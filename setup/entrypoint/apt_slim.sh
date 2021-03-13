@@ -4,17 +4,17 @@ has() {
     type "${1:?too few arguments}" &>/dev/null
 }
 
-: "Check yum" && {
-    if ! has "yum"; then
-        echo "yum is required" 1>&2
+: "Check apt" && {
+    if ! has "apt"; then
+        echo "apt is required" 1>&2
         exit 1
     fi
 }
 
 
 : "Install requirementes" && {
-    sudo yum update
-    yum install -y git vim zsh fzy curl wget make
+    sudo apt update
+    sudo apt install -y git vim wget make
 }
 
 
@@ -26,5 +26,5 @@ has() {
 : "Echo success messages" && {
     echo
     echo "Requirements installing is success!!"
-    echo "Please make symlink dotfiles by executing dotfiles/setup/symlink.sh"
+    echo "Please make symlink dotfiles by executing dotfiles/setup/deployer/symlink.sh"
 }

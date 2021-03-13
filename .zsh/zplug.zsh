@@ -18,7 +18,6 @@ zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 zplug "zsh-users/zsh-history-substring-search"
 zplug 'mollifier/anyframe'
 zplug 'asdf-vm/asdf'
-zplug 'ryanoasis/nerd-fonts', depth:1, hook-build:'./install.sh Mononoki'
 zplug "b4b4r07/enhancd", use:init.sh
 
 if ! zplug check --verbose; then
