@@ -27,6 +27,11 @@ $ ./symlink.sh all
     - `chsh -s $(which zsh)`
 - Install teminal color scheme
     - `setup/installer/solarized/`
+- Setup GitHub SSH connection
+    - `ssh-keygen -t rsa`
+    - filename: ~/.ssh/id\_git\_rsa
+- Install nerd-fonts
+    - https://github.com/ryanoasis/nerd-fonts
 - Install Docker
     - [how to install](https://docs.docker.com/engine/install/)
 - Install nvidia-docker
