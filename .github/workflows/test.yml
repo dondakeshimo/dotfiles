@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+
+  macos:
+    name: MacOS Test
+    runs-on: macos-10.15
+    steps:
+
+    - name: Entry Point
+      run: |
+        bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/mac_full.sh)"
+
+    - name: Deploy
+      run: |
+        ~/src/github.com/dondakeshimo/dotfiles/setup/deployer/symlink.sh all
+
+    - name: Test bash
+      run: |
+        source $HOME/.bash_profile
+
+    - name: Test vim
+      run: |
+        vim .vimrc &
+
+    - name: Test nvim
+      run: |
+        nvim .vimrc &
+
+    - name: Test zsh
+      run: |
+        yes | source $HOME/.zshrc
+      shell: zsh {0}
+      env:
+        TMUX: test
