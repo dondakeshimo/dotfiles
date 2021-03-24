@@ -1,0 +1,51 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-10.15, ubuntu-18.04]
+    steps:
+
+    - name: Entry Point MacOS
+      if: runner.os == 'macOS'
+      run: |
+        bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/mac_full.sh)"
+
+    - name: Entry Point Ubuntu
+      if: runner.os == 'Linux'
+      run: |
+        bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/apt_full.sh)"
+
+    - name: Deploy
+      run: |
+        ~/src/github.com/dondakeshimo/dotfiles/setup/deployer/symlink.sh all
+
+    - name: Test bash
+      run: |
+        source $HOME/.bash_profile
+
+    - name: Test vim
+      run: |
+        vim .vimrc &
+
+    - name: Test nvim
+      run: |
+        nvim .vimrc &
+
+    # .tmux.conf and .zshrc test is skipped because TMUX and zplug cannot use not in interactive terminal.
+    # "Test zsh" confirm only zsh file sourced by .zshrc
+    - name: Test zsh
+      run: |
+        for f in $HOME/.zsh/[0-9]*.(sh|zsh) do source "$f" done
+      shell: zsh {0}
+      env:
+        TMUX: test
