@@ -34,7 +34,7 @@ jobs:
 
     - name: Test zsh
       run: |
-        yes | source $HOME/.zshrc
+        for f in $HOME/.zsh/[0-9]*.(sh|zsh) do source "$f" done
       shell: zsh {0}
       env:
         TMUX: test
