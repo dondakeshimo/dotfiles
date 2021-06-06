@@ -41,7 +41,10 @@ jobs:
       run: |
         nvim .vimrc &
 
-    # .tmux.conf and .zshrc test is skipped because TMUX and zplug cannot use not in interactive terminal.
+    - name: Test tmux
+      run: |
+        tmux new -s test -d
+
     # "Test zsh" confirm only zsh file sourced by .zshrc
     - name: Test zsh
       run: |
