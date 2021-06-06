@@ -15,6 +15,9 @@ repo = 'tpope/vim-fugitive'
 repo = 'tpope/vim-rhubarb'
 
 [[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
