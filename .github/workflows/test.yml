@@ -45,7 +45,6 @@ jobs:
       run: |
         tmux new -s test -d
 
-    # .tmux.conf and .zshrc test is skipped because TMUX and zplug cannot use not in interactive terminal.
     # "Test zsh" confirm only zsh file sourced by .zshrc
     - name: Test zsh
       run: |
