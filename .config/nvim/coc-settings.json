@@ -8,5 +8,6 @@
     },
     "diagnostic.errorSign": "\u2620",
     "diagnostic.infoSign": "\u2139",
-    "diagnostic.warningSign": "\u26a0"
+    "diagnostic.warningSign": "\u26a0",
+    "yank.highlight.enable": false
 }
