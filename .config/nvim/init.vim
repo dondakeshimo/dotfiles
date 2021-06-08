@@ -295,7 +295,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 command! -nargs=0 Format :call CocAction('format')
 
 " yank list setting
-nnoremap <silent> hp  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> yp :<C-u>CocList -A --normal yank<cr>
 """"""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""

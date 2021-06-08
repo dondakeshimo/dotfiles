@@ -36,6 +36,9 @@ repo = 'ryanoasis/vim-devicons'
 repo = 'Yggdroot/indentLine'
 
 [[plugins]]
+repo = 'jiangmiao/auto-pairs'
+
+[[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = 'release'
 merged = 0

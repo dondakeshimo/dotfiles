@@ -4,13 +4,6 @@ repo = 'Shougo/unite.vim'
 [[plugins]]
 repo = 'Shougo/neomru.vim'
 on_path = '.*'
-
-[[plugins]]
-repo = 'Shougo/neoyank.vim'
-on_path = '.*'
-
-[[plugins]]
-repo = 'jiangmiao/auto-pairs'
 on_i = 1
 
 [[plugins]]
