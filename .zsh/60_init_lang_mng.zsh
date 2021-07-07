@@ -8,6 +8,9 @@ if [ -f $HOME/.asdf/asdf.sh ]; then
     fpath=(${ASDF_DIR}/completions $fpath)
 fi
 
+# go setting
+export PATH="$HOME/go/bin:$PATH"
+
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
 
