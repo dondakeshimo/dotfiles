@@ -9,7 +9,8 @@ if [ -f $HOME/.asdf/asdf.sh ]; then
 fi
 
 # go setting
-export PATH="$HOME/go/bin:$PATH"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
 
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"

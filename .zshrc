@@ -34,6 +34,7 @@ fpath=( \
     /usr/local/share/zsh-completions \
     /usr/local/share/zsh/site-functions \
     /usr/local/share/zsh/functions \
+    $HOME/.zsh/zsh-completions \
     $fpath \
     )
 autoload -Uz compinit && compinit -u
