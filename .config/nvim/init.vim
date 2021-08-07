@@ -121,6 +121,15 @@ endif
 """"""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
+" filitypeの設定
+""""""""""""""""""""""""""""""
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+autocmd BufNewFile,BufRead *.module.css set filetype=scss
+autocmd FileType scss setl iskeyword+=@-@
+""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
 " lightline
 """"""""""""""""""""""""""""""
 set laststatus=2

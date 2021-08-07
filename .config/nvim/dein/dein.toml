@@ -39,6 +39,12 @@ repo = 'Yggdroot/indentLine'
 repo = 'jiangmiao/auto-pairs'
 
 [[plugins]]
+repo = 'leafgarland/typescript-vim'
+
+[[plugins]]
+repo = 'peitalin/vim-jsx-typescript'
+
+[[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = 'release'
 merged = 0
