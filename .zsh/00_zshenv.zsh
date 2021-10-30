@@ -13,7 +13,7 @@ export SAVEHIST=1000000
 export LANG=en_US.UTF-8
 
 # PATH setting
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # brew PATH setting
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
