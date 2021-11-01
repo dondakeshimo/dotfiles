@@ -3,7 +3,7 @@
 ##############################
 
 # asdf setting
-if [ -f $HOME/.asdf/asdf.sh ]; then
+if [ -f $ZPLUG_REPOS/asdf-vm/asdf/asdf.sh ]; then
     source $ZPLUG_REPOS/asdf-vm/asdf/asdf.sh
     fpath=(${ASDF_DIR}/completions $fpath)
 fi

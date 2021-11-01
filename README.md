@@ -5,6 +5,15 @@
 
 ### 1. Install requirements and setting zsh
 
+##### If you use M1 Mac
+I don't know why but one liner dosen't work.
+I will search the reason, but temporally, I suggest download a code and run it.
+
+```
+$ curl -L -O raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/mac_full.sh
+$ bash mac_full.sh
+```
+
 ##### If you use Mac
 ```
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/mac_full.sh)"
@@ -17,7 +26,7 @@ $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setu
 
 ### 2. Deploy dotfiles
 ```
-$ cd ~/src/github.com/dondakeshimo/dotfiles/setup
+$ cd ~/src/github.com/dondakeshimo/dotfiles/setup/deployer
 $ ./symlink.sh all
 ```
 
@@ -25,11 +34,13 @@ $ ./symlink.sh all
 
 - Use zsh
     - `chsh -s $(which zsh)`
+    - if you use Mac
+        - echo "<your zsh path>" >> /etc/shells
 - Install teminal color scheme
     - `setup/installer/solarized/`
 - Setup GitHub SSH connection
     - `ssh-keygen -t rsa`
-    - filename: ~/.ssh/id\_git\_rsa
+    - filename: /absolute/path/to/your/home/.ssh/id\_git\_rsa
 - Install nerd-fonts
     - https://github.com/ryanoasis/nerd-fonts
 - Install Docker
