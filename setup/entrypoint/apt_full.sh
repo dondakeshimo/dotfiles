@@ -4,17 +4,17 @@ has() {
     type "${1:?too few arguments}" &>/dev/null
 }
 
-: "Check apt" && {
-    if ! has "apt"; then
-        echo "apt is required" 1>&2
+: "Check apt-get" && {
+    if ! has "apt-get"; then
+        echo "apt-get is required" 1>&2
         exit 1
     fi
 }
 
 
 : "Install requirementes" && {
-    sudo apt update
-    sudo apt install -y git vim zsh tmux fzf make build-essential wget curl neovim python-neovim python3-neovim
+    sudo apt-get update
+    sudo apt-get install -y git vim zsh tmux fzf make build-essential wget curl neovim python-neovim python3-neovim
 }
 
 
