@@ -27,3 +27,6 @@ export SRCDIR=$HOME/src
 
 # exclude waiting time
 KEYTIMEOUT=1
+
+# fzf settings
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'

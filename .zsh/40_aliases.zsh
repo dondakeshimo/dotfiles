@@ -24,6 +24,6 @@ alias lla='ls -la'
 # short cut airport command
 alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 
-# fzy util
-alias treecd='tree --charset=o -f | fzy | tr -d '"'"'\||`|-'"'"' | xargs echo | cd'
-alias gcd='ghq list --full-path | fzy | xargs echo | cd'
+# fzf util
+alias treecd='tree --charset=o -f | fzf | tr -d '"'"'\||`|-'"'"' | xargs echo | cd'
+alias gcd='ghq list --full-path | fzf | xargs echo | cd'
