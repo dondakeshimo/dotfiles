@@ -9,12 +9,12 @@
 #### メイン機
 エントリーポイント, GUIを使用する
 十分な依存ライブラリと最大限カスタマイズした設定ファイル
-git, zsh, fzy, neovim, tmux, nerd-font, asdf, chrome, slack
+git, zsh, fzf, neovim, tmux, nerd-font, asdf, chrome, slack
 
 #### 開発機
 ssh接続などで使用する, ある程度リッチな環境
 開発に必要な依存ライブラリと設定ファイル
-git, zsh, fzy, neovim, tmux, asdf?
+git, zsh, fzf, neovim, tmux, asdf?
 
 #### 検証機など
 ssh接続などで使用する, 必要最小限の環境
