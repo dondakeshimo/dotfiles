@@ -16,6 +16,7 @@
 : "Define constant" && {
     SEP_CHAR="^"
     LDFS_DIR_NAME=".ldfs"
+    IGNORED_FILE_NAME=".ignored"
 }
 
 : "Move current directory to git toplevel" && {
@@ -32,6 +33,8 @@ create_storage() {
         mkdir $LDFS_DIR
     fi
 
+    touch $LDFS_DIR/$IGNORED_FILE_NAME
+
     if [[ ! "$(git ls-files --other --ignored --exclude-standard $GIT_ROOT | grep $LDFS_DIR_NAME)" ]]; then
         echo "Warning: Please add \".ldfs/\" to .gitignore"
     fi
@@ -40,9 +43,9 @@ create_storage() {
 store() {
     for f in ${@:1}
     do
-        if [[ "$(echo $f | grep $SEP_CHAR)" ]]; then
-            continue
+        if [[ "$(echo $f | grep \\$SEP_CHAR)" ]]; then
             echo "sorry, $f include \"$SEP_CHAR\", and can't be managed by ldfs"
+            continue
         fi
 
         af=$(find `pwd` -name "$f" | tr / $SEP_CHAR)
