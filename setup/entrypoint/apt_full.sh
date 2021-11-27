@@ -16,7 +16,7 @@ has() {
 
 : "Install requirementes" && {
     sudo apt-get update
-    sudo apt-get install -y git vim zsh tmux fzf make build-essential wget curl neovim python-neovim python3-neovim
+    sudo apt-get install -y git vim zsh tmux make build-essential wget curl neovim python-neovim python3-neovim
 }
 
 

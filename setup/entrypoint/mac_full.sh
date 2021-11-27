@@ -28,7 +28,7 @@ has() {
         echo "Homebrew is something wrong"
         exit 1
     fi
-    brew install git vim zsh tmux reattach-to-user-namespace fzf neovim
+    brew install git vim zsh tmux reattach-to-user-namespace neovim
 }
 
 
