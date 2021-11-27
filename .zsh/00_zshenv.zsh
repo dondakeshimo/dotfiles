@@ -21,6 +21,7 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 # my binary setting
 export MYBIN="$HOME/bin"
 export PATH="$MYBIN:$PATH"
+export PATH="$ZPLUG_BIN:$PATH"
 
 # src dir setting
 export SRCDIR=$HOME/src
