@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 has() {
     type "${1:?too few arguments}" &>/dev/null
 }
