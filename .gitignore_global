@@ -2,3 +2,4 @@
 .DS_Store
 .vim/coc-settings.json
 .tool-versions
+.ldfs/

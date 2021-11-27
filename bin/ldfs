@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# Local Development Files Storage
+#
+# usage:
+#   ldfs                   Restore all storaged files to use in development
+#   ldfs [file]            Store file in storage
+#   git checkout [file]    Restore original file managed in remote repository
+#
+# description:
+#   store files only to use in local development
+#   ldfs is enable only in git repository
+#
+################################################################################
+
+: "Define constant" && {
+    SEP_CHAR="^"
+    LDFS_DIR_NAME=".ldfs"
+}
+
+: "Move current directory to git toplevel" && {
+    GIT_ROOT=$(git rev-parse --show-toplevel 2> /dev/null)
+    if [[ $? != 0 || "$GIT_ROOT" == "" ]]; then
+        echo "ldfs is enable only in git repository"
+        exit 1
+    fi
+    LDFS_DIR=$GIT_ROOT/$LDFS_DIR_NAME
+}
+
+create_storage() {
+    if [[ ! -d $LDFS_DIR ]]; then
+        mkdir $LDFS_DIR
+    fi
+
+    if [[ ! "$(git ls-files --other --ignored --exclude-standard $GIT_ROOT | grep $LDFS_DIR_NAME)" ]]; then
+        echo "Warning: Please add \".ldfs/\" to .gitignore"
+    fi
+}
+
+store() {
+    for f in ${@:1}
+    do
+        if [[ "$(echo $f | grep $SEP_CHAR)" ]]; then
+            continue
+            echo "sorry, $f include \"$SEP_CHAR\", and can't be managed by ldfs"
+        fi
+
+        af=$(find `pwd` -name "$f" | tr / $SEP_CHAR)
+        cp $f $LDFS_DIR/$af.ldf
+        echo "store $f"
+    done
+}
+
+restore() {
+    for f in $LDFS_DIR/*.ldf
+    do
+        af=$(basename ${f%.ldf} | tr $SEP_CHAR /)
+        cp $f $af
+    done
+}
+
+: "Route arguments" && {
+    create_storage
+
+    if [[ $# == 0 ]]; then
+        restore
+        exit 0
+    fi
+
+    store $@
+}
