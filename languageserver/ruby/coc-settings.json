@@ -1,0 +1,11 @@
+{
+    "solargraph.externalServer": {
+        "host": "localhost",
+        "port": 7658
+    },
+    "solargraph.transport": "external",
+    "solargraph.diagnostics": true,
+    "solargraph.hover": true,
+    "solargraph.checkGemVersion": false
+}
+
