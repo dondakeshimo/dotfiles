@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  languageserver:
+    container_name: languageserver
+    image: dondakeshimo/<project-name>-solargraph:latest
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: LanguageServer.dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 7658:7658

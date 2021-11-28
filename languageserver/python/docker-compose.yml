@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  languageserver:
+    container_name: languageserver
+    image: dondakeshimo/<project-name>-pyls:latest
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: LanguageServer.dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 2087:2087
+
