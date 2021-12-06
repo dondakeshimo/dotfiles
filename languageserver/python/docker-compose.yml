@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: LanguageServer.dockerfile
     volumes:
-      - .:/app
+      - .:/path-to-your-repository
     ports:
       - 2087:2087
 
