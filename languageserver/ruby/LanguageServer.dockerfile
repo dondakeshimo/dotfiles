@@ -1,5 +1,8 @@
 FROM ruby:2.7.1
 
+ARG dir="/app"
+WORKDIR $dir
+
 COPY Gemfile* .
 
 RUN bundle install && \
