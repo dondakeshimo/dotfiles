@@ -9,7 +9,10 @@ services:
     build:
       context: .
       dockerfile: LanguageServer.dockerfile
+      args:
+        dir: $PWD
     volumes:
-      - .:/path-to-your-repository
+      - .:$PWD
+    working_dir: $PWD
     ports:
       - 7658:7658
