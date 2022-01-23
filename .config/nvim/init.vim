@@ -90,6 +90,12 @@ set updatetime=100
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" leader
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = "\<space>"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " colorscheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
@@ -178,7 +184,7 @@ endfunction
 
 function! MyFilename()
   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'unite' ? unite#get_status_string() :
+        \ (&ft =~ 'denite' ? denite#get_status('sources') :
         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
         \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
@@ -217,6 +223,8 @@ function! s:denite_my_settings() abort
                 \ denite#do_map('do_action')
     nnoremap <silent><buffer><expr> s
                 \ denite#do_map('do_action', 'vsplit')
+    nnoremap <silent><buffer><expr> o
+                \ denite#do_map('do_action', 'split')
     nnoremap <silent><buffer><expr> d
                 \ denite#do_map('do_action', 'delete')
     nnoremap <silent><buffer><expr> p
@@ -231,7 +239,8 @@ endfunction
 
 " Set action map in denite-filter buffer
 function! s:denite_filter_my_settings() abort
-    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+    imap <silent><buffer> <Esc> <Esc>:call denite#move_to_parent()<CR>
+    imap <silent><buffer> <C-[> <C-[>:call denite#move_to_parent()<CR>
 endfunction
 
 " Define default options
@@ -256,16 +265,12 @@ call extend(s:denite_default_options, {
             \})
 call denite#custom#option('default', s:denite_default_options)
 
-" Set global key mappings about denite.vim
-nnoremap [denite] <Nop>
-nmap <C-f> [denite]
-
-nnoremap <silent> [denite]b :<C-u>Denite -start-filter buffer<CR>
-nnoremap <silent> [denite]r :<C-u>Denite -start-filter -buffer-name=register register<CR>
-nnoremap <silent> [denite]p :<C-u>Denite -start-filter file/rec<CR>
-nnoremap <silent> [denite]f :<C-u>DeniteBufferDir -start-filter file/rec<CR>
-nnoremap <silent> [denite]u :<C-u>Denite -resume<CR>
-nnoremap <silent> [denite]/ :<C-u>DeniteProjectDir -start-filter grep<CR>
+nnoremap <silent> <leader>b :<C-u>Denite -start-filter buffer<CR>
+nnoremap <silent> <leader>r :<C-u>Denite -start-filter -buffer-name=register register<CR>
+nnoremap <silent> <leader>p :<C-u>Denite -start-filter file/rec<CR>
+nnoremap <silent> <leader>f :<C-u>DeniteBufferDir file file:new<CR>
+nnoremap <silent> <leader>u :<C-u>Denite -resume<CR>
+nnoremap <silent> <leader>/ :<C-u>DeniteProjectDir -start-filter grep<CR>
 
 " Set custom searcher
 if executable('rg')
@@ -297,7 +302,7 @@ endif
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowHidden = 1
-nnoremap <silent><C-b> :NERDTreeToggle<CR>
+nnoremap <silent> <leader>t :NERDTreeToggle<CR>
 command! -nargs=0 NT :NERDTreeToggle
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -353,7 +358,7 @@ endfunction
 nmap <leader>rn <Plug>(coc-rename)
 
 " yank list setting
-nnoremap <silent> yp :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> <leader>y :<C-u>CocList -A --normal yank<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
