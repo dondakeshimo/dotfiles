@@ -6,6 +6,9 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
+repo = 'Shougo/denite.nvim'
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 
 [[plugins]]

@@ -48,7 +48,7 @@ store() {
             continue
         fi
 
-        af=$(find `pwd` -name "$f" | tr / $SEP_CHAR)
+        af=$(echo "$(pwd -P)/$f" | tr / $SEP_CHAR)
         cp $f $LDFS_DIR/$af.ldf
         echo "store $f"
     done
