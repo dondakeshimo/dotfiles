@@ -1,22 +1,20 @@
-"""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " init
-"""""""""""""""""""""""
-" viとの互換性を一応切る
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if &compatible
   set nocompatible
 endif
 
 set encoding=UTF-8
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-"""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " dein.vim
-"""""""""""""""""""""""
-" dein.vimのrepositoryを設定
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:dein_dir = expand('~/.config/nvim/bundles')
 let s:dein_repo_dir = expand('~/.config/nvim/dein.vim')
 
-" dein.vimがなければinstall
+" Install dein.vim if not exists
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
     execute '!git clone https://github.com/Shougo/dein.vim ' . fnamemodify(s:dein_repo_dir, ':p')
@@ -24,7 +22,6 @@ if &runtimepath !~# '/dein.vim'
   execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-" dein.vimのセットアップ
 if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
 
@@ -38,74 +35,80 @@ if dein#load_state(s:dein_dir)
     call dein#save_state()
 endif
 
-" 自動インストール
 if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
 
 filetype plugin indent on
-""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""
-" plugin関係なし
-""""""""""""""""""""""
-" vimの見た目系
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim options
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" user interface
 set ruler
 set number
 set title
 set ambiwidth=double
 set list
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
-" 空白系
+
+" indent
 set autoindent
 set smartindent
 set shiftwidth=4
 set expandtab
 set tabstop=4
-" カーソル系
+
+" cursor
 set whichwrap=b,s,[,],<,>
 set backspace=indent,eol,start
 set virtualedit=block
 set ttimeoutlen=10
-" ファイル操作系
+
+" file manipulation
 set noswapfile
+set backupdir=$HOME/.vimbackup
 set hidden
 set wildmenu
-set backupdir=$HOME/.vimbackup
-" 文字列系
+
+" interpretation number formats
 set nrformats-=octal
-" 検索系
+
+" searching options
 set ignorecase
 set smartcase
 set hlsearch
 set incsearch
 set wrapscan
-" クリップボードにコピー
+
+" copy to global clipboard
 set clipboard=unnamed
+
 " updatetime
 set updatetime=100
-""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " colorscheme
-"""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
 colorscheme solarized
 syntax enable
-"""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""
-" insertモードでのキーマップ
-"""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" emacs keybind in insert mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 noremap! <C-b> <Left>
 noremap! <C-f> <Right>
 inoremap <C-a> <C-o>^
 inoremap <C-e> <C-o>$
-"""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" 全角スペースの可視化
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" visible multi byte space
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ZenkakuSpace()
   highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 endfunction
@@ -118,20 +121,20 @@ if has('syntax')
   augroup END
   call ZenkakuSpace()
 endif
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" filitypeの設定
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" filitype
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set filetypes as typescriptreact
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 autocmd BufNewFile,BufRead *.module.css set filetype=scss
 autocmd FileType scss setl iskeyword+=@-@
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " lightline
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
 set t_Co=256
 
@@ -150,6 +153,7 @@ let g:lightline = {
   \   ],
   \   'right': [
   \     ['cocstatus'],
+  \     ['lineinfo'],
   \     ['percent'],
   \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
   \   ]
@@ -195,59 +199,118 @@ augroup CocStatusRefresh
     autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 augroup END
 
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" Unit.vim
-""""""""""""""""""""""""""""""
-" 入力モードで開始する
-let g:unite_enable_start_insert = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Denite.nvim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load key mappings for buffers of denite
+augroup my_denite
+    autocmd!
+    autocmd FileType denite call s:denite_my_settings()
+    autocmd FileType denite-filter call s:denite_filter_my_settings()
+augroup END
 
-" mruファイルの上限設定
-let g:unite_source_file_mru_limit = 200
+" Set action map in denite buffer
+function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+                \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> s
+                \ denite#do_map('do_action', 'vsplit')
+    nnoremap <silent><buffer><expr> d
+                \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+                \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+                \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i
+                \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+                \ denite#do_map('toggle_select').'j'
+endfunction
 
-" " 大文字小文字を区別しない
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
+" Set action map in denite-filter buffer
+function! s:denite_filter_my_settings() abort
+    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+endfunction
 
-" キーマップ設定
-nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-nnoremap <silent> ,uf :<C-u>UniteWithProjectDir -buffer-name=files file<CR>
-nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
+" Define default options
+let s:denite_default_options = {}
+call extend(s:denite_default_options, {
+            \   'start-filter': v:true,
+            \})
+call extend(s:denite_default_options, {
+            \   'highlight_matched_char': 'None',
+            \   'highlight_matched_range': 'Search',
+            \   'match_highlight': v:true,
+            \})
+call extend(s:denite_default_options, {
+            \   'direction': "top",
+            \   'filter_split_direction': "top",
+            \})
+call extend(s:denite_default_options, {
+            \   'prompt': '> ',
+            \})
+call extend(s:denite_default_options, {
+            \   'smartcase': v:true,
+            \})
+call denite#custom#option('default', s:denite_default_options)
 
-" git grep検索
-nnoremap <silent> ,g  :<C-u>Unite grep/git:. -buffer-name=search-buffer<CR>
-" ディレクトリを指定してgrep検索
-nnoremap <silent> ,dg  :<C-u>Unite grep -buffer-name=search-buffer<CR>
-" grep検索結果の再呼出
-nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
+" Set global key mappings about denite.vim
+nnoremap [denite] <Nop>
+nmap <C-f> [denite]
 
-" unite grep に ag(The Silver Searcher) を使う
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
+nnoremap <silent> [denite]b :<C-u>Denite -start-filter buffer<CR>
+nnoremap <silent> [denite]r :<C-u>Denite -start-filter -buffer-name=register register<CR>
+nnoremap <silent> [denite]p :<C-u>Denite -start-filter file/rec<CR>
+nnoremap <silent> [denite]f :<C-u>DeniteBufferDir -start-filter file/rec<CR>
+nnoremap <silent> [denite]u :<C-u>Denite -resume<CR>
+nnoremap <silent> [denite]/ :<C-u>DeniteProjectDir -start-filter grep<CR>
+
+" Set custom searcher
+if executable('rg')
+    call denite#custom#var('file/rec', 'command',
+                \ ['rg', '--files', '-.', '--glob', '!.git', '--color', 'never'])
+    call denite#custom#var('grep', {
+                \ 'command': ['rg'],
+                \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
+                \ 'recursive_opts': [],
+                \ 'pattern_opt': ['--regexp'],
+                \ 'separator': ['--'],
+                \ 'final_opts': [],
+                \ })
+elseif executable('ag')
+    call denite#custom#var('file/rec', 'command',
+                \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    call denite#custom#var('grep', {
+                \ 'command': ['ag'],
+                \ 'default_opts': ['-i', '--vimgrep'],
+                \ 'recursive_opts': [],
+                \ 'pattern_opt': [],
+                \ 'separator': ['--'],
+                \ 'final_opts': [],
+                \ })
 endif
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
-""""""""""""""""""""""""""""""
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowHidden = 1
-""""""""""""""""""""""""""""""
+nnoremap <silent><C-b> :NERDTreeToggle<CR>
+command! -nargs=0 NT :NERDTreeToggle
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " git-gutter
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set signcolumn=yes
 highlight clear SignColumn
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " coc-nvim
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -289,26 +352,12 @@ endfunction
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-" Note coc#float#scroll works on neovim >= 0.4.3 or vim >= 8.2.0750
-" nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-" nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-" inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-" inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
 " yank list setting
 nnoremap <silent> yp :<C-u>CocList -A --normal yank<cr>
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tagbar, ctags
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent><C-j> :TagbarToggle<CR>
 nnoremap <C-]> g<C-]>
