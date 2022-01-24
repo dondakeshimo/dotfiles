@@ -5,7 +5,7 @@
 # asdf setting
 if [ -f $ZPLUG_REPOS/asdf-vm/asdf/asdf.sh ]; then
     source $ZPLUG_REPOS/asdf-vm/asdf/asdf.sh
-    fpath=(${ASDF_DIR}/completions $fpath)
+    fpath=(${ASDF_DIR}/completions(N-/) $fpath)
 fi
 
 # go setting
