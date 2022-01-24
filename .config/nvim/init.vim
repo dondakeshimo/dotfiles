@@ -265,18 +265,19 @@ call denite#custom#option('default', s:denite_default_options)
 
 nnoremap <silent> <leader>b :<C-u>Denite -start-filter buffer<CR>
 nnoremap <silent> <leader>r :<C-u>Denite -start-filter -buffer-name=register register<CR>
+nnoremap <silent> <leader>m :<C-u>Denite mark<CR>
 nnoremap <silent> <leader>p :<C-u>Denite -start-filter file/rec<CR>
 nnoremap <silent> <leader>f :<C-u>DeniteBufferDir file file:new<CR>
-nnoremap <silent> <leader>u :<C-u>Denite -resume<CR>
 nnoremap <silent> <leader>/ :<C-u>DeniteProjectDir -start-filter grep<CR>
+nnoremap <silent> <leader>u :<C-u>Denite -resume -refresh<CR>
 
 " Set custom searcher
 if executable('rg')
     call denite#custom#var('file/rec', 'command',
-                \ ['rg', '--files', '-.', '--glob', '!.git', '--color', 'never'])
+                \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
     call denite#custom#var('grep', {
                 \ 'command': ['rg'],
-                \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
+                \ 'default_opts': ['-S', '--vimgrep', '--no-heading', '--hidden', '--glob', '!.git'],
                 \ 'recursive_opts': [],
                 \ 'pattern_opt': ['--regexp'],
                 \ 'separator': ['--'],
@@ -293,6 +294,16 @@ elseif executable('ag')
                 \ 'separator': ['--'],
                 \ 'final_opts': [],
                 \ })
+endif
+
+if &rtp =~ "devicons"
+    call denite#custom#source('file', 'converters', ['devicons_denite_converter', 'converter/abbr_word'])
+    call denite#custom#source('file/rec', 'converters', ['devicons_denite_converter', 'converter/abbr_word'])
+    call denite#custom#source('grep', 'converters', ['devicons_denite_converter', 'converter/abbr_word'])
+else
+    call denite#custom#source('file', 'converters', ['converter/abbr_word'])
+    call denite#custom#source('file/rec', 'converters', ['converter/abbr_word'])
+    call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
 endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
