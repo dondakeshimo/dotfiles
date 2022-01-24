@@ -31,10 +31,10 @@ done
 # setting zsh-completions #
 # ----------------------- #
 fpath=( \
-    /usr/local/share/zsh-completions \
-    /usr/local/share/zsh/site-functions \
-    /usr/local/share/zsh/functions \
-    $HOME/.zsh/zsh-completions \
+    /usr/local/share/zsh-completions(N-/) \
+    /usr/local/share/zsh/site-functions(N-/) \
+    /usr/local/share/zsh/functions(N-/) \
+    $HOME/.zsh/zsh-completions(N-/) \
     $fpath \
     )
 autoload -Uz compinit && compinit -u
