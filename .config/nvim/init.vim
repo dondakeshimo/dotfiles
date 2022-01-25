@@ -111,6 +111,15 @@ cnoremap <C-n> <Down>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" emacs keybind on insert mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-a> <C-o>^
+inoremap <C-e> <C-o>$
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " visible multi byte space
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ZenkakuSpace()
@@ -237,38 +246,38 @@ endfunction
 
 " Set action map in denite-filter buffer
 function! s:denite_filter_my_settings() abort
-    imap <silent><buffer> <Esc> <Esc>:call denite#move_to_parent()<CR>
-    imap <silent><buffer> <C-[> <C-[>:call denite#move_to_parent()<CR>
+    imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
+    imap <silent><buffer> <C-[> <Plug>(denite_filter_quit)
+    inoremap <silent><buffer> <C-n> <Esc>
+                \:call denite#move_to_parent()<CR>
+                \:call cursor(line('.')+1,0)<CR>
+                \:call denite#move_to_filter()<CR>A
+    inoremap <silent><buffer> <C-p> <Esc>
+                \:call denite#move_to_parent()<CR>
+                \:call cursor(line('.')-1,0)<CR>
+                \:call denite#move_to_filter()<CR>A
 endfunction
 
 " Define default options
-let s:denite_default_options = {}
-call extend(s:denite_default_options, {
+call denite#custom#option('default', {
             \   'start-filter': v:true,
-            \})
-call extend(s:denite_default_options, {
             \   'highlight_matched_char': 'None',
             \   'highlight_matched_range': 'Search',
-            \   'match_highlight': v:true,
-            \})
-call extend(s:denite_default_options, {
             \   'direction': "top",
+            \   'vertical_preview': v:true,
+            \   'preview_width': float2nr(&columns / 2),
             \   'filter_split_direction': "top",
-            \})
-call extend(s:denite_default_options, {
             \   'prompt': '> ',
-            \})
-call extend(s:denite_default_options, {
             \   'smartcase': v:true,
-            \})
-call denite#custom#option('default', s:denite_default_options)
+            \   'start_filter': v:true,
+            \ })
 
-nnoremap <silent> <leader>b :<C-u>Denite -start-filter buffer<CR>
-nnoremap <silent> <leader>r :<C-u>Denite -start-filter -buffer-name=register register<CR>
+nnoremap <silent> <leader>b :<C-u>Denite buffer<CR>
+nnoremap <silent> <leader>r :<C-u>Denite register<CR>
 nnoremap <silent> <leader>m :<C-u>Denite mark<CR>
-nnoremap <silent> <leader>p :<C-u>Denite -start-filter file/rec<CR>
+nnoremap <silent> <leader>p :<C-u>Denite file/rec<CR>
 nnoremap <silent> <leader>f :<C-u>DeniteBufferDir file file:new<CR>
-nnoremap <silent> <leader>/ :<C-u>DeniteProjectDir -start-filter grep<CR>
+nnoremap <silent> <leader>/ :<C-u>DeniteProjectDir grep<CR>
 nnoremap <silent> <leader>u :<C-u>Denite -resume -refresh<CR>
 
 " Set custom searcher

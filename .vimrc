@@ -60,8 +60,8 @@ syntax enable
 """""""""""""""""""""
 " insertモードでのキーマップ
 """""""""""""""""""""
-noremap! <C-b> <Left>
-noremap! <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
 inoremap <C-a> <C-o>^
 inoremap <C-e> <C-o>$
 """""""""""""""""""""
