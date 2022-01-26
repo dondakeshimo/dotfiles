@@ -7,9 +7,13 @@ is_screen_running() { [ ! -z "$STY" ]; }
 is_tmux_runnning() { [ ! -z "$TMUX" ]; }
 is_screen_or_tmux_running() { is_screen_running || is_tmux_runnning; }
 is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
+is_in_docker_container() { [ -f /.dockerenv ] }
 
 # when ssh connected, not run tmux.
 is_ssh_running && exit 0
+
+# when is in docker container, not run tmux.
+is_in_docker_container && exit 0
 
 if is_screen_or_tmux_running; then
     if is_tmux_runnning; then
