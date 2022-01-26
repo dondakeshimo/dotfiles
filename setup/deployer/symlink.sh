@@ -8,7 +8,7 @@ cd `dirname $0`/../../
     FLAG_BIN=false
     BIN_DIR=~/bin
     ZSH_TGT=(".zshrc" ".zsh")
-    BASH_TGT=(".bash_profile" ".bashprompt")
+    BASH_TGT=(".bash_profile" ".bash_prompt")
     VIM_TGT=(".vimrc")
     NVIM_TGT=(".config")  # when the other app use .config, separate in config and fix logic only to deploy $HOME
     TMUX_TGT=(".tmux.conf")
@@ -33,35 +33,38 @@ cd `dirname $0`/../../
     do
         case $OPT in
             'all' )
-                FLAG_EXEC=(${DOTFILES_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${DOTFILES_TGT[@]})
                 FLAG_BIN=true
                 ;;
             'dotfiles' )
-                FLAG_EXEC=(${DOTFILES_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${DOTFILES_TGT[@]})
                 ;;
             'zsh' )
-                FLAG_EXEC=(${ZSH_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${ZSH_TGT[@]})
                 ;;
             'bash' )
-                FLAG_EXEC=(${BASH_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${BASH_TGT[@]})
                 ;;
             'vim' )
-                FLAG_EXEC=(${VIM_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${VIM_TGT[@]})
                 ;;
             'nvim' )
-                FLAG_EXEC=(${NVIM_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${NVIM_TGT[@]})
                 ;;
             'tmux' )
-                FLAG_EXEC=(${TMUX_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${TMUX_TGT[@]})
                 ;;
             'git' )
-                FLAG_EXEC=(${GIT_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${GIT_TGT[@]})
                 ;;
             'ssh' )
-                FLAG_EXEC=(${SSH_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${SSH_TGT[@]})
                 ;;
             'atom' )
-                FLAG_EXEC=(${ATOM_TGT[@]})
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${ATOM_TGT[@]})
+                ;;
+            'asdf' )
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${ASDF_TGT[@]})
                 ;;
             'bin' )
                 FLAG_BIN=true
