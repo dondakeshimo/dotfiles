@@ -99,7 +99,8 @@ let mapleader = "\<space>"
 " colorscheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
-colorscheme solarized
+set termguicolors
+colorscheme solarized8
 syntax enable
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
