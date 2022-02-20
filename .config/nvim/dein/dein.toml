@@ -24,7 +24,7 @@ repo = 'tpope/vim-surround'
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
-repo = 'altercation/vim-colors-solarized'
+repo = 'lifepillar/vim-solarized8'
 
 [[plugins]]
 repo = 'preservim/nerdtree'
