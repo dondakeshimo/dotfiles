@@ -385,3 +385,37 @@ nnoremap <silent> <leader>y :<C-u>CocList -A --normal yank<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent><C-j> :TagbarToggle<CR>
 nnoremap <C-]> g<C-]>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" sandwich
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+
+let g:sandwich#recipes += [
+          \   {
+          \     'buns': ['FuncName()', '")"'],
+      \     'expr': 1,
+      \     'cursor': 'inner_tail',
+      \     'kind': ['add', 'replace'],
+      \     'action': ['add'],
+      \     'input': ['f']
+      \   },
+      \ ]
+let g:sandwich#recipes += [
+      \   {
+      \     'external': ["\<Plug>(textobj-parameter-i)", "\<Plug>(textobj-functioncall-a)"],
+      \     'noremap': 0,
+      \     'kind': ['delete', 'replace', 'query'],
+      \     'input': ['f']
+      \   },
+      \ ]
+
+function! FuncName() abort
+      let funcname = input('funcname: ', '')
+        if funcname ==# ''
+                throw 'OperatorSandwichCancel'
+                  endif
+                    return funcname . '('
+                endfunction
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
