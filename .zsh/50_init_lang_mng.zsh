@@ -12,6 +12,9 @@ fi
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
+# rust setting
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Tex setting
 export PATH="/Library/TeX/texbin:$PATH"
 
