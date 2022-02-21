@@ -10,13 +10,13 @@ cd `dirname $0`/../../
     ZSH_TGT=(".zshrc" ".zsh")
     BASH_TGT=(".bash_profile" ".bash_prompt")
     VIM_TGT=(".vimrc")
-    NVIM_TGT=(".config")  # when the other app use .config, separate in config and fix logic only to deploy $HOME
+    CFG_TGT=(".config")
     TMUX_TGT=(".tmux.conf")
     GIT_TGT=(".gitconfig" ".gitignore_global")
     SSH_TGT=(".ssh")
     ATOM_TGT=(".atom")
     ASDF_TGT=(".asdfrc")
-    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${NVIM_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${ASDF_TGT[@]})
+    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${CFG_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${ASDF_TGT[@]})
 }
 
 
@@ -48,8 +48,8 @@ cd `dirname $0`/../../
             'vim' )
                 FLAG_EXEC=(${FLAG_EXEC[@]} ${VIM_TGT[@]})
                 ;;
-            'nvim' )
-                FLAG_EXEC=(${FLAG_EXEC[@]} ${NVIM_TGT[@]})
+            'config' )
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${CFG_TGT[@]})
                 ;;
             'tmux' )
                 FLAG_EXEC=(${FLAG_EXEC[@]} ${TMUX_TGT[@]})
