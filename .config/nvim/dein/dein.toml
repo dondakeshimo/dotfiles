@@ -21,9 +21,6 @@ repo = 'tpope/vim-rhubarb'
 repo = 'machakann/vim-sandwich'
 
 [[plugins]]
-repo = 'tpope/vim-repeat'
-
-[[plugins]]
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
@@ -49,6 +46,10 @@ repo = 'leafgarland/typescript-vim'
 
 [[plugins]]
 repo = 'peitalin/vim-jsx-typescript'
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+merged = 0
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
