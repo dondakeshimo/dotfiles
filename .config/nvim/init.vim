@@ -393,8 +393,8 @@ nnoremap <C-]> g<C-]>
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
 
 let g:sandwich#recipes += [
-          \   {
-          \     'buns': ['FuncName()', '")"'],
+      \   {
+      \     'buns': ['FuncName()', '")"'],
       \     'expr': 1,
       \     'cursor': 'inner_tail',
       \     'kind': ['add', 'replace'],
