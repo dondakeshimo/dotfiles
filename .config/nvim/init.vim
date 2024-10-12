@@ -405,12 +405,12 @@ let g:sandwich#recipes += [
       \ ]
 
 function! FuncName() abort
-      let funcname = input('funcname: ', '')
-        if funcname ==# ''
-                throw 'OperatorSandwichCancel'
-                  endif
-                    return funcname . '('
-                endfunction
+    let funcname = input('funcname: ', '')
+    if funcname ==# ''
+        throw 'OperatorSandwichCancel'
+    endif
+    return funcname . '('
+endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
