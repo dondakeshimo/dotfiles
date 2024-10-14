@@ -4,7 +4,7 @@
 	signingkey = ~/.ssh/id_git_rsa.pub
 
 [gpg]
-	program = ssh
+	format = ssh
 
 [core]
 	excludesfile = ~/.gitignore_global
@@ -27,7 +27,7 @@
 	vsc = git
 
 [commit]
-	ghgsign = true
+	gpgsign = true
 
 [merge]
 	tool = vimdiff
