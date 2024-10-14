@@ -1,6 +1,0 @@
-[[plugins]]
-repo = 'majutsushi/tagbar'
-
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
