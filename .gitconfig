@@ -1,6 +1,10 @@
 [user]
 	name = dondakeshimo
 	email = went.went.takkun135@gmail.com
+	signingkey = ~/.ssh/id_git_rsa.pub
+
+[gpg]
+	program = ssh
 
 [core]
 	excludesfile = ~/.gitignore_global
@@ -21,6 +25,9 @@
 
 [ghq "CODECOMMIT-URL"]
 	vsc = git
+
+[commit]
+	ghgsign = true
 
 [merge]
 	tool = vimdiff
