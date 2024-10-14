@@ -379,7 +379,9 @@ require("lazy").setup({
       "machakann/vim-sandwich",
     },
     {
-      "Yggdroot/indentLine",
+      "lukas-reineke/indent-blankline.nvim",
+      main = "ibl",
+      opts = {},
     },
     {
       "airblade/vim-gitgutter",
