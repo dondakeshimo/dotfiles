@@ -54,16 +54,18 @@ require("lazy").setup({
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
+        "nvim-telescope/telescope.nvim",
       },
       config = function(_, _)
         vim.api.nvim_create_autocmd("LspAttach", {
           callback = function(_)
+            local builtin = require("telescope.builtin")
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true })
             vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = true })
-            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = true })
+            vim.keymap.set("n", "gi", builtin.lsp_references, { buffer = true })
             vim.keymap.set("n", "gn", vim.lsp.buf.rename, { buffer = true })
             vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { buffer = true })
-            vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = true })
+            vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = true })
             vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { buffer = true })
             vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { buffer = true })
           end,
@@ -267,8 +269,6 @@ require("lazy").setup({
       dependencies = {
         "nvim-lua/plenary.nvim",
       },
-      lazy = true,
-      keys = { "<leader>f" },
       config = function()
         local builtin = require("telescope.builtin")
         vim.keymap.set("n", "<leader>fp", builtin.git_files, {})
@@ -288,11 +288,39 @@ require("lazy").setup({
         "nvim-telescope/telescope.nvim",
         "nvim-lua/plenary.nvim",
       },
-      lazy = true,
-      keys = { "<leader>f" },
       config = function()
         require("telescope").load_extension("file_browser")
         vim.keymap.set("n", "<leader>ff", ":Telescope file_browser path=%:p:h select_buffer=true hidden=true<CR>")
+      end,
+    },
+    {
+      "AckslD/nvim-neoclip.lua",
+      dependencies = {
+        { "kkharji/sqlite.lua", module = 'sqlite' },
+        "nvim-telescope/telescope.nvim",
+      },
+      config = function()
+        require("neoclip").setup({
+          enable_persistent_history = true,
+          keys = {
+            telescope = {
+              i = {
+                paste = '<nop>',
+                paste_behind = '<nop>',
+              }
+            }
+          }
+        })
+        vim.keymap.set("n", "<leader>fy", ":Telescope neoclip unnamed extra=plus<cr>")
+      end,
+    },
+    {
+      "nvim-telescope/telescope-frecency.nvim",
+      lazy = true,
+      event = "VeryLazy",
+      dependencies = { "kkharji/sqlite.lua" },
+      config = function()
+        require("telescope").load_extension("frecency")
       end,
     },
     {
@@ -300,7 +328,7 @@ require("lazy").setup({
       branch = "v3.x",
       dependencies = {
         "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
       },
       opts = {
@@ -331,6 +359,11 @@ require("lazy").setup({
       event = "VeryLazy",
     },
     {
+      "kkharji/sqlite.lua",
+      lazy = true,
+      event = "VeryLazy",
+    },
+    {
       "MunifTanjim/nui.nvim",
       lazy = true,
       event = "VeryLazy",
@@ -343,6 +376,15 @@ require("lazy").setup({
     },
     {
       "airblade/vim-gitgutter",
+    },
+    {
+      "almo7aya/openingh.nvim",
+      lazy = true,
+      cmd = {
+        "OpenInGHFile",
+        "OpenInGHFileLines",
+        "OpenInGHRepo",
+      },
     },
     {
       "TimUntersberger/neogit",
