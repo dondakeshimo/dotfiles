@@ -1,3 +1,10 @@
+--[[
+
+- Don't describe package's overview here as code comments, refer to each package's help page.
+- Lazy setting is rough because enough comfortable speed now.
+
+--]]
+
 require("lazy").setup({
   spec = {
     {
