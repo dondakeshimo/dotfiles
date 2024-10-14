@@ -1,0 +1,314 @@
+{
+  "profiles": [
+    {
+      "complex_modifications": {
+        "rules": [
+          {
+            "description": "Use mouse pointing by keyboard",
+            "manipulators": [
+              {
+                "description": "right_command + r -> left click",
+                "from": {
+                  "key_code": "r",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "pointing_button": "button1"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "description": "right_command + g -> right click",
+                "from": {
+                  "key_code": "g",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "pointing_button": "button2"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "description": "right_command + s -> mouse left",
+                "from": {
+                  "key_code": "s",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command"
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.to_if_held_down_threshold_milliseconds": 250
+                },
+                "to": [
+                  {
+                    "mouse_key": {
+                      "x": -2000
+                    }
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "mouse_key": {
+                      "x": 20000
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "description": "right_command + e -> mouse up",
+                "from": {
+                  "key_code": "e",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command"
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.to_if_held_down_threshold_milliseconds": 250
+                },
+                "to": [
+                  {
+                    "mouse_key": {
+                      "y": -2000
+                    }
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "mouse_key": {
+                      "y": 20000
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "description": "right_command + f -> mouse right",
+                "from": {
+                  "key_code": "f",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command"
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.to_if_held_down_threshold_milliseconds": 250
+                },
+                "to": [
+                  {
+                    "mouse_key": {
+                      "x": 2000
+                    }
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "mouse_key": {
+                      "x": -20000
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "description": "right_command + d -> mouse down",
+                "from": {
+                  "key_code": "d",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command"
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.to_if_held_down_threshold_milliseconds": 250
+                },
+                "to": [
+                  {
+                    "mouse_key": {
+                      "y": 2000
+                    }
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "mouse_key": {
+                      "y": -20000
+                    }
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          }
+        ]
+      },
+      "devices": [
+        {
+          "right_command_function_keys": [
+            {
+              "from": {
+                "key_code": "f1"
+              },
+              "to": [
+                {
+                  "key_code": "f1"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f2"
+              },
+              "to": [
+                {
+                  "key_code": "f2"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f3"
+              },
+              "to": [
+                {
+                  "key_code": "f3"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f4"
+              },
+              "to": [
+                {
+                  "key_code": "f4"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f5"
+              },
+              "to": [
+                {
+                  "key_code": "f5"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f6"
+              },
+              "to": [
+                {
+                  "key_code": "f6"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f7"
+              },
+              "to": [
+                {
+                  "key_code": "f7"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f8"
+              },
+              "to": [
+                {
+                  "key_code": "f8"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f9"
+              },
+              "to": [
+                {
+                  "key_code": "f9"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f10"
+              },
+              "to": [
+                {
+                  "key_code": "f10"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f11"
+              },
+              "to": [
+                {
+                  "key_code": "f11"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "f12"
+              },
+              "to": [
+                {
+                  "key_code": "f12"
+                }
+              ]
+            }
+          ],
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 34,
+            "vendor_id": 1278
+          }
+        }
+      ],
+      "name": "Default profile",
+      "selected": true,
+      "simple_modifications": [
+        {
+          "from": {
+            "key_code": "non_us_backslash"
+          },
+          "to": [
+            {
+              "key_code": "backslash"
+            }
+          ]
+        }
+      ],
+      "virtual_hid_keyboard": {
+        "country_code": 0,
+        "keyboard_type_v2": "jis"
+      }
+    }
+  ]
+}
