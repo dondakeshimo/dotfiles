@@ -104,15 +104,6 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "folke/trouble.nvim",
-      lazy = true,
-      keys = { "<leader>xx", "<leader>xw", "<leader>xd", "<leader>xl", "<leader>xq", "gR" },
-      config = function()
-        require("trouble").setup({})
-        vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics<cr>", { silent = true, noremap = true })
-      end,
-    },
-    {
       "hrsh7th/nvim-cmp",
       lazy = true,
       event = "InsertEnter",
@@ -146,9 +137,9 @@ require("lazy").setup({
           mapping = cmp.mapping.preset.insert({
             ["<C-p>"] = cmp.mapping.select_prev_item(),
             ["<C-n>"] = cmp.mapping.select_next_item(),
-            ['<C-l>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+            ['<CR>'] = cmp.mapping.confirm({ select = false }),
           }),
         })
         cmp.setup.cmdline('/', {
@@ -277,14 +268,31 @@ require("lazy").setup({
         "nvim-lua/plenary.nvim",
       },
       lazy = true,
-      keys = { "<leader>ff", "<leader>fg", "<leader>fb", "<leader>fh", "<leader>fr" },
+      keys = { "<leader>f" },
       config = function()
         local builtin = require("telescope.builtin")
-        vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+        vim.keymap.set("n", "<leader>fp", builtin.git_files, {})
         vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
         vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
         vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
         vim.keymap.set("n", "<leader>fr", builtin.resume, {})
+        vim.keymap.set("n", "<leader>fj", builtin.jumplist, {})
+        vim.keymap.set("n", "<leader>fl", builtin.loclist, {})
+        vim.keymap.set("n", "<leader>fs", builtin.lsp_workspace_symbols, {})
+        vim.keymap.set("n", "<leader>fx", builtin.diagnostics, {})
+      end,
+    },
+    {
+      "nvim-telescope/telescope-file-browser.nvim",
+      dependencies = {
+        "nvim-telescope/telescope.nvim",
+        "nvim-lua/plenary.nvim",
+      },
+      lazy = true,
+      keys = { "<leader>f" },
+      config = function()
+        require("telescope").load_extension("file_browser")
+        vim.keymap.set("n", "<leader>ff", ":Telescope file_browser path=%:p:h select_buffer=true hidden=true<CR>")
       end,
     },
     {
@@ -295,10 +303,25 @@ require("lazy").setup({
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
         "MunifTanjim/nui.nvim",
       },
-      lazy = true,
-      keys = { "<leader>t" },
-      cmd = "Neotree",
-      config = function()
+      opts = {
+        enable_git_status = true,
+        enable_diagnostics = true,
+        filesystem = {
+          filtered_items = {
+            visible = true,
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
+          follow_current_file = {
+            enable = true,
+          },
+          hijack_netrw_behavior = "open_current",
+        },
+      },
+      config = function(_, opts)
+        require("neo-tree").setup(opts)
+        vim.api.nvim_set_var("loaded_netrw", 1)
+        vim.api.nvim_set_var("loaded_netrwPlugin", 1)
         vim.keymap.set("n", "<leader>t", ":Neotree toggle<CR>", { silent = true, noremap = true })
       end,
     },
@@ -325,8 +348,12 @@ require("lazy").setup({
       "TimUntersberger/neogit",
       dependencies = "nvim-lua/plenary.nvim",
       lazy = true,
+      keys = { "<leader>g" },
       cmd = "Neogit",
-      opt = {},
+      config = function()
+        require("neogit").setup({})
+        vim.keymap.set("n", "<leader>g", ":Neogit<CR>", { silent = true, noremap = true })
+      end,
     },
     {
       "github/copilot.vim",
