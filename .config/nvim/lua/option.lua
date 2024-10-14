@@ -2,7 +2,6 @@
 vim.opt.ruler = true
 vim.opt.number = true
 vim.opt.title = true
-vim.opt.ambiwidth  = "double"
 vim.opt.list = true
 vim.opt.signcolumn = "yes"
 vim.opt.listchars = {
