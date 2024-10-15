@@ -278,7 +278,16 @@ require("lazy").setup({
       dependencies = {
         "nvim-lua/plenary.nvim",
       },
-      config = function()
+      opts = {
+        defaults = {
+          layout_config = {
+            prompt_position = "top",
+          },
+          sorting_strategy = "ascending",
+        },
+      },
+      config = function(_, opts)
+        require("telescope").setup(opts)
         local builtin = require("telescope.builtin")
         vim.keymap.set("n", "<leader>fp", builtin.git_files, {})
         vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
