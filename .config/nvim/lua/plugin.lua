@@ -81,6 +81,7 @@ require("lazy").setup({
         require("mason-lspconfig").setup_handlers({
           function(server_name)
             require("lspconfig")[server_name].setup({
+              offset_encoding = "utf-8",
               capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities()
               ),
