@@ -129,6 +129,7 @@ require("lazy").setup({
         "saadparwaiz1/cmp_luasnip",
         "ray-x/cmp-treesitter",
         "onsails/lspkind.nvim",
+        "zbirenbaum/copilot-cmp",
       },
       config = function(_, _)
         local cmp = require("cmp")
@@ -139,6 +140,7 @@ require("lazy").setup({
             end,
           },
           sources = {
+            { name = "copilot" },
             { name = "nvim_lsp" },
             { name = "treesitter" },
             { name = "nvim_lsp_document_symbol" },
@@ -152,6 +154,9 @@ require("lazy").setup({
             ['<C-y>'] = cmp.mapping.confirm({ select = true }),
             ['<CR>'] = cmp.mapping.confirm({ select = false }),
           }),
+          experimental = {
+            ghost_text = true,
+          },
         })
         cmp.setup.cmdline('/', {
           mapping = cmp.mapping.preset.cmdline(),
@@ -473,10 +478,19 @@ require("lazy").setup({
       end,
     },
     {
-      "github/copilot.vim",
-      config = function()
-        vim.api.nvim_set_var("copilot_filetypes", { "markdown" })
-      end,
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      opts = {
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      },
+    },
+    {
+      'zbirenbaum/copilot-cmp',
+      lazy = true,
+      event = "InsertEnter",
+      opts = {},
     },
     {
       "maxmx03/solarized.nvim",
