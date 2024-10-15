@@ -125,8 +125,8 @@ require("lazy").setup({
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
-        "hrsh7th/cmp-vsnip",
-        "hrsh7th/vim-vsnip",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
         "ray-x/cmp-treesitter",
         "onsails/lspkind.nvim",
       },
@@ -135,7 +135,7 @@ require("lazy").setup({
         cmp.setup({
           snippet = {
             expand = function(args)
-              vim.fn["vsnip#anonymous"](args.body)
+              require('luasnip').lsp_expand(args.body)
             end,
           },
           sources = {
@@ -201,14 +201,18 @@ require("lazy").setup({
       event = "InsertEnter",
     },
     {
-      "hrsh7th/cmp-vsnip",
+      "L3MON4D3/LuaSnip",
+      tag = "v1.1.0",
       lazy = true,
       event = "InsertEnter",
     },
     {
-      "hrsh7th/vim-vsnip",
+      "saadparwaiz1/cmp_luasnip",
       lazy = true,
       event = "InsertEnter",
+      dependencies = {
+        "L3MON4D3/LuaSnip",
+      },
     },
     {
       "ray-x/cmp-treesitter",
