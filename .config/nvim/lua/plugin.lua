@@ -81,6 +81,7 @@ require("lazy").setup({
         require("mason-lspconfig").setup_handlers({
           function(server_name)
             require("lspconfig")[server_name].setup({
+              offset_encoding = "utf-8",
               capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities()
               ),
@@ -124,20 +125,22 @@ require("lazy").setup({
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
-        "hrsh7th/cmp-vsnip",
-        "hrsh7th/vim-vsnip",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
         "ray-x/cmp-treesitter",
         "onsails/lspkind.nvim",
+        "zbirenbaum/copilot-cmp",
       },
       config = function(_, _)
         local cmp = require("cmp")
         cmp.setup({
           snippet = {
             expand = function(args)
-              vim.fn["vsnip#anonymous"](args.body)
+              require('luasnip').lsp_expand(args.body)
             end,
           },
           sources = {
+            { name = "copilot" },
             { name = "nvim_lsp" },
             { name = "treesitter" },
             { name = "nvim_lsp_document_symbol" },
@@ -151,6 +154,9 @@ require("lazy").setup({
             ['<C-y>'] = cmp.mapping.confirm({ select = true }),
             ['<CR>'] = cmp.mapping.confirm({ select = false }),
           }),
+          experimental = {
+            ghost_text = true,
+          },
         })
         cmp.setup.cmdline('/', {
           mapping = cmp.mapping.preset.cmdline(),
@@ -200,14 +206,18 @@ require("lazy").setup({
       event = "InsertEnter",
     },
     {
-      "hrsh7th/cmp-vsnip",
+      "L3MON4D3/LuaSnip",
+      tag = "v1.1.0",
       lazy = true,
       event = "InsertEnter",
     },
     {
-      "hrsh7th/vim-vsnip",
+      "saadparwaiz1/cmp_luasnip",
       lazy = true,
       event = "InsertEnter",
+      dependencies = {
+        "L3MON4D3/LuaSnip",
+      },
     },
     {
       "ray-x/cmp-treesitter",
@@ -277,7 +287,16 @@ require("lazy").setup({
       dependencies = {
         "nvim-lua/plenary.nvim",
       },
-      config = function()
+      opts = {
+        defaults = {
+          layout_config = {
+            prompt_position = "top",
+          },
+          sorting_strategy = "ascending",
+        },
+      },
+      config = function(_, opts)
+        require("telescope").setup(opts)
         local builtin = require("telescope.builtin")
         vim.keymap.set("n", "<leader>fp", builtin.git_files, {})
         vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
@@ -390,7 +409,53 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "airblade/vim-gitgutter",
+      "lewis6991/gitsigns.nvim",
+      opts = {
+        on_attach = function(bufnr)
+          local gitsigns = require('gitsigns')
+
+          local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+          end
+
+          -- Navigation
+          map('n', ']c', function()
+            if vim.wo.diff then
+              vim.cmd.normal({ ']c', bang = true })
+            else
+              gitsigns.nav_hunk('next')
+            end
+          end)
+
+          map('n', '[c', function()
+            if vim.wo.diff then
+              vim.cmd.normal({ '[c', bang = true })
+            else
+              gitsigns.nav_hunk('prev')
+            end
+          end)
+
+          -- Actions
+          map('n', '<leader>hs', gitsigns.stage_hunk)
+          map('n', '<leader>hr', gitsigns.reset_hunk)
+          map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+          map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+          map('n', '<leader>hS', gitsigns.stage_buffer)
+          map('n', '<leader>hu', gitsigns.undo_stage_hunk)
+          map('n', '<leader>hR', gitsigns.reset_buffer)
+          map('n', '<leader>hp', gitsigns.preview_hunk)
+          map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end)
+          map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
+          map('n', '<leader>hd', gitsigns.diffthis)
+          map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
+          map('n', '<leader>td', gitsigns.toggle_deleted)
+
+          -- Text object
+          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        end,
+      },
     },
     {
       "almo7aya/openingh.nvim",
@@ -413,10 +478,19 @@ require("lazy").setup({
       end,
     },
     {
-      "github/copilot.vim",
-      config = function()
-        vim.api.nvim_set_var("copilot_filetypes", { "markdown" })
-      end,
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      opts = {
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      },
+    },
+    {
+      'zbirenbaum/copilot-cmp',
+      lazy = true,
+      event = "InsertEnter",
+      opts = {},
     },
     {
       "maxmx03/solarized.nvim",
