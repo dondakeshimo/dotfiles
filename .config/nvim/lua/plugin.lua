@@ -464,6 +464,9 @@ require("lazy").setup({
       opts = {
         suggestion = { enabled = false },
         panel = { enabled = false },
+        fyletypes = {
+          markdown = true,
+        },
       },
     },
     {
