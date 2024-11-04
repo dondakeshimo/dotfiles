@@ -361,36 +361,6 @@ require("lazy").setup({
       end,
     },
     {
-      "nvim-neo-tree/neo-tree.nvim",
-      branch = "v3.x",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
-        "MunifTanjim/nui.nvim",
-      },
-      opts = {
-        enable_git_status = true,
-        enable_diagnostics = true,
-        filesystem = {
-          filtered_items = {
-            visible = true,
-            hide_dotfiles = false,
-            hide_gitignored = false,
-          },
-          follow_current_file = {
-            enable = true,
-          },
-          hijack_netrw_behavior = "open_current",
-        },
-      },
-      config = function(_, opts)
-        require("neo-tree").setup(opts)
-        vim.api.nvim_set_var("loaded_netrw", 1)
-        vim.api.nvim_set_var("loaded_netrwPlugin", 1)
-        vim.keymap.set("n", "<leader>t", ":Neotree toggle<CR>", { silent = true, noremap = true })
-      end,
-    },
-    {
       "nvim-lua/plenary.nvim",
       lazy = true,
       event = "VeryLazy",
