@@ -62,16 +62,17 @@ require("lazy").setup({
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
         "nvim-telescope/telescope.nvim",
+        "nvimdev/lspsaga.nvim",
       },
       config = function(_, _)
         vim.api.nvim_create_autocmd("LspAttach", {
           callback = function(_)
             local builtin = require("telescope.builtin")
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true })
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = true })
+            vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = true })
             vim.keymap.set("n", "gi", builtin.lsp_references, { buffer = true })
-            vim.keymap.set("n", "gn", vim.lsp.buf.rename, { buffer = true })
-            vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { buffer = true })
+            vim.keymap.set("n", "gn", "<cmd>Lspsaga rename<CR>", { buffer = true })
+            vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = true })
             vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = true })
             vim.keymap.set("n", "gf", vim.lsp.buf.format, { buffer = true })
             vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { buffer = true })
@@ -113,6 +114,25 @@ require("lazy").setup({
       lazy = true,
       event = "VeryLazy",
       opts = {},
+    },
+    {
+      "nvimdev/lspsaga.nvim",
+      lazy = true,
+      event = "VeryLazy",
+      opts = {
+        code_action = {
+          keys = {
+            quit = "<Esc>",
+          },
+        },
+        lightbulb = { enable = false },
+        rename = {
+          auto_save = true,
+          keys = {
+            quit = "<Esc>"
+          },
+        },
+      },
     },
     {
       "hrsh7th/nvim-cmp",
