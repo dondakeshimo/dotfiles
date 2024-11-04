@@ -430,7 +430,7 @@ require("lazy").setup({
           map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
           map('n', '<leader>hd', gitsigns.diffthis)
           map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
-          map('n', '<leader>td', gitsigns.toggle_deleted)
+          map('n', '<leader>hB', gitsigns.toggle_deleted)
 
           -- Text object
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
