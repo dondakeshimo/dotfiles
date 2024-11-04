@@ -328,6 +328,7 @@ require("lazy").setup({
       config = function()
         require("telescope").load_extension("file_browser")
         vim.keymap.set("n", "<leader>ff", ":Telescope file_browser path=%:p:h select_buffer=true hidden=true<CR>")
+        vim.keymap.set("n", "<leader>fd", ":Telescope file_browser hidden=true<CR>")
       end,
     },
     {
