@@ -133,6 +133,7 @@ require("lazy").setup({
       },
       config = function(_, _)
         local cmp = require("cmp")
+        local lspkind = require('lspkind')
         cmp.setup({
           snippet = {
             expand = function(args)
@@ -144,6 +145,7 @@ require("lazy").setup({
             { name = "nvim_lsp" },
             { name = "treesitter" },
             { name = "nvim_lsp_document_symbol" },
+            { name = "nvim_lsp_signature_help" },
             { name = "buffer" },
             { name = "path" },
           },
@@ -156,6 +158,14 @@ require("lazy").setup({
           }),
           experimental = {
             ghost_text = true,
+          },
+          formatting = {
+            format = lspkind.cmp_format({
+              mode = 'symbol',
+              maxwidth = 80,
+              ellipsis_char = '...',
+              symbol_map = { Copilot = "" },
+            })
           },
         })
         cmp.setup.cmdline('/', {
