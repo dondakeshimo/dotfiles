@@ -63,7 +63,7 @@
                 "to_if_held_down": [
                   {
                     "mouse_key": {
-                      "x": -5000
+                      "x": -8000
                     }
                   }
                 ],
@@ -92,7 +92,7 @@
                 "to_if_held_down": [
                   {
                     "mouse_key": {
-                      "y": -5000
+                      "y": -8000
                     }
                   }
                 ],
@@ -121,7 +121,7 @@
                 "to_if_held_down": [
                   {
                     "mouse_key": {
-                      "x": 5000
+                      "x": 8000
                     }
                   }
                 ],
@@ -150,7 +150,7 @@
                 "to_if_held_down": [
                   {
                     "mouse_key": {
-                      "y": 5000
+                      "y": 8000
                     }
                   }
                 ],

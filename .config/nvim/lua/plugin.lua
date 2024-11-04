@@ -57,21 +57,22 @@ require("lazy").setup({
     {
       "neovim/nvim-lspconfig",
       lazy = false,
-      dependdencied = {
+      dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
         "nvim-telescope/telescope.nvim",
+        "nvimdev/lspsaga.nvim",
       },
       config = function(_, _)
         vim.api.nvim_create_autocmd("LspAttach", {
           callback = function(_)
             local builtin = require("telescope.builtin")
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true })
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = true })
+            vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = true })
             vim.keymap.set("n", "gi", builtin.lsp_references, { buffer = true })
-            vim.keymap.set("n", "gn", vim.lsp.buf.rename, { buffer = true })
-            vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { buffer = true })
+            vim.keymap.set("n", "gn", "<cmd>Lspsaga rename<CR>", { buffer = true })
+            vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = true })
             vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = true })
             vim.keymap.set("n", "gf", vim.lsp.buf.format, { buffer = true })
             vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { buffer = true })
@@ -115,6 +116,25 @@ require("lazy").setup({
       opts = {},
     },
     {
+      "nvimdev/lspsaga.nvim",
+      lazy = true,
+      event = "VeryLazy",
+      opts = {
+        code_action = {
+          keys = {
+            quit = "<Esc>",
+          },
+        },
+        lightbulb = { enable = false },
+        rename = {
+          auto_save = true,
+          keys = {
+            quit = "<Esc>"
+          },
+        },
+      },
+    },
+    {
       "hrsh7th/nvim-cmp",
       lazy = true,
       event = "InsertEnter",
@@ -133,6 +153,7 @@ require("lazy").setup({
       },
       config = function(_, _)
         local cmp = require("cmp")
+        local lspkind = require('lspkind')
         cmp.setup({
           snippet = {
             expand = function(args)
@@ -144,6 +165,7 @@ require("lazy").setup({
             { name = "nvim_lsp" },
             { name = "treesitter" },
             { name = "nvim_lsp_document_symbol" },
+            { name = "nvim_lsp_signature_help" },
             { name = "buffer" },
             { name = "path" },
           },
@@ -156,6 +178,14 @@ require("lazy").setup({
           }),
           experimental = {
             ghost_text = true,
+          },
+          formatting = {
+            format = lspkind.cmp_format({
+              mode = 'symbol',
+              maxwidth = 80,
+              ellipsis_char = '...',
+              symbol_map = { Copilot = "" },
+            })
           },
         })
         cmp.setup.cmdline('/', {
@@ -318,6 +348,7 @@ require("lazy").setup({
       config = function()
         require("telescope").load_extension("file_browser")
         vim.keymap.set("n", "<leader>ff", ":Telescope file_browser path=%:p:h select_buffer=true hidden=true<CR>")
+        vim.keymap.set("n", "<leader>fd", ":Telescope file_browser hidden=true<CR>")
       end,
     },
     {
@@ -348,36 +379,6 @@ require("lazy").setup({
       dependencies = { "kkharji/sqlite.lua" },
       config = function()
         require("telescope").load_extension("frecency")
-      end,
-    },
-    {
-      "nvim-neo-tree/neo-tree.nvim",
-      branch = "v3.x",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
-        "MunifTanjim/nui.nvim",
-      },
-      opts = {
-        enable_git_status = true,
-        enable_diagnostics = true,
-        filesystem = {
-          filtered_items = {
-            visible = true,
-            hide_dotfiles = false,
-            hide_gitignored = false,
-          },
-          follow_current_file = {
-            enable = true,
-          },
-          hijack_netrw_behavior = "open_current",
-        },
-      },
-      config = function(_, opts)
-        require("neo-tree").setup(opts)
-        vim.api.nvim_set_var("loaded_netrw", 1)
-        vim.api.nvim_set_var("loaded_netrwPlugin", 1)
-        vim.keymap.set("n", "<leader>t", ":Neotree toggle<CR>", { silent = true, noremap = true })
       end,
     },
     {
@@ -450,7 +451,7 @@ require("lazy").setup({
           map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
           map('n', '<leader>hd', gitsigns.diffthis)
           map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
-          map('n', '<leader>td', gitsigns.toggle_deleted)
+          map('n', '<leader>hB', gitsigns.toggle_deleted)
 
           -- Text object
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
@@ -484,6 +485,9 @@ require("lazy").setup({
       opts = {
         suggestion = { enabled = false },
         panel = { enabled = false },
+        fyletypes = {
+          markdown = true,
+        },
       },
     },
     {
