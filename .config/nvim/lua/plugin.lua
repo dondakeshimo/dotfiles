@@ -94,11 +94,23 @@ require("lazy").setup({
         require("mason-lspconfig").setup_handlers({
           function(server_name)
             require("lspconfig")[server_name].setup({
-              offset_encoding = "utf-8",
               capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities()
               ),
             })
+            if server_name == "terraformls" then
+              require("lspconfig")[server_name].setup({
+                offset_encoding = "utf-8",
+              })
+            end
+            if server_name == "vacuum" then
+              vim.filetype.add {
+                pattern = {
+                  ['openapi.*%.ya?ml'] = 'yaml.openapi',
+                  ['openapi.*%.json'] = 'json.openapi',
+                },
+              }
+            end
           end,
         })
       end,
@@ -140,8 +152,9 @@ require("lazy").setup({
         lightbulb = { enable = false },
         rename = {
           auto_save = true,
+          project_max_witdh = 100,
           keys = {
-            quit = "<Esc>"
+            quit = "<C-c>"
           },
         },
       },
