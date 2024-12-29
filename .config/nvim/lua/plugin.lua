@@ -53,6 +53,18 @@ require("lazy").setup({
       },
       lazy = true,
       event = "BufRead",
+      ft = { "markdown" },
+      opts = {
+        on_attach = function(bufnr)
+          local ft = vim.fn.getbufvar(bufnr, "&filetype")
+          local ret = false
+          if ft == "markdown" then
+            ret = true
+          end
+
+          return ret
+        end
+      },
     },
     {
       "neovim/nvim-lspconfig",
@@ -70,7 +82,7 @@ require("lazy").setup({
             local builtin = require("telescope.builtin")
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true })
             vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = true })
-            vim.keymap.set("n", "gi", builtin.lsp_references, { buffer = true })
+            vim.keymap.set("n", "gi", builtin.lsp_implementations, { buffer = true })
             vim.keymap.set("n", "gn", "<cmd>Lspsaga rename<CR>", { buffer = true })
             vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = true })
             vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = true })
@@ -82,11 +94,23 @@ require("lazy").setup({
         require("mason-lspconfig").setup_handlers({
           function(server_name)
             require("lspconfig")[server_name].setup({
-              offset_encoding = "utf-8",
               capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities()
               ),
             })
+            if server_name == "terraformls" then
+              require("lspconfig")[server_name].setup({
+                offset_encoding = "utf-8",
+              })
+            end
+            if server_name == "vacuum" then
+              vim.filetype.add {
+                pattern = {
+                  ['openapi.*%.ya?ml'] = 'yaml.openapi',
+                  ['openapi.*%.json'] = 'json.openapi',
+                },
+              }
+            end
           end,
         })
       end,
@@ -128,8 +152,9 @@ require("lazy").setup({
         lightbulb = { enable = false },
         rename = {
           auto_save = true,
+          project_max_witdh = 100,
           keys = {
-            quit = "<Esc>"
+            quit = "<C-c>"
           },
         },
       },
@@ -154,6 +179,8 @@ require("lazy").setup({
       config = function(_, _)
         local cmp = require("cmp")
         local lspkind = require('lspkind')
+        vim.keymap.set("i", "<C-n>", cmp.complete, {})
+        vim.keymap.set("i", "<C-p>", cmp.complete, {})
         cmp.setup({
           snippet = {
             expand = function(args)
@@ -185,6 +212,10 @@ require("lazy").setup({
               maxwidth = 80,
               ellipsis_char = '...',
               symbol_map = { Copilot = "" },
+              before = function(entry, vim_item)
+                vim_item.menu = entry.source.name
+                return vim_item
+              end
             })
           },
         })
@@ -506,6 +537,35 @@ require("lazy").setup({
         vim.o.background = 'dark'
         require('solarized').setup(opts)
         vim.cmd.colorscheme 'solarized'
+      end,
+    },
+    {
+      "CopilotC-Nvim/CopilotChat.nvim",
+      branch = "main",
+      dependencies = {
+        { "zbirenbaum/copilot.lua" },
+        { "nvim-lua/plenary.nvim" },
+      },
+      build = "make tiktoken",
+      opts = {
+        window = {
+          layout = 'float',
+          width = 0.8,            -- fractional width of parent, or absolute width in columns when > 1
+          height = 0.8,           -- fractional height of parent, or absolute height in rows when > 1
+          relative = 'editor',    -- 'editor', 'win', 'cursor', 'mouse'
+          border = 'single',      -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+          title = 'Copilot Chat', -- title of chat window
+          zindex = 1,             -- determines if window is on top or below other floating windows
+        },
+        chat_autocomplete = false,
+      },
+      config = function(_, opts)
+        require("CopilotChat").setup(opts)
+        vim.keymap.set({ "n", "v" }, "<leader>cp", function()
+          local actions = require("CopilotChat.actions")
+          require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
+        end, {})
+        vim.keymap.set("n", "<leader>ct", "<cmd>CopilotChatToggle<CR>", {})
       end,
     },
   },

@@ -37,3 +37,6 @@ export POETRY_VIRTUALENVS_IN_PROJECT=true
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
+
+# flutter with asdf setting
+export PATH="$(asdf where flutter)/bin":"$PATH"
