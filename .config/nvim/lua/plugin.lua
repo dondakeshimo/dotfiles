@@ -53,6 +53,18 @@ require("lazy").setup({
       },
       lazy = true,
       event = "BufRead",
+      ft = { "markdown" },
+      opts = {
+        on_attach = function(bufnr)
+          local ft = vim.fn.getbufvar(bufnr, "&filetype")
+          local ret = false
+          if ft == "markdown" then
+            ret = true
+          end
+
+          return ret
+        end
+      },
     },
     {
       "neovim/nvim-lspconfig",
