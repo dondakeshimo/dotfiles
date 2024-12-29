@@ -82,7 +82,7 @@ require("lazy").setup({
             local builtin = require("telescope.builtin")
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true })
             vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = true })
-            vim.keymap.set("n", "gi", builtin.lsp_references, { buffer = true })
+            vim.keymap.set("n", "gi", builtin.lsp_implementations, { buffer = true })
             vim.keymap.set("n", "gn", "<cmd>Lspsaga rename<CR>", { buffer = true })
             vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = true })
             vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = true })
