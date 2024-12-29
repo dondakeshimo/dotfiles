@@ -179,6 +179,8 @@ require("lazy").setup({
       config = function(_, _)
         local cmp = require("cmp")
         local lspkind = require('lspkind')
+        vim.keymap.set("i", "<C-n>", cmp.complete, {})
+        vim.keymap.set("i", "<C-p>", cmp.complete, {})
         cmp.setup({
           snippet = {
             expand = function(args)
