@@ -539,6 +539,35 @@ require("lazy").setup({
         vim.cmd.colorscheme 'solarized'
       end,
     },
+    {
+      "CopilotC-Nvim/CopilotChat.nvim",
+      branch = "main",
+      dependencies = {
+        { "zbirenbaum/copilot.lua" },
+        { "nvim-lua/plenary.nvim" },
+      },
+      build = "make tiktoken",
+      opts = {
+        window = {
+          layout = 'float',
+          width = 0.8,            -- fractional width of parent, or absolute width in columns when > 1
+          height = 0.8,           -- fractional height of parent, or absolute height in rows when > 1
+          relative = 'editor',    -- 'editor', 'win', 'cursor', 'mouse'
+          border = 'single',      -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+          title = 'Copilot Chat', -- title of chat window
+          zindex = 1,             -- determines if window is on top or below other floating windows
+        },
+        chat_autocomplete = false,
+      },
+      config = function(_, opts)
+        require("CopilotChat").setup(opts)
+        vim.keymap.set({ "n", "v" }, "<leader>cp", function()
+          local actions = require("CopilotChat.actions")
+          require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
+        end, {})
+        vim.keymap.set("n", "<leader>ct", "<cmd>CopilotChatToggle<CR>", {})
+      end,
+    },
   },
   install = { colorscheme = { "solarized" } },
   checker = { enabled = true },
