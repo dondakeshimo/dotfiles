@@ -510,6 +510,15 @@ require("lazy").setup({
       end,
     },
     {
+      "junegunn/vim-easy-align",
+      lazy = true,
+      event = "InsertEnter",
+      config = function()
+        vim.keymap.set("x", "<leader>a", "<Plug>(EasyAlign)", { silent = true, noremap = true })
+        vim.keymap.set("n", "<leader>a", "<Plug>(EasyAlign)", { silent = true, noremap = true })
+      end,
+    },
+    {
       "zbirenbaum/copilot.lua",
       cmd = "Copilot",
       event = "InsertEnter",
