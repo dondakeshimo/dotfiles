@@ -212,6 +212,10 @@ require("lazy").setup({
               maxwidth = 80,
               ellipsis_char = '...',
               symbol_map = { Copilot = "" },
+              before = function(entry, vim_item)
+                vim_item.menu = entry.source.name
+                return vim_item
+              end
             })
           },
         })
