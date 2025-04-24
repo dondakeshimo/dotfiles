@@ -160,6 +160,16 @@ require("lazy").setup({
       },
     },
     {
+      'nvim-flutter/flutter-tools.nvim',
+      lazy = false,
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+      },
+      opts = {
+        flutter_lookup_cmd = "asdf where flutter",
+      },
+    },
+    {
       "hrsh7th/nvim-cmp",
       lazy = true,
       event = "InsertEnter",
@@ -527,7 +537,9 @@ require("lazy").setup({
         panel = { enabled = false },
         fyletypes = {
           markdown = true,
+          gitcommit = true,
         },
+        copilot_model = 'gpt-4o-copilot',
       },
     },
     {
@@ -549,34 +561,110 @@ require("lazy").setup({
       end,
     },
     {
-      "CopilotC-Nvim/CopilotChat.nvim",
-      branch = "main",
+      "olimorris/codecompanion.nvim",
       dependencies = {
-        { "zbirenbaum/copilot.lua" },
-        { "nvim-lua/plenary.nvim" },
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "j-hui/fidget.nvim",
+        'echasnovski/mini.nvim'
       },
-      build = "make tiktoken",
-      opts = {
-        window = {
-          layout = 'float',
-          width = 0.8,            -- fractional width of parent, or absolute width in columns when > 1
-          height = 0.8,           -- fractional height of parent, or absolute height in rows when > 1
-          relative = 'editor',    -- 'editor', 'win', 'cursor', 'mouse'
-          border = 'single',      -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-          title = 'Copilot Chat', -- title of chat window
-          zindex = 1,             -- determines if window is on top or below other floating windows
-        },
-        chat_autocomplete = false,
-      },
-      config = function(_, opts)
-        require("CopilotChat").setup(opts)
-        vim.keymap.set({ "n", "v" }, "<leader>cp", function()
-          local actions = require("CopilotChat.actions")
-          require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-        end, {})
-        vim.keymap.set("n", "<leader>ct", "<cmd>CopilotChatToggle<CR>", {})
+      config = function()
+        local default_model = "anthropic/claude-3.7-sonnet"
+
+        require("fidget-spinner"):init()
+
+        require("codecompanion").setup({
+          strategies = {
+            chat = {
+              adapter = "openrouter",
+              roles = {
+                llm = function(adapter)
+                  return "  CodeCompanion (" .. adapter.formatted_name .. ")"
+                end,
+                user = "  Me",
+              },
+              tools = {
+                ["mcp"] = {
+                  callback = function()
+                    return require("mcphub.extensions.codecompanion")
+                  end,
+                  description = "Call tools and resources from the MCP Servers"
+                }
+              },
+            },
+            inline = {
+              adapter = "openrouter",
+            },
+          },
+          adapters = {
+            openrouter = function()
+              return require("codecompanion.adapters").extend("openai_compatible", {
+                env = {
+                  url = "https://openrouter.ai/api",
+                  api_key = "OPENROUTER_API_KEY",
+                  chat_url = "/v1/chat/completions",
+                },
+                schema = {
+                  model = {
+                    default = default_model,
+                  },
+                },
+              })
+            end,
+          },
+          opts = {
+            language = "Japanese",
+            log_level = "DEBUG",
+          },
+          display = {
+            chat = {
+              show_header_separator = true,
+              window = {
+                position = "right",
+              },
+            },
+            diff = {
+              enabled = true,
+              layout = "horizontal",
+              provider = "mini_diff",
+            },
+          },
+        })
+
+        vim.keymap.set({ "n", "v" }, "<leader>ck", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+        vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+        vim.keymap.set("v", "<leader>ca", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+        -- Expand 'cc' into 'CodeCompanion' in the command line
+        vim.cmd([[cab cc CodeCompanion]])
       end,
     },
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+      ft = { "markdown", "markdown.mdx", "Avante", "codecompanion" },
+      opts = {
+        file_types = { "markdown", "Avante", "codecompanion" },
+      }
+    },
+    {
+      "ravitemer/mcphub.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+      },
+      cmd = "MCPHub",
+      build = "npm install -g mcp-hub@latest",
+      config = function()
+        require("mcphub").setup({
+          extensions = {
+            codecompanion = {
+              show_result_in_chat = true,
+              make_vars = true,
+              make_slash_commands = true,
+            }
+          }
+        })
+      end,
+    }
   },
   install = { colorscheme = { "solarized" } },
   checker = { enabled = true },
