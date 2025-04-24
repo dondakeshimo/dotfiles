@@ -561,82 +561,48 @@ require("lazy").setup({
       end,
     },
     {
-      "olimorris/codecompanion.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "j-hui/fidget.nvim",
-        'echasnovski/mini.nvim'
+      "yetone/avante.nvim",
+      event = "VeryLazy",
+      version = false, -- Never set this value to "*"! Never!
+      opts = {
+        provider = "openrouter",
+        vendors = {
+          openrouter = {
+            __inherited_from = 'openai',
+            endpoint = 'https://openrouter.ai/api/v1',
+            api_key_name = 'OPENROUTER_API_KEY',
+            model = 'anthropic/claude-3.7-sonnet',
+          },
+        },
+        behavior = {
+          enable_cursor_planning_mode = true,
+        },
       },
-      config = function()
-        local default_model = "anthropic/claude-3.7-sonnet"
-
-        require("fidget-spinner"):init()
-
-        require("codecompanion").setup({
-          strategies = {
-            chat = {
-              adapter = "openrouter",
-              roles = {
-                llm = function(adapter)
-                  return "  CodeCompanion (" .. adapter.formatted_name .. ")"
-                end,
-                user = "  Me",
-              },
-              tools = {
-                ["mcp"] = {
-                  callback = function()
-                    return require("mcphub.extensions.codecompanion")
-                  end,
-                  description = "Call tools and resources from the MCP Servers"
-                }
-              },
-            },
-            inline = {
-              adapter = "openrouter",
-            },
-          },
-          adapters = {
-            openrouter = function()
-              return require("codecompanion.adapters").extend("openai_compatible", {
-                env = {
-                  url = "https://openrouter.ai/api",
-                  api_key = "OPENROUTER_API_KEY",
-                  chat_url = "/v1/chat/completions",
-                },
-                schema = {
-                  model = {
-                    default = default_model,
-                  },
-                },
-              })
-            end,
-          },
+      build = "make",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "stevearc/dressing.nvim",
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+        "nvim-telescope/telescope.nvim",
+        "hrsh7th/nvim-cmp",
+        "nvim-tree/nvim-web-devicons",
+        "zbirenbaum/copilot.lua",
+        {
+          "HakonHarnes/img-clip.nvim",
+          event = "VeryLazy",
           opts = {
-            language = "Japanese",
-            log_level = "DEBUG",
-          },
-          display = {
-            chat = {
-              show_header_separator = true,
-              window = {
-                position = "right",
+            default = {
+              embed_image_as_base64 = false,
+              prompt_for_file_name = false,
+              drag_and_drop = {
+                insert_mode = true,
               },
-            },
-            diff = {
-              enabled = true,
-              layout = "horizontal",
-              provider = "mini_diff",
+              use_absolute_path = true,
             },
           },
-        })
-
-        vim.keymap.set({ "n", "v" }, "<leader>ck", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-        vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-        vim.keymap.set("v", "<leader>ca", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
-        -- Expand 'cc' into 'CodeCompanion' in the command line
-        vim.cmd([[cab cc CodeCompanion]])
-      end,
+        },
+      },
     },
     {
       "MeanderingProgrammer/render-markdown.nvim",
