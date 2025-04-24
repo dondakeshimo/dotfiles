@@ -160,6 +160,16 @@ require("lazy").setup({
       },
     },
     {
+      'nvim-flutter/flutter-tools.nvim',
+      lazy = false,
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+      },
+      opts = {
+        flutter_lookup_cmd = "asdf where flutter",
+      },
+    },
+    {
       "hrsh7th/nvim-cmp",
       lazy = true,
       event = "InsertEnter",
