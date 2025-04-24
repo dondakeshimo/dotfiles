@@ -46,3 +46,5 @@ vim.opt.clipboard = "unnamed"
 -- updatetime
 vim.opt.updatetime = 100
 
+-- statusline
+vim.opt.laststatus = 3
