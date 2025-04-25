@@ -566,7 +566,7 @@ require("lazy").setup({
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
         "j-hui/fidget.nvim",
-        'echasnovski/mini.nvim'
+        { 'echasnovski/mini.diff', opts = {} },
       },
       config = function()
         local default_model = "anthropic/claude-3.7-sonnet"
