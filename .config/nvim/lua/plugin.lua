@@ -18,6 +18,7 @@ require("lazy").setup({
         ensure_installed = {
           "bash",
           "c",
+          "comment",
           "diff",
           "go",
           "html",
@@ -91,28 +92,30 @@ require("lazy").setup({
             vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { buffer = true })
           end,
         })
-        require("mason-lspconfig").setup_handlers({
-          function(server_name)
-            require("lspconfig")[server_name].setup({
-              capabilities = require('cmp_nvim_lsp').default_capabilities(
-                vim.lsp.protocol.make_client_capabilities()
-              ),
-            })
-            if server_name == "terraformls" then
-              require("lspconfig")[server_name].setup({
-                offset_encoding = "utf-8",
-              })
-            end
-            if server_name == "vacuum" then
-              vim.filetype.add {
-                pattern = {
-                  ['openapi.*%.ya?ml'] = 'yaml.openapi',
-                  ['openapi.*%.json'] = 'json.openapi',
-                },
-              }
-            end
-          end,
+        vim.lsp.config('*', {
+          capabilities = require('cmp_nvim_lsp').default_capabilities(
+            vim.lsp.protocol.make_client_capabilities()
+          ),
         })
+        vim.lsp.config('terraformls', {
+          capabilities = require('cmp_nvim_lsp').default_capabilities(
+            vim.lsp.protocol.make_client_capabilities()
+          ),
+          offset_encoding = "utf-8",
+        })
+        vim.lsp.config('terraformls', {
+          capabilities = require('cmp_nvim_lsp').default_capabilities(
+            vim.lsp.protocol.make_client_capabilities()
+          ),
+          offset_encoding = "utf-8",
+        })
+        -- vacuum 用の設定
+        vim.filetype.add {
+          pattern = {
+            ['openapi.*%.ya?ml'] = 'yaml.openapi',
+            ['openapi.*%.json'] = 'json.openapi',
+          },
+        }
       end,
     },
     {
@@ -535,7 +538,7 @@ require("lazy").setup({
       opts = {
         suggestion = { enabled = false },
         panel = { enabled = false },
-        fyletypes = {
+        filetypes = {
           markdown = true,
           gitcommit = true,
         },
@@ -569,7 +572,7 @@ require("lazy").setup({
         { 'echasnovski/mini.diff', opts = {} },
       },
       config = function()
-        local default_model = "anthropic/claude-3.7-sonnet"
+        local default_model = "anthropic/claude-sonnet-4"
 
         require("fidget-spinner"):init()
 
@@ -614,7 +617,6 @@ require("lazy").setup({
           },
           opts = {
             language = "Japanese",
-            log_level = "DEBUG",
           },
           display = {
             chat = {
@@ -664,7 +666,59 @@ require("lazy").setup({
           }
         })
       end,
-    }
+    },
+    {
+      "mfussenegger/nvim-dap",
+      lazy = true,
+      config = function()
+        vim.keymap.set({ "n" }, "<leader>dm", ":lua require'dap'.toggle_breakpoint()<CR>",
+          { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>dc", ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>d]]", ":lua require'dap'.step_back()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>d]]", ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>d}}", ":lua require'dap'.step_in()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>d{{", ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>dq", ":lua require'dap'.terminate()<CR>", { noremap = true, silent = true })
+      end,
+    },
+    {
+      "rcarriga/nvim-dap-ui",
+      dependencies = {
+        "mfussenegger/nvim-dap",
+        "nvim-neotest/nvim-nio",
+      },
+      config = function()
+        vim.keymap.set("n", "<leader>du", ":lua require'dapui'.toggle()<CR>", { silent = true })
+
+        local dap, dapui = require("dap"), require("dapui")
+
+        dapui.setup()
+
+        dap.listeners.before.attach.dapui_config = function()
+          dapui.open()
+        end
+        dap.listeners.before.launch.dapui_config = function()
+          dapui.open()
+        end
+        dap.listeners.before.event_terminated.dapui_config = function()
+          dapui.close()
+        end
+        dap.listeners.before.event_exited.dapui_config = function()
+          dapui.close()
+        end
+      end,
+    },
+    {
+      "leoluz/nvim-dap-go",
+      dependencies = {
+        "rcarriga/nvim-dap-ui",
+      },
+      config = function(_, opts)
+        require("dap-go").setup(opts)
+        vim.keymap.set({ "n" }, "<leader>dt", ":lua require'dap-go'.debug_test()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>dr", ":lua require'dap-go'.debug_test()<CR>", { noremap = true, silent = true })
+      end,
+    },
   },
   install = { colorscheme = { "solarized" } },
   checker = { enabled = true },
