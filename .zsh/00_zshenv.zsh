@@ -12,11 +12,8 @@ export HISTSIZE=1000000
 export SAVEHIST=1000000
 export LANG=en_US.UTF-8
 
-# PATH setting
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
-
 # brew PATH setting
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # my binary setting
 export MYBIN="$HOME/bin"
