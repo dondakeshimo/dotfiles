@@ -8,6 +8,7 @@
 
 [core]
 	excludesfile = ~/.gitignore_global
+	quotepath = false
 
 [color]
 	ui = auto
@@ -48,6 +49,7 @@
 
 [init]
 	templatedir = ~/.git-templates/git-secrets
+	defaultBranch = main
 
 [pull]
 	rebase = false
