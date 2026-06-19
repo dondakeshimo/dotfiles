@@ -46,5 +46,8 @@ vim.opt.clipboard = "unnamed"
 -- updatetime
 vim.opt.updatetime = 100
 
+-- reload buffer when the file is changed outside of nvim (e.g. by Claude Code)
+vim.opt.autoread = true
+
 -- statusline
 vim.opt.laststatus = 3
