@@ -8,4 +8,5 @@
 require("bootstrap-lazy")
 require("option")
 require("keymap")
+require("autocmd")
 require("plugin") -- confirm that mapleader is set before invoke plugins
