@@ -30,3 +30,7 @@ export POETRY_VIRTUALENVS_IN_PROJECT=true
 # flutter with asdf setting
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 export PATH="$(asdf where flutter)/bin":"$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+# mise
+eval "$(mise activate zsh)"

@@ -9,13 +9,11 @@ require("lazy").setup({
   spec = {
     {
       "nvim-treesitter/nvim-treesitter",
+      branch = "main",
       build = ":TSUpdate",
-      lazy = true,
-      event = "BufRead",
-      main = "nvim-treesitter.configs",
-      opts = {
-        highlight = { enable = true },
-        ensure_installed = {
+      lazy = false,
+      config = function()
+        local ensure_installed = {
           "bash",
           "c",
           "comment",
@@ -44,8 +42,34 @@ require("lazy").setup({
           "vimdoc",
           "xml",
           "yaml",
-        },
-      },
+        }
+
+        local nts = require("nvim-treesitter")
+        local installed_set = {}
+        for _, name in ipairs(nts.get_installed("parsers")) do
+          installed_set[name] = true
+        end
+        local to_install = {}
+        for _, name in ipairs(ensure_installed) do
+          if not installed_set[name] then
+            table.insert(to_install, name)
+          end
+        end
+        if #to_install > 0 then
+          nts.install(to_install)
+        end
+
+        vim.api.nvim_create_autocmd("FileType", {
+          callback = function(args)
+            local ft = vim.bo[args.buf].filetype
+            local lang = vim.treesitter.language.get_lang(ft) or ft
+            if lang and vim.treesitter.language.add(lang) then
+              vim.treesitter.start(args.buf, lang)
+              vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
+          end,
+        })
+      end,
     },
     {
       "nvim-treesitter/nvim-treesitter-context",
@@ -108,6 +132,26 @@ require("lazy").setup({
             vim.lsp.protocol.make_client_capabilities()
           ),
           offset_encoding = "utf-8",
+        })
+        -- golangci-lint-langserver: プロジェクトに ./bin/custom-gcl があれば優先、
+        -- なければ global の golangci-lint を使う.
+        vim.lsp.config('golangci_lint_ls', {
+          capabilities = require('cmp_nvim_lsp').default_capabilities(
+            vim.lsp.protocol.make_client_capabilities()
+          ),
+          before_init = function(initialize_params, config)
+            local root = config.root_dir or vim.fn.getcwd()
+            local custom_gcl = root .. '/bin/custom-gcl'
+            if vim.fn.executable(custom_gcl) ~= 1 then
+              return -- bin が無ければ default (golangci-lint) のまま.
+            end
+            -- nvim-lspconfig の default command (v2 用 flags 付き) を維持し、
+            -- 先頭の binary だけを custom-gcl に差し替える.
+            local opts = initialize_params.initializationOptions
+            if opts and type(opts.command) == 'table' and opts.command[1] then
+              opts.command[1] = custom_gcl
+            end
+          end,
         })
         -- vacuum 用の設定
         vim.filetype.add {
@@ -357,9 +401,14 @@ require("lazy").setup({
       },
     },
     {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      build = 'make',
+    },
+    {
       "nvim-telescope/telescope.nvim",
       dependencies = {
         "nvim-lua/plenary.nvim",
+        'nvim-telescope/telescope-fzf-native.nvim',
       },
       opts = {
         defaults = {
@@ -367,13 +416,52 @@ require("lazy").setup({
             prompt_position = "top",
           },
           sorting_strategy = "ascending",
+          extensions = {
+            fzf = {
+              fuzzy = true,
+              override_generic_sorter = true,
+              override_file_sorter = true,
+              case_mode = "smart_case",
+            }
+          }
         },
       },
       config = function(_, opts)
         require("telescope").setup(opts)
+        require('telescope').load_extension('fzf')
+
         local builtin = require("telescope.builtin")
+
+        -- https://blog.atusy.net/2024/08/02/telescope-grep-refiement/
+        local function filename_sorter()
+          local sorter = require("telescope.config").values.generic_sorter()
+          local score = sorter.scoring_function
+          sorter.scoring_function = function(self, prompt, _, entry)
+            return score(self, prompt, entry.filename, entry)
+          end
+          return sorter
+        end
+
+        vim.keymap.set("n", "<leader>fg", function()
+          builtin.live_grep({
+            attach_mappings = function(prompt_bufnr, map)
+              map("i", "<C-G><C-G>", function()
+                require("telescope.actions").send_to_qflist(prompt_bufnr)
+                builtin.quickfix({
+                  sorter = filename_sorter(),
+                })
+              end)
+              return true
+            end,
+          })
+        end, {})
+        vim.keymap.set("n", "<leader>fq", function()
+          builtin.quickfix({
+            sorter = filename_sorter(),
+          })
+        end, {})
+
         vim.keymap.set("n", "<leader>fp", builtin.git_files, {})
-        vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
         vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
         vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
         vim.keymap.set("n", "<leader>fr", builtin.resume, {})
@@ -542,7 +630,7 @@ require("lazy").setup({
           markdown = true,
           gitcommit = true,
         },
-        copilot_model = 'gpt-4o-copilot',
+        -- copilot_model = 'claude-sonnet-4', https://github.com/github/copilot.vim/issues/77#issuecomment-2848712690
       },
     },
     {
@@ -564,108 +652,12 @@ require("lazy").setup({
       end,
     },
     {
-      "olimorris/codecompanion.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "j-hui/fidget.nvim",
-        { 'echasnovski/mini.diff', opts = {} },
-      },
-      config = function()
-        local default_model = "anthropic/claude-sonnet-4"
-
-        require("fidget-spinner"):init()
-
-        require("codecompanion").setup({
-          strategies = {
-            chat = {
-              adapter = "openrouter",
-              roles = {
-                llm = function(adapter)
-                  return "  CodeCompanion (" .. adapter.formatted_name .. ")"
-                end,
-                user = "  Me",
-              },
-              tools = {
-                ["mcp"] = {
-                  callback = function()
-                    return require("mcphub.extensions.codecompanion")
-                  end,
-                  description = "Call tools and resources from the MCP Servers"
-                }
-              },
-            },
-            inline = {
-              adapter = "openrouter",
-            },
-          },
-          adapters = {
-            openrouter = function()
-              return require("codecompanion.adapters").extend("openai_compatible", {
-                env = {
-                  url = "https://openrouter.ai/api",
-                  api_key = "OPENROUTER_API_KEY",
-                  chat_url = "/v1/chat/completions",
-                },
-                schema = {
-                  model = {
-                    default = default_model,
-                  },
-                },
-              })
-            end,
-          },
-          opts = {
-            language = "Japanese",
-          },
-          display = {
-            chat = {
-              show_header_separator = true,
-              window = {
-                position = "right",
-              },
-            },
-            diff = {
-              enabled = true,
-              layout = "horizontal",
-              provider = "mini_diff",
-            },
-          },
-        })
-
-        vim.keymap.set({ "n", "v" }, "<leader>ck", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-        vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-        vim.keymap.set("v", "<leader>ca", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
-        -- Expand 'cc' into 'CodeCompanion' in the command line
-        vim.cmd([[cab cc CodeCompanion]])
-      end,
-    },
-    {
       "MeanderingProgrammer/render-markdown.nvim",
       dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
-      ft = { "markdown", "markdown.mdx", "Avante", "codecompanion" },
+      ft = { "markdown", "markdown.mdx", "Avante" },
       opts = {
-        file_types = { "markdown", "Avante", "codecompanion" },
+        file_types = { "markdown", "Avante" },
       }
-    },
-    {
-      "ravitemer/mcphub.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-      },
-      cmd = "MCPHub",
-      build = "npm install -g mcp-hub@latest",
-      config = function()
-        require("mcphub").setup({
-          extensions = {
-            codecompanion = {
-              show_result_in_chat = true,
-              make_vars = true,
-              make_slash_commands = true,
-            }
-          }
-        })
-      end,
     },
     {
       "mfussenegger/nvim-dap",

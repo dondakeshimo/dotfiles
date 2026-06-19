@@ -19,6 +19,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export MYBIN="$HOME/bin"
 export PATH="$MYBIN:$PATH"
 export PATH="$ZPLUG_BIN:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # src dir setting
 export SRCDIR=$HOME/src
