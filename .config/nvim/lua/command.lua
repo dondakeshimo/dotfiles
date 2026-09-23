@@ -6,8 +6,8 @@ local function yank_file_path(opts)
     l1 = opts.line1
     l2 = opts.line2
   else
-    l1 = vim.fn.line("'<")
-    l2 = vim.fn.line("'>")
+    l1 = vim.fn.line(".")
+    l2 = l1
   end
 
   local ref = (l1 == l2)
