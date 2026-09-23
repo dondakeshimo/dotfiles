@@ -88,7 +88,7 @@ link_file() {
         for f in "$entry"/*; do
             link_file "$f" "$target"
         done
-    elif [ -f "$target" ]; then
+    elif [ -e "$target" ] || [ -L "$target" ]; then
         mv "$target" "$target.backup"
         ln -svi "$PWD/$entry" "$parent"
     else
