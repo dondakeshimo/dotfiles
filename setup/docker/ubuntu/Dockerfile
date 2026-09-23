@@ -20,4 +20,4 @@ USER $USERNAME
 WORKDIR /home/$USERNAME/
 
 RUN git clone https://github.com/dondakeshimo/dotfiles.git ~/src/github.com/dondakeshimo/dotfiles && \
-    ./src/github.com/dondakeshimo/dotfiles/setup/deployer/symlink.sh bin bash vim nvim git asdf
+    ./src/github.com/dondakeshimo/dotfiles/setup/deployer/symlink.sh bin bash vim nvim git
