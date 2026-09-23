@@ -5,3 +5,7 @@
 .ldfs/
 .vim/
 .venv/
+
+**/.claude/settings.local.json
+
+**/.claude/.cc-writes/
