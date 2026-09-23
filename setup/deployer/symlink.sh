@@ -15,8 +15,7 @@ cd "$(dirname "$0")"/../../
     GIT_TGT=(".gitconfig" ".gitignore_global")
     SSH_TGT=(".ssh")
     ATOM_TGT=(".atom")
-    ASDF_TGT=(".asdfrc")
-    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${CFG_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${ASDF_TGT[@]})
+    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${CFG_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]})
 }
 
 
@@ -62,9 +61,6 @@ cd "$(dirname "$0")"/../../
                 ;;
             'atom' )
                 FLAG_EXEC=(${FLAG_EXEC[@]} ${ATOM_TGT[@]})
-                ;;
-            'asdf' )
-                FLAG_EXEC=(${FLAG_EXEC[@]} ${ASDF_TGT[@]})
                 ;;
             'bin' )
                 FLAG_BIN=true

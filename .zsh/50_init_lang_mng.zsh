@@ -10,8 +10,6 @@ fi
 # go setting
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
-export ASDF_GOLANG_MOD_VERSION_ENABLED=true
-
 # rust setting
 export PATH="$HOME/.cargo/bin:$PATH"
 
@@ -27,9 +25,11 @@ fi
 export PATH="$HOME/.poetry/bin:$PATH"
 export POETRY_VIRTUALENVS_IN_PROJECT=true
 
-# flutter with asdf setting
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-export PATH="$(asdf where flutter)/bin":"$PATH"
+# flutter with mise setting
+FLUTTER_PATH="$(mise where flutter 2>/dev/null)"
+if [ -n "$FLUTTER_PATH" ]; then
+    export PATH="$FLUTTER_PATH/bin":"$PATH"
+fi
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 # mise

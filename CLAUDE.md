@@ -73,7 +73,7 @@ The repository uses symlinks to deploy configurations. The `symlink.sh` script:
 Zsh configurations in `.zsh/` are loaded in numerical order:
 - `00_zshenv.zsh`: Environment variables
 - `10_common.zsh`: Common shell configurations
-- `50_*`: Tool-specific configurations (asdf, git, google cloud, etc.)
+- `50_*`: Tool-specific configurations (mise, git, google cloud, etc.)
 - `70_*`: Development environment setups (golang, nodejs, python, ruby)
 - `80_*`: Additional tools (fzf, vim)
 - `99_*`: Final configurations (aliases)
