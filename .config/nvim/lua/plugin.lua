@@ -126,12 +126,6 @@ require("lazy").setup({
           ),
           offset_encoding = "utf-8",
         })
-        vim.lsp.config('terraformls', {
-          capabilities = require('cmp_nvim_lsp').default_capabilities(
-            vim.lsp.protocol.make_client_capabilities()
-          ),
-          offset_encoding = "utf-8",
-        })
         -- golangci-lint-langserver: プロジェクトに ./bin/custom-gcl があれば優先、
         -- なければ global の golangci-lint を使う.
         vim.lsp.config('golangci_lint_ls', {
@@ -665,7 +659,6 @@ require("lazy").setup({
         vim.keymap.set({ "n" }, "<leader>dm", ":lua require'dap'.toggle_breakpoint()<CR>",
           { noremap = true, silent = true })
         vim.keymap.set({ "n" }, "<leader>dc", ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
-        vim.keymap.set({ "n" }, "<leader>d]]", ":lua require'dap'.step_back()<CR>", { noremap = true, silent = true })
         vim.keymap.set({ "n" }, "<leader>d]]", ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
         vim.keymap.set({ "n" }, "<leader>d}}", ":lua require'dap'.step_in()<CR>", { noremap = true, silent = true })
         vim.keymap.set({ "n" }, "<leader>d{{", ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
@@ -707,7 +700,7 @@ require("lazy").setup({
       config = function(_, opts)
         require("dap-go").setup(opts)
         vim.keymap.set({ "n" }, "<leader>dt", ":lua require'dap-go'.debug_test()<CR>", { noremap = true, silent = true })
-        vim.keymap.set({ "n" }, "<leader>dr", ":lua require'dap-go'.debug_test()<CR>", { noremap = true, silent = true })
+        vim.keymap.set({ "n" }, "<leader>dr", ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
       end,
     },
   },

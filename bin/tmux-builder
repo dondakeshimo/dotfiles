@@ -6,7 +6,7 @@ is_exists() { type "$1" >/dev/null 2>&1; return $?; }
 is_screen_running() { [ ! -z "$STY" ]; }
 is_tmux_runnning() { [ ! -z "$TMUX" ]; }
 is_screen_or_tmux_running() { is_screen_running || is_tmux_runnning; }
-is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
+is_ssh_running() { [ ! -z "$SSH_CONNECTION" ]; }
 is_in_docker_container() { [ -f /.dockerenv ]; }
 
 # when ssh connected, not run tmux.

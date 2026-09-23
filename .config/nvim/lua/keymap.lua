@@ -1,6 +1,6 @@
 -- leader
 vim.api.nvim_set_var("mapleader", " ")
-vim.g.localmapleder = " "
+vim.g.maplocalleader = " "
 
 -- emacs keybind on insert mode
 vim.keymap.set("i", "<C-b>", "<Left>")

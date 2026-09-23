@@ -48,7 +48,8 @@ jobs:
     # "Test zsh" confirm only zsh file sourced by .zshrc
     - name: Test zsh
       run: |
-        for f in $HOME/.zsh/[0-9]*.(sh|zsh) do source "$f" done
+        autoload -Uz add-zsh-hook vcs_info colors
+        for f in $HOME/.zsh/[0-9]*.(sh|zsh); do source "$f"; done
       shell: zsh {0}
       env:
         TMUX: test

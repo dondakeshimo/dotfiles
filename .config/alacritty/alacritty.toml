@@ -28,7 +28,7 @@ style = "Bold"
 
 [font.bold_italic]
 family = "mononoki Nerd Font"
-style = "Bold Itali"
+style = "Bold Italic"
 
 [font.italic]
 family = "mononoki Nerd Font"

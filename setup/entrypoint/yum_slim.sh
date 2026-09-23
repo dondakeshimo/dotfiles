@@ -28,5 +28,5 @@ has() {
 : "Echo success messages" && {
     echo
     echo "Requirements installing is success!!"
-    echo "Please make symlink dotfiles by executing dotfiles/setup/deployer/symlinksh"
+    echo "Please make symlink dotfiles by executing dotfiles/setup/deployer/symlink.sh"
 }
