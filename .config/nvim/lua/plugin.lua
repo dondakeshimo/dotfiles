@@ -23,7 +23,6 @@ require("lazy").setup({
           "java",
           "javascript",
           "json",
-          "jsonc",
           "lua",
           "luadoc",
           "luap",
