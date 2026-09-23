@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd `dirname $0`/../../
+cd "$(dirname "$0")"/../../
 
 
 : "Define global variables" && {
@@ -83,15 +83,16 @@ link_file() {
     local target=$parent/$filename
 
     echo "entry: $entry, parent: $parent, filename: $filename, target: $target"
-    if [ -d $entry ]; then
-        if [ ! -d $target ]; then mkdir $target; fi
-        for f in $entry/*; do
-            link_file $f $target
+    if [ -d "$entry" ]; then
+        if [ ! -d "$target" ]; then mkdir "$target"; fi
+        for f in "$entry"/*; do
+            link_file "$f" "$target"
         done
-    elif [ -f $target ]; then
-        ln -svi $PWD/$entry $parent
+    elif [ -f "$target" ]; then
+        mv "$target" "$target.backup"
+        ln -svi "$PWD/$entry" "$parent"
     else
-        ln -svi $PWD/$entry $parent
+        ln -svi "$PWD/$entry" "$parent"
     fi
 }
 
@@ -106,7 +107,7 @@ link_file() {
 
 
 : "Make directory .vimbackup" && {
-    if $(echo ${FLAG_EXEC[@]} | grep -q "vim"); then
+    if echo "${FLAG_EXEC[@]}" | grep -q "vim"; then
         if [ ! -d $HOME/.vimbackup ]; then mkdir $HOME/.vimbackup; fi
     fi
 }
