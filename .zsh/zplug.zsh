@@ -16,7 +16,6 @@ zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 zplug "zsh-users/zsh-history-substring-search"
-zplug 'mollifier/anyframe'
 zplug "docker/cli", use:"contrib/completion/zsh/_docker", lazy:true
 
 if ! zplug check --verbose; then

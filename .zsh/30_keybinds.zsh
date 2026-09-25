@@ -23,4 +23,15 @@ bindkey -M viins '^N'  history-substring-search-down
 bindkey -M viins '^P'  history-substring-search-up
 
 # history with interactive search
-bindkey -M viins '^@'  anyframe-widget-put-history
+_fzf_history_widget() {
+  local selected
+  selected=$(history -n -r 1 | awk '!a[$0]++' | fzf --query="$LBUFFER")
+  if [[ -n "$selected" ]]; then
+    BUFFER="$selected"
+    CURSOR=$#BUFFER
+    zle -R -c
+  fi
+  zle reset-prompt
+}
+zle -N _fzf_history_widget
+bindkey -M viins '^@' _fzf_history_widget
