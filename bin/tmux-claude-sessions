@@ -8,7 +8,6 @@
 set -u
 
 SESSIONS_DIR="$HOME/.claude/sessions"
-LINE_FORMAT='%-8s  %-24s  %-9s  %-14s  %s'
 
 is_exists() { type "$1" >/dev/null 2>&1; }
 
@@ -33,16 +32,19 @@ read_session_files() {
     ' "${files[@]}" 2>/dev/null
 }
 
+# Emits "pane_id<TAB>line" per session, preceded by a header line whose pane_id
+# is empty. Column widths follow the content via column(1), which also handles
+# wide characters.
 list_sessions() {
-    local panes
+    local panes rows
     panes=$(tmux list-panes -a -F '#{pane_id}	#{session_name}:#{window_index}.#{pane_index}')
 
-    read_session_files \
+    rows=$(read_session_files \
         | while IFS=$'\t' read -r pid pane status name cwd updated; do
             kill -0 "$pid" 2>/dev/null || continue
             printf '%s\t%s\t%s\t%s\t%s\n' "$pane" "$status" "$name" "$cwd" "$updated"
         done \
-        | awk -F'\t' -v now="$(date +%s)" -v home="$HOME" -v fmt="$LINE_FORMAT" '
+        | awk -F'\t' -v now="$(date +%s)" -v home="$HOME" '
             function ago(ms,    d) {
                 d = now - int(ms / 1000)
                 if (d < 0) d = 0
@@ -59,22 +61,34 @@ list_sessions() {
 
                 # Unknown statuses (e.g. waiting for permission) come first since
                 # they likely need attention.
-                if (status == "busy")      { label = "active"; color = "\033[32m"; rank = 1 }
-                else if (status == "idle") { label = "idle";   color = "\033[90m"; rank = 2 }
-                else                       { label = status;   color = "\033[33m"; rank = 0 }
+                if (status == "busy")      { label = "active"; rank = 1 }
+                else if (status == "idle") { label = "idle";   rank = 2 }
+                else                       { label = status;   rank = 0 }
 
-                line = sprintf(fmt, label, name, ago(updated), loc[pane], cwd)
-                sub(/^[^ ]+/, color "&\033[0m", line)
-                printf "%d\t%d\t%s\t%s\n", rank, updated, pane, line
+                printf "%d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\n", rank, updated, pane, label, name, ago(updated), loc[pane], cwd
             }
         ' <(printf '%s\n' "$panes") - \
         | sort -t $'\t' -k1,1n -k2,2nr \
-        | cut -f3-
+        | cut -f3-)
+    rows=$(printf '\tSTATUS\tNAME\tUPDATED\tTMUX\tPATH\n%s' "$rows")
+
+    paste <(cut -f1 <<<"$rows") <(cut -f2- <<<"$rows" | column -t -s $'\t') \
+        | awk -F'\t' '
+            NR == 1 { print; next }
+            {
+                label = $2; sub(/ .*/, "", label)
+                if (label == "active")    color = "\033[32m"
+                else if (label == "idle") color = "\033[90m"
+                else                      color = "\033[33m"
+                sub(/^[^ ]+/, color "&\033[0m", $2)
+                print $1 FS $2
+            }
+        '
 }
 
 main() {
     local cmd
-    for cmd in tmux jq fzf; do
+    for cmd in tmux jq fzf column; do
         if ! is_exists "$cmd"; then
             echo "$cmd not found" 1>&2
             exit 1
@@ -86,8 +100,7 @@ main() {
         exit 0
     fi
 
-    local header selected pane
-    header=$(printf "$LINE_FORMAT" STATUS NAME UPDATED TMUX PATH)
+    local selected pane
 
     selected=$(
         list_sessions | fzf \
@@ -98,7 +111,7 @@ main() {
             --with-nth=2 \
             --no-sort \
             --reverse \
-            --header="$header" \
+            --header-lines=1 \
             --header-first \
             --prompt='claude> ' \
             --bind="ctrl-r:reload($(printf '%q' "$0") --list)" \
