@@ -16,6 +16,10 @@ cd "$(dirname "$0")"/../../
     SSH_TGT=(".ssh")
     ATOM_TGT=(".atom")
     DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${CFG_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]})
+    # Directories linked as a whole instead of per file.
+    # Karabiner-Elements cannot detect changes if karabiner.json itself is a symlink.
+    # https://karabiner-elements.pqrs.org/docs/manual/misc/configuration-file-path/
+    DIR_LINK_TGT=(".config/karabiner")
 }
 
 
@@ -79,13 +83,15 @@ link_file() {
     local target=$parent/$filename
 
     echo "entry: $entry, parent: $parent, filename: $filename, target: $target"
-    if [ -d "$entry" ]; then
+    if [ -L "$target" ] && [ "$(readlink "$target")" = "$PWD/$entry" ]; then
+        echo "already linked: $target"
+    elif [ -d "$entry" ] && [[ ! " ${DIR_LINK_TGT[*]} " =~ " $entry " ]]; then
         if [ ! -d "$target" ]; then mkdir "$target"; fi
         for f in "$entry"/*; do
             link_file "$f" "$target"
         done
     elif [ -e "$target" ] || [ -L "$target" ]; then
-        mv "$target" "$target.backup"
+        mv "$target" "$target.backup.$(date +%Y%m%d%H%M%S)"
         ln -svi "$PWD/$entry" "$parent"
     else
         ln -svi "$PWD/$entry" "$parent"
