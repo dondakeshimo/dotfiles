@@ -13,7 +13,7 @@ export SAVEHIST=1000000
 export LANG=en_US.UTF-8
 
 # 1Password SSH agent (ssh-keygen uses it for Git commit signing)
-[ -S "$HOME/.1password/agent.sock" ] && export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
 # brew PATH setting
 eval "$(/opt/homebrew/bin/brew shellenv)"

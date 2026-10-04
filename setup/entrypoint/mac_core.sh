@@ -37,6 +37,11 @@ has() {
     REPO=$HOME/src/github.com/dondakeshimo/dotfiles
     if [ -d "$REPO" ]; then
         echo "Repository is already cloned"
+    elif [ -n "$GITHUB_REPOSITORY" ] && [ -n "$GITHUB_REF" ]; then
+        # In GitHub Actions, clone the ref under test instead of the default branch.
+        git clone "https://github.com/$GITHUB_REPOSITORY.git" "$REPO"
+        git -C "$REPO" fetch origin "$GITHUB_REF"
+        git -C "$REPO" checkout --detach FETCH_HEAD
     else
         git clone https://github.com/dondakeshimo/dotfiles.git "$REPO"
     fi
@@ -44,11 +49,13 @@ has() {
 
 
 : "Install bundles" && {
-    # GUI casks can't be installed in CI.
+    BREWFILE="$REPO/setup/entrypoint/Brewfile"
+    # GUI casks can't be installed in CI, so install formulae only there.
     if [ -n "$CI" ]; then
-        export HOMEBREW_BUNDLE_CASK_SKIP=1
+        BREWFILE=$(mktemp)
+        grep -vE '^[[:space:]]*cask ' "$REPO/setup/entrypoint/Brewfile" > "$BREWFILE"
     fi
-    brew bundle install --file="$REPO/setup/entrypoint/Brewfile" --no-upgrade
+    brew bundle install --file="$BREWFILE" --no-upgrade
 }
 
 
