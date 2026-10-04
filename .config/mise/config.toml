@@ -1,2 +1,8 @@
 [settings]
 legacy_version_file = true
+
+[tools]
+betterleaks = "latest"
+node = "24"
+python = "3.14"
+uv = "latest"

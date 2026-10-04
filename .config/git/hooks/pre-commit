@@ -1,0 +1,29 @@
+#!/bin/sh
+# Scan staged changes for secrets with betterleaks.
+# Applied to every repository through core.hooksPath (see ~/.gitconfig).
+# Supports both betterleaks v1 (--pre-commit --staged) and v2 (--staged).
+
+if ! command -v betterleaks >/dev/null 2>&1; then
+    if [ -n "$BETTERLEAKS_SKIP" ]; then
+        echo "betterleaks not found; BETTERLEAKS_SKIP is set, skipping secret scan" >&2
+        exit 0
+    fi
+    echo "betterleaks not found; aborting. Run 'mise install' or set BETTERLEAKS_SKIP=1 to skip." >&2
+    exit 1
+fi
+
+# Run an existing repository-local pre-commit hook first, if any.
+# Use the common git dir so this also works in worktrees and submodules.
+GIT_COMMON_DIR=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)
+NATIVE_HOOK="$GIT_COMMON_DIR/hooks/pre-commit"
+if [ -n "$GIT_COMMON_DIR" ] && [ -x "$NATIVE_HOOK" ]; then
+    "$NATIVE_HOOK" "$@" || exit $?
+fi
+
+if betterleaks git --help 2>&1 | grep -q -- '--unstaged'; then
+    # betterleaks v2
+    exec betterleaks git . --staged --redact --no-banner
+else
+    # betterleaks v1
+    exec betterleaks git . --pre-commit --staged --redact
+fi

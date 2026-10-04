@@ -19,7 +19,8 @@ cd "$(dirname "$0")"/../../
     # Directories linked as a whole instead of per file.
     # Karabiner-Elements cannot detect changes if karabiner.json itself is a symlink.
     # https://karabiner-elements.pqrs.org/docs/manual/misc/configuration-file-path/
-    DIR_LINK_TGT=(".config/karabiner")
+    # Git hooks are linked as a directory too, so new hooks are picked up automatically.
+    DIR_LINK_TGT=(".config/karabiner" ".config/git/hooks")
 }
 
 
