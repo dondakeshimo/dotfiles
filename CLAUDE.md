@@ -40,11 +40,15 @@ tmux new -s test -d         # Test tmux by creating a session
 
 For initial setup on new machines:
 ```bash
-# macOS (including M1)
-bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/mac_full.sh)"
+# macOS (including Apple Silicon): runs mac_core.sh (Homebrew, Brewfile, clone, symlink),
+# then installs mise tools, rustup and Alacritty
+bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/mac_full.sh)"
+
+# CI / minimal: mac_core.sh (Homebrew, Brewfile, clone, symlink only)
+bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/mac_core.sh)"
 
 # Linux (apt-based)
-bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/entrypoint/apt_full.sh)"
+bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/apt_full.sh)"
 ```
 
 ## Architecture and Structure
@@ -56,7 +60,7 @@ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/master/setup/
 - **`.config/`**: Application-specific configurations (nvim, alacritty, aerospace, karabiner)
 - **`bin/`**: Custom scripts and tools, with OS-specific subdirectories (darwin, linux)
 - **`setup/`**: Installation and deployment scripts
-  - `entrypoint/`: Platform-specific installation scripts
+  - `entrypoint/`: Platform-specific installation scripts (incl. `mac_core.sh`) and `Brewfile`
   - `deployer/`: Symlink deployment script
   - `installer/`: Component installation scripts
 
@@ -91,7 +95,7 @@ GitHub Actions workflow (`.github/workflows/test.yml`) tests deployment on:
 - macOS (latest)
 - Ubuntu (latest)
 
-The workflow verifies that all configurations can be successfully deployed and basic commands work.
+The workflow verifies that all configurations can be successfully deployed and basic commands work. The macOS job runs `setup/entrypoint/mac_core.sh` (Homebrew, Brewfile, symlink); the heavier setup in `mac_full.sh` (mise, rustup, Alacritty) is skipped in CI.
 
 ## Development Conventions
 

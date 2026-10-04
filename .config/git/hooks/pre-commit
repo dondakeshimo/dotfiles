@@ -1,0 +1,22 @@
+#!/bin/sh
+# Scan staged changes for secrets with betterleaks.
+# Applied to every repository through core.hooksPath (see ~/.gitconfig).
+# Supports both betterleaks v1 (--pre-commit --staged) and v2 (--staged).
+
+if ! command -v betterleaks >/dev/null 2>&1; then
+    echo "betterleaks not found; skipping secret scan" >&2
+    exit 0
+fi
+
+# Run an existing repository-local pre-commit hook first, if any.
+if [ -x .git/hooks/pre-commit ]; then
+    .git/hooks/pre-commit "$@" || exit $?
+fi
+
+if betterleaks git --help 2>&1 | grep -q -- '--unstaged'; then
+    # betterleaks v2
+    exec betterleaks git . --staged --redact --no-banner
+else
+    # betterleaks v1
+    exec betterleaks git . --pre-commit --staged --redact
+fi
