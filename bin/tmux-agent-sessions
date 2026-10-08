@@ -1,0 +1,240 @@
+#!/bin/bash
+# List running coding agent sessions (Claude Code / OpenCode) in tmux with fzf
+# and jump to the selected pane.
+#
+# Usage:
+#   tmux-agent-sessions          # interactive (intended for tmux display-popup)
+#   tmux-agent-sessions --list   # print formatted session list only
+
+set -u
+
+CLAUDE_SESSIONS_DIR="$HOME/.claude/sessions"
+
+is_exists() { type "$1" >/dev/null 2>&1; }
+
+# Emits "tool<TAB>pid<TAB>pane_id<TAB>status<TAB>name<TAB>cwd<TAB>updatedAt(ms)"
+# per session. Both readers share this row shape so they can be merged.
+#
+# ~/.claude/sessions/<pid>.json is an internal format of Claude Code, so keep all
+# knowledge about it in this function. Only whitelisted fields are read.
+read_claude_sessions() {
+    local files=("$CLAUDE_SESSIONS_DIR"/*.json)
+    [ -e "${files[0]}" ] || return 0
+
+    jq -r '
+        select((.tmux // "") != "")
+        | [
+            "claude",
+            .pid,
+            (.tmux | split(".") | last),
+            (.status // "unknown"),
+            (.name // "-"),
+            (.cwd // "-"),
+            (.updatedAt // 0)
+          ]
+        | @tsv
+    ' "${files[@]}" 2>/dev/null
+}
+
+# OpenCode stores sessions in a SQLite database and does NOT record a tmux pane
+# like Claude Code does. The pane is therefore derived from the running OpenCode
+# TUI process, and the session from that process's working directory. Keep all
+# knowledge about how OpenCode exposes its sessions in this function. If the
+# `opencode` binary is unavailable, emit nothing so Claude sessions are
+# unaffected.
+read_opencode_sessions() {
+    is_exists opencode || return 0
+
+    # `lsof` is used to read the TUI process working directory. Without it the
+    # whole OpenCode section is skipped (Claude sessions still work), but say so
+    # explicitly instead of silently hiding every OpenCode session.
+    if ! is_exists lsof; then
+        echo "lsof not found; skipping OpenCode sessions" 1>&2
+        return 0
+    fi
+
+    local pids pid pane cwd sessions sid cand status row used=""
+
+    # Running TUI processes: `opencode` invoked with no subcommand. The
+    # background service (`serve`), one-shot clients (`api`, `session`, ...) and
+    # other subcommands are excluded. Computed before we spawn any `opencode`
+    # subprocess so our own short-lived clients are not mistaken for a TUI.
+    pids=$(ps -axo pid=,command= | awk '
+        function base(s,    n, a) { n = split(s, a, "/"); return a[n] }
+        {
+            if (base($2) != "opencode") next
+            for (i = 3; i <= NF; i++)
+                if ($i ~ /^(serve|api|session|run|auth|service|stats|mini|models|mcp|plugin|debug|upgrade|uninstall|acp)$/) next
+            print $1
+        }
+    ')
+
+    [ -n "$pids" ] || return 0
+
+    for pid in $pids; do
+        pane=$(ps eww "$pid" 2>/dev/null | tr ' ' '\n' | sed -n 's/^TMUX_PANE=//p' | head -n1)
+        [ -n "$pane" ] || continue
+        cwd=$(lsof -a -p "$pid" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p' | head -n1)
+        [ -n "$cwd" ] || continue
+
+        # Newest first; pick the most recent session not already claimed by
+        # another pane so two panes in the same project stay distinguishable.
+        sessions=$(cd "$cwd" 2>/dev/null && opencode session list -n 5 --format json 2>/dev/null)
+        sid=""
+        for cand in $(printf '%s' "$sessions" | jq -r '.[].id' 2>/dev/null); do
+            case " $used " in
+                *" $cand "*) ;;
+                *) sid="$cand"; used="$used $cand"; break ;;
+            esac
+        done
+        [ -n "$sid" ] || continue
+
+        status=$(opencode_session_status "$sid")
+
+        row=$(printf '%s' "$sessions" | jq -r --arg id "$sid" --arg pid "$pid" \
+            --arg pane "$pane" --arg status "$status" '
+            .[] | select(.id == $id)
+            | ["opencode", $pid, $pane, $status, (.title // "-"), (.directory // "-"), (.updated // 0)]
+            | @tsv
+        ' 2>/dev/null)
+        [ -n "$row" ] && printf '%s\n' "$row"
+    done
+}
+
+# Maps a single OpenCode session to the status vocabulary used by Claude Code
+# (busy / idle / other), based on per-session data rather than the global
+# /api/session/active endpoint. This keeps concurrent sessions in separate panes
+# from being mislabelled.
+#
+#   - pending permission / form request -> "waiting" (needs user attention)
+#   - newest message is "idle"          -> "idle"  (agent finished its turn)
+#   - otherwise                         -> "busy"  (agent is running)
+#
+# Only the newest message (limit=1, newest first) is fetched; a full message
+# list can be very large and needlessly heavy just to read the last type.
+opencode_session_status() {
+    local sid=$1
+
+    local pending
+    pending=$(opencode api get "/api/session/$sid/permission" 2>/dev/null | jq -r '.data | length' 2>/dev/null)
+    if [ -z "$pending" ] || [ "$pending" = "0" ]; then
+        pending=$(opencode api get "/api/session/$sid/form" 2>/dev/null | jq -r '.data | length' 2>/dev/null)
+    fi
+    case "${pending:-0}" in
+        0|"") ;;
+        *) echo "waiting"; return 0 ;;
+    esac
+
+    local last
+    last=$(opencode api get "/api/session/$sid/message?limit=1&order=desc" 2>/dev/null | jq -r '.data[0].type // empty' 2>/dev/null)
+    if [ "$last" = "idle" ]; then
+        echo "idle"
+    else
+        echo "busy"
+    fi
+}
+
+# Emits "pane_id<TAB>line" per session, preceded by a header line whose pane_id
+# is empty. Column widths follow the content via column(1), which also handles
+# wide characters.
+list_sessions() {
+    local panes rows
+    panes=$(tmux list-panes -a -F '#{pane_id}	#{session_name}:#{window_index}.#{pane_index}')
+
+    rows=$(
+        { read_claude_sessions; read_opencode_sessions; } \
+        | while IFS=$'\t' read -r tool pid pane status name cwd updated; do
+            kill -0 "$pid" 2>/dev/null || continue
+            printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$pane" "$tool" "$status" "$name" "$cwd" "$updated"
+        done \
+        | awk -F'\t' -v now="$(date +%s)" -v home="$HOME" '
+            function ago(ms,    d) {
+                d = now - int(ms / 1000)
+                if (d < 0) d = 0
+                if (d < 60) return d "s ago"
+                if (d < 3600) return int(d / 60) "m ago"
+                if (d < 86400) return int(d / 3600) "h ago"
+                return int(d / 86400) "d ago"
+            }
+            NR == FNR { loc[$1] = $2; next }
+            !($1 in loc) { next }
+            {
+                pane = $1; tool = $2; status = $3; name = $4; cwd = $5; updated = $6
+                if (index(cwd, home) == 1) cwd = "~" substr(cwd, length(home) + 1)
+
+                # Unknown statuses (e.g. "waiting" for permission/form) come
+                # first since they likely need attention.
+                if (status == "busy")      { label = "active"; rank = 1 }
+                else if (status == "idle") { label = "idle";   rank = 2 }
+                else                       { label = status;   rank = 0 }
+
+                printf "%d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", rank, updated, pane, tool, label, name, ago(updated), loc[pane], cwd
+            }
+        ' <(printf '%s\n' "$panes") - \
+        | sort -t $'\t' -k1,1n -k2,2nr \
+        | cut -f3-)
+    rows=$(printf '\tTOOL\tSTATUS\tNAME\tUPDATED\tTMUX\tPATH\n%s' "$rows")
+
+    paste <(cut -f1 <<<"$rows") <(cut -f2- <<<"$rows" | column -t -s $'\t') \
+        | awk -F'\t' '
+            NR == 1 { print; next }
+            {
+                # Color only the STATUS token (the second field), preserving the
+                # column alignment produced by column(1).
+                s = $2
+                i = 1; while (substr(s, i, 1) == " ") i++
+                j = i; while (j <= length(s) && substr(s, j, 1) != " ") j++
+                k = j; while (k <= length(s) && substr(s, k, 1) == " ") k++
+                m = k; while (m <= length(s) && substr(s, m, 1) != " ") m++
+                label = substr(s, k, m - k)
+
+                if (label == "active")    color = "\033[32m"
+                else if (label == "idle") color = "\033[90m"
+                else                      color = "\033[33m"
+
+                $2 = substr(s, 1, k - 1) color label "\033[0m" substr(s, m)
+                print $1 FS $2
+            }
+        '
+}
+
+main() {
+    local cmd
+    for cmd in tmux jq fzf column; do
+        if ! is_exists "$cmd"; then
+            echo "$cmd not found" 1>&2
+            exit 1
+        fi
+    done
+
+    if [ "${1:-}" = "--list" ]; then
+        list_sessions
+        exit 0
+    fi
+
+    local selected pane
+
+    selected=$(
+        list_sessions | fzf \
+            --height=100% \
+            --no-border \
+            --ansi \
+            --delimiter=$'\t' \
+            --with-nth=2 \
+            --no-sort \
+            --reverse \
+            --header-lines=1 \
+            --header-first \
+            --prompt='agent> ' \
+            --bind="ctrl-r:reload($(printf '%q' "$0") --list)" \
+            --preview='tmux capture-pane -ep -t {1}' \
+            --preview-window='down,70%,follow'
+    ) || exit 0
+
+    pane=$(printf '%s' "$selected" | cut -f1)
+    [ -n "$pane" ] || exit 0
+
+    tmux switch-client -t "$pane" \; select-window -t "$pane" \; select-pane -t "$pane"
+}
+
+main "$@"
