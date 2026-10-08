@@ -45,7 +45,15 @@ read_claude_sessions() {
 read_opencode_sessions() {
     is_exists opencode || return 0
 
-    local pids pid pane cwd sessions active sid cand status row used=""
+    # `lsof` is used to read the TUI process working directory. Without it the
+    # whole OpenCode section is skipped (Claude sessions still work), but say so
+    # explicitly instead of silently hiding every OpenCode session.
+    if ! is_exists lsof; then
+        echo "lsof not found; skipping OpenCode sessions" 1>&2
+        return 0
+    fi
+
+    local pids pid pane cwd sessions sid cand status row used=""
 
     # Running TUI processes: `opencode` invoked with no subcommand. The
     # background service (`serve`), one-shot clients (`api`, `session`, ...) and
@@ -62,9 +70,6 @@ read_opencode_sessions() {
     ')
 
     [ -n "$pids" ] || return 0
-
-    # Sessions currently generating, so they can be labelled "active".
-    active=$(opencode api get /api/session/active 2>/dev/null | jq -r '.data | keys[]?' 2>/dev/null)
 
     for pid in $pids; do
         pane=$(ps eww "$pid" 2>/dev/null | tr ' ' '\n' | sed -n 's/^TMUX_PANE=//p' | head -n1)
@@ -84,10 +89,7 @@ read_opencode_sessions() {
         done
         [ -n "$sid" ] || continue
 
-        case " $active " in
-            *" $sid "*) status="busy" ;;
-            *)          status="idle" ;;
-        esac
+        status=$(opencode_session_status "$sid")
 
         row=$(printf '%s' "$sessions" | jq -r --arg id "$sid" --arg pid "$pid" \
             --arg pane "$pane" --arg status "$status" '
@@ -97,6 +99,39 @@ read_opencode_sessions() {
         ' 2>/dev/null)
         [ -n "$row" ] && printf '%s\n' "$row"
     done
+}
+
+# Maps a single OpenCode session to the status vocabulary used by Claude Code
+# (busy / idle / other), based on per-session data rather than the global
+# /api/session/active endpoint. This keeps concurrent sessions in separate panes
+# from being mislabelled.
+#
+#   - pending permission / form request -> "waiting" (needs user attention)
+#   - newest message is "idle"          -> "idle"  (agent finished its turn)
+#   - otherwise                         -> "busy"  (agent is running)
+#
+# Only the newest message (limit=1, newest first) is fetched; a full message
+# list can be very large and needlessly heavy just to read the last type.
+opencode_session_status() {
+    local sid=$1
+
+    local pending
+    pending=$(opencode api get "/api/session/$sid/permission" 2>/dev/null | jq -r '.data | length' 2>/dev/null)
+    if [ -z "$pending" ] || [ "$pending" = "0" ]; then
+        pending=$(opencode api get "/api/session/$sid/form" 2>/dev/null | jq -r '.data | length' 2>/dev/null)
+    fi
+    case "${pending:-0}" in
+        0|"") ;;
+        *) echo "waiting"; return 0 ;;
+    esac
+
+    local last
+    last=$(opencode api get "/api/session/$sid/message?limit=1&order=desc" 2>/dev/null | jq -r '.data[0].type // empty' 2>/dev/null)
+    if [ "$last" = "idle" ]; then
+        echo "idle"
+    else
+        echo "busy"
+    fi
 }
 
 # Emits "pane_id<TAB>line" per session, preceded by a header line whose pane_id
@@ -127,8 +162,8 @@ list_sessions() {
                 pane = $1; tool = $2; status = $3; name = $4; cwd = $5; updated = $6
                 if (index(cwd, home) == 1) cwd = "~" substr(cwd, length(home) + 1)
 
-                # Unknown statuses (e.g. waiting for permission) come first since
-                # they likely need attention.
+                # Unknown statuses (e.g. "waiting" for permission/form) come
+                # first since they likely need attention.
                 if (status == "busy")      { label = "active"; rank = 1 }
                 else if (status == "idle") { label = "idle";   rank = 2 }
                 else                       { label = status;   rank = 0 }
