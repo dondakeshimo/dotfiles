@@ -18,7 +18,7 @@ When you want to change these paths, BE CAREFUL with all of dotfiles.
 
 #### macOS
 
-The macOS script installs Homebrew, applies `setup/entrypoint/Brewfile`, clones this repository, deploys the dotfiles (symlink), installs mise tools, installs rustup, and builds Alacritty from source. It runs `mac_core.sh` (Homebrew, Brewfile, clone, symlink) first and then adds mise, rustup and Alacritty; CI uses `mac_core.sh` directly.
+The macOS script installs Homebrew, applies `setup/entrypoint/Brewfile`, clones this repository, deploys the dotfiles (symlink), installs mise tools, installs rustup, builds Alacritty from source, and clones the Alacritty theme. It runs `mac_core.sh` (Homebrew, Brewfile, clone, symlink) first and then adds mise, rustup, Alacritty and its theme; CI uses `mac_core.sh` directly.
 
 ```bash
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/mac_full.sh)"

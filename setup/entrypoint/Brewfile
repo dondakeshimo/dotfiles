@@ -1,6 +1,5 @@
-tap "anomalyco/tap"
 tap "hashicorp/tap"
-tap "nikitabobko/tap"
+tap "nikitabobko/tap", trusted: true
 # Pluggable and configurable code formatting platform written in Rust
 brew "dprint"
 # Command-line fuzzy finder written in Go
@@ -27,8 +26,6 @@ brew "ripgrep"
 brew "tmux"
 # Parser generator tool
 brew "tree-sitter-cli"
-# The AI coding agent built for the terminal.
-brew "anomalyco/tap/opencode", trusted: true
 # Terraform
 brew "hashicorp/tap/terraform", trusted: true
 # Password manager that keeps all passwords secure behind one password
@@ -45,6 +42,8 @@ cask "font-mononoki-nerd-font"
 cask "gcloud-cli"
 # Web browser
 cask "google-chrome"
+# Keyboard shortcuts for every button on your screen
+cask "homerow"
 # Keyboard customiser
 cask "karabiner-elements"
 # Shows the next meeting in the menu bar

@@ -41,7 +41,7 @@ tmux new -s test -d         # Test tmux by creating a session
 For initial setup on new machines:
 ```bash
 # macOS (including Apple Silicon): runs mac_core.sh (Homebrew, Brewfile, clone, symlink),
-# then installs mise tools, rustup and Alacritty
+# then installs mise tools, rustup, Alacritty and the Alacritty theme
 bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/mac_full.sh)"
 
 # CI / minimal: mac_core.sh (Homebrew, Brewfile, clone, symlink only)
@@ -95,7 +95,7 @@ GitHub Actions workflow (`.github/workflows/test.yml`) tests deployment on:
 - macOS (latest)
 - Ubuntu (latest)
 
-The workflow verifies that all configurations can be successfully deployed and basic commands work. The macOS job runs `setup/entrypoint/mac_core.sh` (Homebrew, Brewfile, symlink); the heavier setup in `mac_full.sh` (mise, rustup, Alacritty) is skipped in CI.
+The workflow verifies that all configurations can be successfully deployed and basic commands work. The macOS job runs `setup/entrypoint/mac_core.sh` (Homebrew, Brewfile, symlink); the heavier setup in `mac_full.sh` (mise, rustup, Alacritty, Alacritty theme) is skipped in CI.
 
 ## Development Conventions
 

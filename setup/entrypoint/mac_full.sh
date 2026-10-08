@@ -56,6 +56,19 @@ REPO=$HOME/src/github.com/dondakeshimo/dotfiles
 }
 
 
+: "Install alacritty theme" && {
+    # Alacritty's config imports ~/.config/alacritty/themes/themes/solarized_dark.toml.
+    # https://github.com/alacritty/alacritty-theme#imports
+    ALACRITTY_THEME=$HOME/.config/alacritty/themes
+    if [ -d "$ALACRITTY_THEME" ]; then
+        echo "Alacritty theme is already cloned"
+    else
+        mkdir -p "$(dirname "$ALACRITTY_THEME")"
+        git clone https://github.com/alacritty/alacritty-theme.git "$ALACRITTY_THEME"
+    fi
+}
+
+
 : "Configure 1Password SSH agent" && {
     # Expose the agent at a stable path shared with Linux (~/.1password/agent.sock).
     ONEPASSWORD_SOCKET="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
