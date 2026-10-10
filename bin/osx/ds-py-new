@@ -1,5 +1,0 @@
-#!/bin/bash
-
-mkdir {data,src}
-echo -e 'data/*\n!data/.gitkeep\n__pycache__/\n.python-version' > .gitignore
-echo "# README" > README.md
