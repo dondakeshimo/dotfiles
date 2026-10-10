@@ -24,17 +24,15 @@ The macOS script installs Homebrew, applies `setup/entrypoint/Brewfile`, clones 
 $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/mac_full.sh)"
 ```
 
-#### Linux(apt) (Out of maintenance)
+#### Linux (Out of maintenance)
 
-```bash
-$ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/entrypoint/apt_full.sh)"
-```
+Now, there are no maintained linux entrypoints because I don't use any Linux machines for my development.
 
 ### 2. Deploy dotfiles
 
 `mac_full.sh` already deploys them, but you can re-run the deployer any time.
 
-```
+```bash
 $ cd ~/src/github.com/dondakeshimo/dotfiles/setup/deployer
 $ ./symlink.sh all
 ```
