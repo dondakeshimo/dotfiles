@@ -35,7 +35,7 @@
                                 ],
                                 "from": {
                                     "key_code": "return_or_enter",
-                                    "modifiers": { "mandatory": ["left_command"] }
+                                    "modifiers": { "mandatory": ["command"] }
                                 },
                                 "to": [{ "key_code": "return_or_enter" }],
                                 "type": "basic"
