@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "solarized"
+  },
+  "attention": {
+    "notifications": true,
+    "sound": true
+  },
+  "terminal": {
+    "copy": "select"
+  },
+  "session": {
+    "verbosity": "medium"
+  },
+  "keybinds": {
+    "command.palette.show": "<leader>p",
+    "variant.cycle": "<leader>v",
+    "input.move.up": "up,ctrl+p",
+    "input.move.down": "down,ctrl+n"
+  }
+}
