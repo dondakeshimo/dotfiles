@@ -31,6 +31,7 @@ CI ジョブでは GUI アプリケーションの設定などはテストでき
 │   ├── karabiner/       # Karabiner 設定
 │   ├── mise/            # mise 設定; メインの言語・ツールマネージャー
 │   ├── nvim/            # Neovim 設定: メインのエディタ
+│   ├── opencode/        # OpenCode 設定: cli.json (service.json は端末固有のため管理しない)
 │   └── sheldon/         # zsh プラグイン定義
 ├── bin/                 # 自作スクリプト
 ├── docs/                # 本リポジトリに関するドキュメント
