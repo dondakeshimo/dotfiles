@@ -1,0 +1,35 @@
+# sheldon configuration
+# https://sheldon.cli.rs
+#
+# Deployed to ~/.config/sheldon/plugins.toml by setup/deployer/symlink.sh.
+# Loaded from .zsh/sheldon.zsh via `eval "$(sheldon source)"`.
+
+shell = "zsh"
+
+# zsh-defer must be defined before any plugin that uses the "defer" template.
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+# Adds its bundled completions to $fpath (zsh-completions.plugin.zsh).
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+
+# Loaded after the prompt is drawn (equivalent to zplug's `defer:2`).
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
+
+# docker CLI completion.
+[plugins.docker-completion]
+github = "docker/cli"
+dir = "contrib/completion/zsh"
+apply = ["fpath"]
+
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
