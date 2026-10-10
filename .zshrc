@@ -8,14 +8,15 @@ if [ -z "$TMUX" ]; then
     exit 0
 fi
 
-source $HOME/.zsh/zplug.zsh
+source $HOME/.zsh/sheldon.zsh
 
 # ------------------------ #
 # load zsh utility modules #
 # ------------------------ #
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
-autoload -Uz colors
+# `colors` populates $fg/$bg/$reset_color used by the prompt (70_prompt.zsh).
+autoload -Uz colors && colors
 
 
 # ----------------------- #

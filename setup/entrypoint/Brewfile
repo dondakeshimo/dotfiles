@@ -22,6 +22,8 @@ brew "neovim"
 brew "reattach-to-user-namespace"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Fast, configurable, shell plugin manager
+brew "sheldon"
 # Terminal multiplexer
 brew "tmux"
 # Parser generator tool
