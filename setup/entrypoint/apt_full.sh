@@ -20,6 +20,14 @@ has() {
 }
 
 
+: "Install sheldon" && {
+    if ! has "sheldon"; then
+        curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+            | bash -s -- --repo rossmacarthur/sheldon --to "$HOME/.local/bin"
+    fi
+}
+
+
 : "Clone dotfiles repository" && {
     git clone https://github.com/dondakeshimo/dotfiles.git ~/src/github.com/dondakeshimo/dotfiles
 }
