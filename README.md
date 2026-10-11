@@ -26,7 +26,7 @@ $ bash -c "$(curl -L raw.githubusercontent.com/dondakeshimo/dotfiles/main/setup/
 
 #### Linux (Out of maintenance)
 
-Now, there are no maintained linux entrypoints because I don't use any Linux machines for my development.
+Now, there are no maintained Linux entrypoints because I don't use any Linux machines for my development.
 
 ### 2. Deploy dotfiles
 
