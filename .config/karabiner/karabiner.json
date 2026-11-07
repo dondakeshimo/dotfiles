@@ -258,6 +258,15 @@
                             "to": [{ "key_code": "left_control" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 866,
+                        "vendor_id": 10730
+                    },
+                    "ignore": false
                 }
             ],
             "name": "Default profile",
