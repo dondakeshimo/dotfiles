@@ -24,6 +24,7 @@ CI ジョブでは GUI アプリケーションの設定などはテストでき
 ├── .vimrc               # vim 設定: SSH 先などで使う想定のミニマム定義
 ├── .tmux.conf           # tmux 設定
 ├── .ssh/                # SSH 設定
+├── .pi/                 # Pi (pi-coding-agent) 設定: agent/keybindings.json のみ管理。auth.json や sessions/ などは端末固有のため管理しない
 ├── .config/             # 各アプリの設定
 │   ├── aerospace/       # Aerospace 設定
 │   ├── alacritty/       # Alacritty 設定: メインのターミナル
