@@ -16,8 +16,15 @@ chars = "\u001B"
 key = "LBracket"
 mods = "Control"
 
-[env]
-TERM = "xterm-256color"
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Alt"
+chars = "\u001b[13;3u"
+
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Shift"
+chars = "\u001b[13;2u"
 
 [font]
 size = 14
