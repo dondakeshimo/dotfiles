@@ -1,0 +1,4 @@
+# pi は起動時に lastChangelogVersion などを settings.json へ書き戻すため、
+# commit 時だけそのキーを落として diff ノイズを防ぐ。
+# clean フィルタの定義は ~/.gitconfig 側にある (jq が必要)。
+.pi/agent/settings.json filter=pi-settings

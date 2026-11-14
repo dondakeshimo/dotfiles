@@ -1,0 +1,12 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
+  "packages": [
+    "npm:pi-web-access",
+    "npm:pi-btw",
+    "npm:pi-context-view",
+    "git:github.com/earendil-works/pi-review"
+  ],
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4.1-flash",
+  "hideThinkingBlock": true
+}
