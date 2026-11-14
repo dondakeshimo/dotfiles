@@ -24,6 +24,8 @@ CI ジョブでは GUI アプリケーションの設定などはテストでき
 ├── .vimrc               # vim 設定: SSH 先などで使う想定のミニマム定義
 ├── .tmux.conf           # tmux 設定
 ├── .ssh/                # SSH 設定
+├── .gitattributes        # git filter の適用対象; .pi/agent/settings.json の diff ノイズ抑制
+├── .pi/                 # Pi (pi-coding-agent) 設定: agent/keybindings.json と agent/settings.json のみ管理。auth.json や sessions/ などは端末固有のため管理しない
 ├── .config/             # 各アプリの設定
 │   ├── aerospace/       # Aerospace 設定
 │   ├── alacritty/       # Alacritty 設定: メインのターミナル
@@ -39,3 +41,10 @@ CI ジョブでは GUI アプリケーションの設定などはテストでき
     ├── deployer/        # 設定ファイルのデプロイ本体
     └── entrypoint/      # OS ごとの entrypoint
 ```
+
+`.pi/agent/settings.json` は Pi が起動時に `lastChangelogVersion` や `extensionChangelogVersions` を書き戻すため、
+commit 時だけそのキーを落とす git clean filter (`filter.pi-settings`) を `.gitattributes` で適用している。
+filter の定義は `.gitconfig` 側にあり `jq` が必要。値は実ファイルに残るので Pi の挙動は変わらない。
+`git diff` が空でも `git status` に `M` が残ることがある。その場合は `git add .pi/agent/settings.json` で解消する
+(staged diff は出ない)。
+filter を後から有効化した場合は `git add --renormalize .pi/agent/settings.json` で入れ直す。

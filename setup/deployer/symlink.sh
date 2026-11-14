@@ -15,7 +15,8 @@ cd "$(dirname "$0")"/../../
     GIT_TGT=(".gitconfig" ".gitignore_global")
     SSH_TGT=(".ssh")
     ATOM_TGT=(".atom")
-    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${CFG_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]})
+    PI_TGT=(".pi")
+    DOTFILES_TGT=(${ZSH_TGT[@]} ${BASH_TGT[@]} ${VIM_TGT[@]} ${CFG_TGT[@]} ${TMUX_TGT[@]} ${GIT_TGT[@]} ${SSH_TGT[@]} ${ATOM_TGT[@]} ${PI_TGT[@]})
     # Directories linked as a whole instead of per file.
     # Karabiner-Elements cannot detect changes if karabiner.json itself is a symlink.
     # https://karabiner-elements.pqrs.org/docs/manual/misc/configuration-file-path/
@@ -66,6 +67,9 @@ cd "$(dirname "$0")"/../../
                 ;;
             'atom' )
                 FLAG_EXEC=(${FLAG_EXEC[@]} ${ATOM_TGT[@]})
+                ;;
+            'pi' )
+                FLAG_EXEC=(${FLAG_EXEC[@]} ${PI_TGT[@]})
                 ;;
             'bin' )
                 FLAG_BIN=true

@@ -40,6 +40,12 @@
 	process = git-lfs filter-process
 	required = true
 
+# pi が起動時に書き戻す管理用キーを commit から除外する。
+# 実ファイルには値が残るため pi の挙動は変わらない。jq が必要。
+[filter "pi-settings"]
+	clean = jq 'del(.lastChangelogVersion, .extensionChangelogVersions)'
+	smudge = cat
+
 [init]
 	defaultBranch = main
 
