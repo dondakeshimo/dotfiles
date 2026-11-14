@@ -45,5 +45,6 @@ CI ジョブでは GUI アプリケーションの設定などはテストでき
 `.pi/agent/settings.json` は Pi が起動時に `lastChangelogVersion` や `extensionChangelogVersions` を書き戻すため、
 commit 時だけそのキーを落とす git clean filter (`filter.pi-settings`) を `.gitattributes` で適用している。
 filter の定義は `.gitconfig` 側にあり `jq` が必要。値は実ファイルに残るので Pi の挙動は変わらない。
-working tree と index で実際の差分が出ないため、`git status` が一瞬 `M` を出しても `git diff` が空なら問題ない。
+`git diff` が空でも `git status` に `M` が残ることがある。その場合は `git add .pi/agent/settings.json` で解消する
+(staged diff は出ない)。
 filter を後から有効化した場合は `git add --renormalize .pi/agent/settings.json` で入れ直す。
