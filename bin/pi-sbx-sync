@@ -1,0 +1,100 @@
+#!/bin/bash
+# Sync the local pi agent config (~/.pi/agent) into an sbx sandbox.
+#
+# - auth.json is never copied: sbx injects provider credentials (e.g.
+#   OPENCODE_API_KEY) through its proxy, so shipping auth.json would defeat
+#   the sandbox isolation.
+# - Everything is shipped as a tar archive and extracted as the sandbox user.
+#   `sbx cp` preserves the host numeric UID/GID and nests directories, so
+#   copying ~/.pi/agent directly breaks ownership and layout.
+# - tar dereferences symlinks (-h): keybindings.json and settings.json are
+#   symlinks into the dotfiles repo on the host, and would be dangling inside
+#   the sandbox.
+# - install/ (managed pi itself) and bin/ (launcher) are skipped so the
+#   sandbox's own pi installation is left alone.
+
+set -euo pipefail
+
+AGENT_DIR=$HOME/.pi/agent
+SANDBOX_ARCHIVE=/tmp/pi-config.tgz
+WITH_DEPS=false
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") <sandbox> [-d|--with-deps]
+
+Copy ~/.pi/agent into an sbx sandbox, then reload pi there.
+
+Arguments:
+  <sandbox>       sandbox name (see 'sbx ls')
+
+Options:
+  -d, --with-deps also copy npm/ and git/ package caches (usually unnecessary;
+                  the sandbox can re-fetch them on startup)
+  -h, --help      show this help
+EOF
+}
+
+die() {
+    echo "error: $*" >&2
+    exit 1
+}
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -h|--help) usage; exit 0 ;;
+        -d|--with-deps) WITH_DEPS=true ;;
+        -*) die "unknown option: $1" ;;
+        *)
+            [ -n "${SANDBOX:-}" ] && die "only one sandbox name is allowed"
+            SANDBOX=$1
+            ;;
+    esac
+    shift
+done
+
+[ -n "${SANDBOX:-}" ] || { usage >&2; exit 1; }
+command -v sbx >/dev/null 2>&1 || die "sbx not found"
+[ -d "$AGENT_DIR" ] || die "$AGENT_DIR not found"
+
+EXCLUDES=(--exclude=./auth.json --exclude=./sessions --exclude=./tmp
+    --exclude=./install --exclude=./bin '--exclude=._*')
+if [ "$WITH_DEPS" != true ]; then
+    EXCLUDES+=(--exclude=./npm --exclude=./git)
+fi
+
+ARCHIVE=$(mktemp -t pi-config).tgz
+cleanup() {
+    rm -f "$ARCHIVE"
+    # The archive is owned by the host UID in the sandbox, so the sandbox user
+    # cannot remove it from /tmp (sticky bit).
+    sbx exec -u root "$SANDBOX" -- rm -f "$SANDBOX_ARCHIVE" >/dev/null 2>&1 || true
+}
+trap cleanup EXIT
+
+echo "Creating $ARCHIVE from $AGENT_DIR..."
+# COPYFILE_DISABLE=1 keeps macOS xattrs out of the archive (AppleDouble files).
+COPYFILE_DISABLE=1 tar czhf "$ARCHIVE" -C "$AGENT_DIR" \
+    "${EXCLUDES[@]}" .
+
+echo "Copying to sandbox $SANDBOX:$SANDBOX_ARCHIVE..."
+sbx cp "$ARCHIVE" "$SANDBOX:$SANDBOX_ARCHIVE"
+
+echo "Extracting in sandbox..."
+# Do not remove the archive here: it is owned by the host UID, so the sandbox
+# user cannot unlink it from /tmp (sticky bit). cleanup() removes it as root.
+sbx exec "$SANDBOX" -- bash -lc \
+    "tar xzf $SANDBOX_ARCHIVE -C ~/.pi/agent" \
+    || die "extract failed (archive left at $SANDBOX_ARCHIVE)"
+
+cat <<EOF
+Done. Check the result with:
+  sbx exec $SANDBOX -- bash -lc 'ls -la ~/.pi/agent && jq -r .defaultProvider ~/.pi/agent/settings.json'
+  sbx exec -it $SANDBOX -- pi    # then /reload
+
+Notes:
+  - keybindings.json / settings.json are real files in the sandbox now. Re-run
+    this script after editing them in the dotfiles repo.
+  - The copy lives inside the sandbox instance: 'sbx rm' or '--new' discards it.
+    For persistence, bake this into a custom kit or sbxenv.yaml.
+EOF
